@@ -1,10 +1,8 @@
 package com.shin.ssr.layout.tab;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.location.LocationManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -70,7 +68,7 @@ public class FitTab extends AppCompatActivity {
 
         TextView view = findViewById(R.id.steps_taken);
         view.setText("steps : " + steps);
-
+        readData();
 
     }
 
@@ -121,15 +119,6 @@ public class FitTab extends AppCompatActivity {
 
             }
         }
-    }
-
-@Override
-    protected void onResume()
-    {
-
-        super.onResume();
-        Log.d("log","in resume");
-        readData();
     }
 
     public void subscribe() {

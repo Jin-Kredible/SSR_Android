@@ -26,5 +26,6 @@ dependencies {
     compile "com.google.android.gms:play-services-auth:${google_play_services_library}"
     compile "com.android.support:appcompat-v7:${google_support_library}"
     compile "com.android.support:design:${google_support_library}"
+    compile 'im.dacer:AndroidCharts:1.0.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

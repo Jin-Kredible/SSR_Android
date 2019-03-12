@@ -16,59 +16,34 @@
 package com.google.android.gms.fit.samples.stepcounter;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
+
 import com.google.android.gms.fit.samples.common.logger.Log;
-import com.google.android.gms.fit.samples.common.logger.LogView;
 import com.google.android.gms.fit.samples.common.logger.LogWrapper;
 import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.tab.FinanceTab;
 import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.LifeTab;
 import com.shin.ssr.layout.tab.PaymentTab;
-import com.shin.ssr.layout.tab.TabFragment1;
-import com.shin.ssr.layout.tab.TabPagerAdapter;
+
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -78,20 +53,6 @@ import java.util.TimerTask;
  */
 public class MainActivity extends AppCompatActivity {
 
-  public static final String TAG = "StepCounter";
-  private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-  private Timer mTimer = new Timer();
-  private Handler mHandler = new Handler();
-  private Typeface typeface;
-  private TabLayout tabLayout;
-  private ViewPager viewPager;
-  private ActionBar bar;
-  private TextView tv;
-  private ToggleButton tb;
-  private LocationManager lm;
-  private TabFragment1 tabFragment1;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction ft;
 
 
 
