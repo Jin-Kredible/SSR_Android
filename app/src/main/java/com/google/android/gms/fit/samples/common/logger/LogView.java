@@ -118,7 +118,7 @@ public class LogView extends TextView implements LogNode {
      * agonizing tedium of writing the same 3 lines over and over.
      * @param source StringBuilder containing the text to append to.
      * @param addStr The String to append
-     * @param delimiter The String to separate the source and appended strings. A tab or comma,
+     * @param delimiter The String to separate the source and appended strings. A tab_fragment_1 or comma,
      *                  for instance.
      * @return The fully concatenated String as a StringBuilder
      */
