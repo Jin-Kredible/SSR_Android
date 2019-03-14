@@ -83,17 +83,77 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tabs">
+        android:layout_below="@+id/tabs"
+        android:layout_marginTop="0dp">
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <com.github.mikephil.charting.charts.LineChart xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="177dp"
+                android:layout_marginBottom="241dp" />
 
-     <TextView
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:id="@+id/steps_taken"
-         android:textSize="50dp"
-         android:textColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
+-->
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/chart_layout"
+            >
 
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"/>
 
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/chart_layout">
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="179dp"
+            android:layout_height="36dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="109dp"
+            android:layout_marginLeft="109dp"
+            android:layout_marginBottom="171dp"
+            android:text="오늘 걸음 수 달성" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="179dp"
+            android:layout_height="36dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="111dp"
+            android:layout_marginLeft="111dp"
+            android:layout_marginBottom="124dp"
+            android:text="마트 방문" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="179dp"
+            android:layout_height="36dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="115dp"
+            android:layout_marginLeft="115dp"
+            android:layout_marginBottom="77dp" />
+
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

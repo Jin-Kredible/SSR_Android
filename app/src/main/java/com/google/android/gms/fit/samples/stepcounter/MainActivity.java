@@ -32,9 +32,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.common.logger.LogWrapper;
 import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
@@ -42,8 +39,6 @@ import com.shin.ssr.layout.tab.FinanceTab;
 import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.LifeTab;
 import com.shin.ssr.layout.tab.PaymentTab;
-
-import java.util.Timer;
 
 
 /**
@@ -77,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     startActivity(intent);
   }
   public void sendToLife(View view) {
-    Intent intent = new Intent(MainActivity.this, LifeTab.class);
+    Intent intent = new Intent(MainActivity.this,LifeTab.class);
     startActivity(intent);
   }
 

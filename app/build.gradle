@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.google.android.gms.fit.samples.stepcounter"
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 2
         versionName "1.1"
     }
@@ -24,8 +24,10 @@ dependencies {
     // easily keeps sub-projects on the same versions.
     compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
     compile "com.google.android.gms:play-services-auth:${google_play_services_library}"
-    compile "com.android.support:appcompat-v7:${google_support_library}"
-    compile "com.android.support:design:${google_support_library}"
+    compile "com.android.support:appcompat-v7:27.0.0"
+    compile "com.android.support:design:28.0.0"
     compile 'im.dacer:AndroidCharts:1.0.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
 }
