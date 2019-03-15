@@ -7,8 +7,8 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:text=""
-    android:textSize="18dp"
-    android:textColor="#fdfdfc"
+    android:textSize="12dp"
+    android:textColor="#333744"
     android:ellipsize="end"
     android:singleLine="true"
     xmlns:android="http://schemas.android.com/apk/res/android" />

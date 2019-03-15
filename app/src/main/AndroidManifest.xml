@@ -28,7 +28,54 @@
         <activity android:name="com.shin.ssr.layout.tab.FitTab"></activity>
         <activity android:name="com.shin.ssr.layout.tab.LifeTab"></activity>
         <activity android:name="com.shin.ssr.layout.tab.PaymentTab"></activity>
+        <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"></activity>
+        <activity android:name="com.shin.ssr.layout.notification.PushNotification"></activity>
+        <activity
+            android:name="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
+            android:label="@string/title_activity_big_picture_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
+
+        <activity
+            android:name="com.shin.ssr.layout.notification.handlers.BigTextMainActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_big_text_main"
+            android:taskAffinity="">
+        </activity>
+
+        <activity
+            android:name="com.shin.ssr.layout.notification.handlers.InboxMainActivity"
+            android:label="@string/title_activity_inbox_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
         <meta-data android:name="com.google.android.gms.version" android:value="11717000" />
+        <activity
+            android:name="com.shin.ssr.layout.notification.handlers.MessagingMainActivity"
+            android:label="@string/title_activity_messaging_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
+        <service
+            android:name="com.shin.ssr.layout.notification.handlers.BigTextIntentService"
+            android:exported="false">
+        </service>
+
+        <service
+            android:name="com.shin.ssr.layout.notification.handlers.MessagingIntentService"
+            android:exported="false">
+        </service>
+
+        <service
+            android:name="com.shin.ssr.layout.notification.handlers.BigPictureSocialIntentService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

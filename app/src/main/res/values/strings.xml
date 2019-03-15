@@ -22,4 +22,12 @@ limitations under the License.
     <string name="action_cancel_subs">Cancel subscriptions</string>
     <string name="action_settings">Settings</string>
 
+    <string name="reply_label">Reply</string>
+    <string name="reply_name">Me</string>
+
+    <string name="title_activity_big_text_main">BigTextStyle Main Activity</string>
+    <string name="title_activity_big_picture_main">BigPictureStyle Main Activity</string>
+    <string name="title_activity_inbox_main">InboxStyle Main Activity</string>
+    <string name="title_activity_messaging_main">MessagingStyle Main Activity</string>
+
 </resources>

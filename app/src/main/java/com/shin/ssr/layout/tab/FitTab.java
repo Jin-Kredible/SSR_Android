@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -33,6 +35,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
+import com.shin.ssr.layout.notification.PushNotification;
 import com.shin.ssr.vo.StepVO;
 
 import org.json.JSONArray;
@@ -46,6 +49,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.concurrent.ExecutionException;
+
+import static android.graphics.Color.rgb;
 
 
 public class FitTab extends AppCompatActivity  {
@@ -175,6 +180,12 @@ public class FitTab extends AppCompatActivity  {
         startActivity(intent);
     }
 
+    public void sendMessageMain(View view)
+    {
+        Intent intent = new Intent(FitTab.this, PushNotification.class);
+        startActivity(intent);
+    }
+
     /*Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
 
@@ -198,10 +209,10 @@ public class FitTab extends AppCompatActivity  {
 
     private final int[] colors = new int[] {
             /*Color.rgb(217, 77, 50)*/
-            Color.rgb(51, 55, 68)
+            rgb(250, 250, 250)
     };
 
-    private void setupChart(LineChart chart, LineData data, int color, ArrayList<String> dayList) {
+    private void setupChart(LineChart chart, LineData data, int color) {
 
         // no description text
         chart.getDescription().setEnabled(false);
@@ -233,13 +244,13 @@ public class FitTab extends AppCompatActivity  {
         Legend l = chart.getLegend();
         l.setEnabled(true);
         l.setWordWrapEnabled(true);
-        l.setTextColor(Color.WHITE);
-        l.setXEntrySpace(10f);
+        l.setTextColor(Color.rgb(51, 55, 68));
+        l.setXEntrySpace(20f);
         l.setMaxSizePercent(0.5f);
+        l.setForm(Legend.LegendForm.CIRCLE);
+        l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
 
-
-
-      chart.getAxisLeft().setEnabled(false);
+        chart.getAxisLeft().setEnabled(false);
         chart.getAxisLeft().setSpaceTop(40);
         chart.getAxisLeft().setSpaceBottom(40);
         chart.getAxisRight().setEnabled(false);
@@ -247,7 +258,7 @@ public class FitTab extends AppCompatActivity  {
 
 
         // set custom chart offsets (automatic offset calculation is hereby disabled)
-        chart.setViewPortOffsets(50, 0, 50, 60);
+        chart.setViewPortOffsets(50, 30, 50, 90);
 
         Log.d("log","inside chart creation");
 
@@ -262,22 +273,23 @@ public class FitTab extends AppCompatActivity  {
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-        xAxis.setTextColor(Color.WHITE);
+        xAxis.setTextColor(Color.rgb(51, 55, 68));
         xAxis.setTextSize(15f);
 
         /*String[] values = new String[] {"월","화","수","목","금","토","일"};*/
 
-        Calendar cal = Calendar.getInstance();
-        String today = new SimpleDateFormat("EE").format(cal.getTime());
 
-        dayList.add(today);
+        String[] today = new String[7];
 
-
-        for(int i =0; i < dayList.size(); i++) {
-            Log.d("daylist", dayList.get(i));
+        for(int i=0; i< today.length; i++) {
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE,-i);
+            Log.d("daylist", cal.getTime().toString() + "i" + i);
+            today[today.length-i-1] = new SimpleDateFormat("EE").format(cal.getTime());
         }
 
-        xAxis.setValueFormatter(new MyXAxisValueFormatter(dayList.toArray(new String[0])));
+
+        xAxis.setValueFormatter(new MyXAxisValueFormatter(today));
 
 
         // animate calls invalidate()...
@@ -309,7 +321,8 @@ public class FitTab extends AppCompatActivity  {
         ArrayList<Entry> values = new ArrayList<>();
         ArrayList<Entry> values2 = new ArrayList<>();
 
-        for (int i = 0; i < 7; i++) {
+
+        for (int i = 0; i  <7; i++) {
             Log.d("result", "are you here");
             float val = (float) stepAry.get(i).getWk_am();
             values2.add(new Entry(i, val));
@@ -328,33 +341,39 @@ public class FitTab extends AppCompatActivity  {
 
 
         // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(values, "DataSet 1");
-        LineDataSet set2 = new LineDataSet(values2, "DataSet 2");
+        LineDataSet set1 = new LineDataSet(values, "이번 주");
+        LineDataSet set2 = new LineDataSet(values2, "저번 주");
    /*     set1.setFillAlpha(110);
         set1.setFillColor(Color.RED);*/
 
-        set1.setLineWidth(1.75f);
-        set1.setCircleRadius(7f);
-        set1.setCircleHoleRadius(2.5f);
-        set1.setCircleColorHole(Color.WHITE);
-        set1.setColor(Color.WHITE);
-        set1.setCircleColor(Color.WHITE);
-        set1.setHighLightColor(Color.rgb(51, 55, 68));
-        set1.setDrawValues(false);
 
         set2.setLineWidth(1.75f);
         set2.setCircleRadius(7f);
         set2.setCircleHoleRadius(2.5f);
-        set2.setCircleColorHole(Color.rgb(143, 141, 143));
-        set2.setColor(Color.rgb(143, 141, 143));
-        set2.setCircleColor(Color.rgb(143, 141, 143));
-        set2.setHighLightColor(Color.rgb(51, 55, 68));
+        set2.setCircleColorHole(Color.TRANSPARENT);
+        set2.setColor(rgb(227, 179, 196));
+        set2.setCircleColor(rgb(227, 179, 196));
+        set2.setHighLightColor(rgb(227, 179, 196));
         set2.setDrawValues(false);
+
+
+        set1.setLineWidth(1.75f);
+        set1.setCircleRadius(7f);
+        set1.setCircleHoleRadius(2.5f);
+        set1.setCircleColorHole(Color.TRANSPARENT);
+        set1.setColor(Color.rgb(203, 55, 55));
+        set1.setCircleColor(Color.rgb(203, 55, 55));
+        set1.setHighLightColor(rgb(203, 55, 55));
+        set1.setValueTextColor(Color.rgb(51, 55, 68));
+        set1.setValueTextSize(12f);
+        set1.setDrawValues(false);
+
+
 
 
         // create a data object with the data sets
 
-        return new LineData(set1, set2);
+        return new LineData(set2, set1);
     }
 
     @Override
@@ -408,7 +427,7 @@ public class FitTab extends AppCompatActivity  {
                                 textView.setText("오늘 걸은 걸음 : " + Long.toString(total));*/
 
                                 //////////////http connection
-                                String SERVER_URL="http://10.149.179.44:8088/step.do"; // 서버 주소
+                                String SERVER_URL="http://10.149.178.160:8088/step.do"; // 서버 주소
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
                                 String[] params = {SERVER_URL, "steps:"+total, "userno:"+ 1} ;
@@ -441,23 +460,7 @@ public class FitTab extends AppCompatActivity  {
                                     e.printStackTrace();
                                 }
 
-                                ArrayList<String> dateList = new ArrayList<>();
-                                Log.d("stepsize", Integer.toString(stepAry.size()));
-                                SimpleDateFormat format1=new SimpleDateFormat("yyyy-MM-dd");
-                                SimpleDateFormat format2 = new SimpleDateFormat("EE");
-                                for(int i =7; i < stepAry.size(); i++) {
 
-                                    try {
-                                       Date d1 =  format1.parse(stepAry.get(i).getWk_dt());
-                                       dateList.add(format2.format(d1));
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                for(int i =0; i<dateList.size(); i++) {
-                                    Log.d("getdate1", dateList.get(i));
-                                }
 
                                 Log.d("result", "stepvO" + stepAry);
 
@@ -466,7 +469,20 @@ public class FitTab extends AppCompatActivity  {
                                 Log.d("result","getdata" + data1.getDataSets().toString());
 
                                 // add some transparency to the color with "& 0x90FFFFFF"
-                                setupChart(charts[0], data1, colors[0 % colors.length], dateList);
+                                setupChart(charts[0], data1, colors[0 % colors.length]);
+
+                                TextView txtView = findViewById(R.id.steps_taken);
+                                TextView txtView2 = findViewById(R.id.today);
+                                txtView.setText("[ " + total + " / 6000 ] ");
+
+                                String text = "<font color='#fffffc'> [ </font><font color='#fef1f3'><b> "+total+ "</b> </font><font color='#fffffc'> / 6000 ]</font>";
+                                txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+                                /*txtView.setTextColor(Color.parseColor("#FFFFFF"));*/
+                                txtView.setBackgroundColor(Color.parseColor("#333743"));
+                                txtView2.setTextColor(Color.parseColor("#FFFFFF"));
+                                txtView2.setBackgroundColor(Color.parseColor("#333743"));
+
 
                             }
                         })

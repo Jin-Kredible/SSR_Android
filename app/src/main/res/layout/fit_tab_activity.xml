@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="com.shin.ssr.layout.tab.FitTab">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,7 +76,8 @@
             android:background="@android:color/transparent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:onClick="sendMessageMain"/>
 
     </LinearLayout>
 
@@ -109,7 +110,25 @@
                 android:id="@+id/chart1"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"/>
+                android:layout_height="230dp"/>
+
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+                android:id="@+id/today"
+            android:text="오늘의 걸음 수  "
+            android:textSize="18dp"
+            android:gravity="center"
+            />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/steps_taken"
+                android:text=""
+                android:textSize="18dp"
+                android:gravity="center"
+                />
 
         </LinearLayout>
 
@@ -128,7 +147,8 @@
             android:layout_marginStart="109dp"
             android:layout_marginLeft="109dp"
             android:layout_marginBottom="171dp"
-            android:text="오늘 걸음 수 달성" />
+            android:text="알림을 보내라아아아"
+            android:onClick="sendMessageMain"/>
 
         <Button
             android:id="@+id/button3"
