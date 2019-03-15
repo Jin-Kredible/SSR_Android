@@ -15,38 +15,31 @@
  */
 package com.google.android.gms.fit.samples.stepcounter;
 
-import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+import com.google.android.gms.fit.samples.backgroundgps.LocationManage;
+import com.google.android.gms.fit.samples.backgroundgps.RealService;
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.common.logger.LogWrapper;
 import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
 import com.shin.ssr.layout.tab.FinanceTab;
 import com.shin.ssr.layout.tab.FitTab;
-import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.layout.tab.LifeTab;
 import com.shin.ssr.layout.tab.PaymentTab;
-import com.shin.ssr.vo.StepVO;
+import com.shin.ssr.vo.LocationVO;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -56,8 +49,9 @@ import java.util.concurrent.ExecutionException;
  */
 public class MainActivity extends AppCompatActivity {
 
-
-
+  private Intent serviceIntent;
+  private LocationVO locationVO = new LocationVO();
+  LocationManage locationManage = new LocationManage();
 
   @RequiresApi(api = Build.VERSION_CODES.M)
   @Override
@@ -69,7 +63,39 @@ public class MainActivity extends AppCompatActivity {
     initializeLogging();
 
 
+    /////////////////////////////////////////////////////////////
+    if (RealService.serviceIntent == null) {
+      serviceIntent = new Intent(this, RealService.class);
+      startService(serviceIntent);
+    } else {
+      serviceIntent = RealService.serviceIntent;//getInstance().getApplication();
+      Toast.makeText(getApplicationContext(), "already", Toast.LENGTH_LONG).show();
+    }//백그라운드 실행
+    ////////////////////////////////////////////////////////////////
+    final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+    locationManage.onLocation(lm);
+    locationVO =locationManage.getVoData(); //gps 위치 받아오기
+    /////////////////////////////////////////////////////////////////
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if (serviceIntent!=null) {
+      stopService(serviceIntent);
+      serviceIntent = null;
+    }
+  }//서비스를 사용하기 위함
+
+
+  protected  void onResume(){
+    super.onResume();
+    SystemRequirementsChecker.checkWithDefaultDialogs(this);//블루투스 권한 및 활성화
+  }
+
+  protected void onPause(){
+    super.onPause();
 
   }
 

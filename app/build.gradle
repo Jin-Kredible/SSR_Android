@@ -6,10 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.google.android.gms.fit.samples.stepcounter"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 2
         versionName "1.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -22,12 +23,17 @@ android {
 dependencies {
     // Note, specific version numbers are managed in gradle.properties. This is preferred since it
     // easily keeps sub-projects on the same versions.
-    compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
-    compile "com.google.android.gms:play-services-auth:${google_play_services_library}"
-    compile "com.android.support:appcompat-v7:27.0.0"
-    compile "com.android.support:design:28.0.0"
-    compile 'im.dacer:AndroidCharts:1.0.4'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation "com.google.android.gms:play-services-fitness:${google_play_services_library}"
+    implementation "com.google.android.gms:play-services-auth:${google_play_services_library}"
+    implementation "com.android.support:appcompat-v7:28.0.0"
+    implementation "com.android.support:design:28.0.0"
+    implementation 'im.dacer:AndroidCharts:1.0.4'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.estimote:sdk:1.0.12'
 
 }
