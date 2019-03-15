@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.vo.LocationVO;
@@ -27,6 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
+=======
+import com.shin.ssr.vo.LocationVO;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+>>>>>>> 226ec35dfe97ea5a3b6806d8eadd332dd49498d6
 
 public class RealService  extends Service {
     private Thread mainThread;
@@ -53,6 +60,7 @@ public class RealService  extends Service {
                         Thread.sleep(1000 * 1 * 1); // 1 minute
                         locationVO = locationManage.getVoData();
                         showToast(getApplication(),Double.toString(locationVO.getLongitude())+" , "+Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
+<<<<<<< HEAD
                         //////////////http connection
                         String SERVER_URL="http://10.149.178.160:8088/step.do"; // 서버 주소
                         HttpUtil hu = new HttpUtil(RealService.this);
@@ -87,6 +95,8 @@ public class RealService  extends Service {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+=======
+>>>>>>> 226ec35dfe97ea5a3b6806d8eadd332dd49498d6
                         Log.d("RealSerVo", "경도 : " + locationVO.getLongitude());
                         Log.d("RealSerVo", "위도 : " + locationVO.getLatitude());
                     } catch (InterruptedException e) {

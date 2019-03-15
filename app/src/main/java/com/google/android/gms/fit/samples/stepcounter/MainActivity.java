@@ -39,7 +39,10 @@ import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.LifeTab;
 import com.shin.ssr.layout.tab.PaymentTab;
 import com.shin.ssr.vo.LocationVO;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 226ec35dfe97ea5a3b6806d8eadd332dd49498d6
 
 
 /**
@@ -62,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
     // screen, as well as to adb logcat.
     initializeLogging();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 226ec35dfe97ea5a3b6806d8eadd332dd49498d6
     /////////////////////////////////////////////////////////////
     if (RealService.serviceIntent == null) {
       serviceIntent = new Intent(this, RealService.class);
@@ -96,7 +102,10 @@ public class MainActivity extends AppCompatActivity {
 
   protected void onPause(){
     super.onPause();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 226ec35dfe97ea5a3b6806d8eadd332dd49498d6
   }
 
   public void sendToFinance(View view) {
