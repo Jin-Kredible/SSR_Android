@@ -37,8 +37,16 @@ import com.google.android.gms.fit.samples.common.logger.LogWrapper;
 import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
 import com.shin.ssr.layout.tab.FinanceTab;
 import com.shin.ssr.layout.tab.FitTab;
+import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.layout.tab.LifeTab;
 import com.shin.ssr.layout.tab.PaymentTab;
+import com.shin.ssr.vo.StepVO;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -59,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     // This method sets up our custom logger, which will print all log messages to the device
     // screen, as well as to adb logcat.
     initializeLogging();
+
+
+
 
   }
 
