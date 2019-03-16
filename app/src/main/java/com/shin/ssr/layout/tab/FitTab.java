@@ -89,7 +89,6 @@ public class FitTab extends AppCompatActivity  {
         /*mTimer.schedule(timerTask, 5000, 10000);*/
         android.util.Log.d("log","in fit Tab");
 
-
         ///////////////기본 라인차트
         /*lineChart = (LineChart)findViewById(R.id.line_chart);
 
@@ -427,7 +426,7 @@ public class FitTab extends AppCompatActivity  {
                                 textView.setText("오늘 걸은 걸음 : " + Long.toString(total));*/
 
                                 //////////////http connection
-                                String SERVER_URL="http://10.149.178.160:8088/step.do"; // 서버 주소
+                                String SERVER_URL="http://192.168.43.43:8088/step.do"; // 서버 주소
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
                                 String[] params = {SERVER_URL, "steps:"+total, "userno:"+ 1} ;

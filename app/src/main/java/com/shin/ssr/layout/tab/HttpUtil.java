@@ -135,7 +135,6 @@ public class HttpUtil extends AsyncTask<String, String, String>  {
         //try {
             // return 받은 Json 데이터
             //rtn = URLDecoder.decode(object.getString("DATA"), "UTF-8");
-            ((FitTab) context).printToast(rtn);
         //} catch (JSONException e) {
         //    e.printStackTrace();
         //} catch (UnsupportedEncodingException e) {

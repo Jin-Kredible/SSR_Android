@@ -2,37 +2,49 @@ package com.shin.ssr.vo;
 
 public class ProductVO {
 
-    private int gender;
-    private int age;
-    private int time;
+    private String productName;
+    private int productPrice;
+    private int productWeight;
 
-    public ProductVO(int gender, int age, int time) {
-        this.gender = gender;
-        this.age = age;
-        this.time = time;
+    public String getProductName() {
+        return productName;
     }
 
-    public int getGender() {
-        return gender;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public void setGender(int gender) {
-        this.gender = gender;
+    public int getProductPrice() {
+        return productPrice;
     }
 
-    public int getAge() {
-        return age;
+    public void setProductPrice(int productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public int getProductWeight() {
+        return productWeight;
     }
 
-    public int getTime() {
-        return time;
+    public void setProductWeight(int productWeight) {
+        this.productWeight = productWeight;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    @Override
+    public String toString() {
+        return "ProductVO{" +
+                "productName=" + productName +
+                ", productPrice=" + productPrice +
+                ", productWeight=" + productWeight +
+                '}';
+    }
+
+    public ProductVO(String productName, int productPrice, int productWeight) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productWeight = productWeight;
+    }
+
+    public ProductVO() {
     }
 }

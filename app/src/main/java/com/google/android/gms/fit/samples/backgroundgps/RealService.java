@@ -13,7 +13,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.vo.LocationVO;
@@ -28,12 +27,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
-=======
+
 import com.shin.ssr.vo.LocationVO;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
->>>>>>> 226ec35dfe97ea5a3b6806d8eadd332dd49498d6
+
 
 public class RealService  extends Service {
     private Thread mainThread;
@@ -57,15 +56,15 @@ public class RealService  extends Service {
                 boolean run = true;
                 while (run) {
                     try {
-                        Thread.sleep(1000 * 1 * 1); // 1 minute
+                        Thread.sleep(5000 * 1 * 1); // 1 minute
                         locationVO = locationManage.getVoData();
                         showToast(getApplication(),Double.toString(locationVO.getLongitude())+" , "+Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
-<<<<<<< HEAD
+
                         //////////////http connection
-                        String SERVER_URL="http://10.149.178.160:8088/step.do"; // 서버 주소
+                        String SERVER_URL="http://192.168.43.43:8088/product.do"; // 서버 주소
                         HttpUtil hu = new HttpUtil(RealService.this);
 
-                        String[] params = {SERVER_URL, "userno:"+ 1, "dummy" + 1} ;
+                        String[] params = {SERVER_URL, "longitude:" + locationVO.getLongitude(), "latitude:" + locationVO.getLatitude()} ;
 
 
                         hu.execute(params);
@@ -77,26 +76,25 @@ public class RealService  extends Service {
                             JSONArray object = null;
                             android.util.Log.d("log","result from spring" + result);
 
-                            try {
+                          /*  try {
                                 object =  new JSONArray(result);
 
                                 for(int i =0; i < object.length(); i++) {
                                     JSONObject obj = (JSONObject)object.get(i);
                                     android.util.Log.d("log",obj.getString("wk_am"));
                                     android.util.Log.d("log",obj.getString("user_id"));
-                                    productList.add(new ProductVO(obj.optInt("gender"),obj.optInt("age"),obj.optInt("time")));
+                                    productList.add(new ProductVO(obj.optString("productName"),obj.optInt("productPrice"),obj.optInt("productWeight")));
                                 }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
+                        }*/
 
                     } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-=======
->>>>>>> 226ec35dfe97ea5a3b6806d8eadd332dd49498d6
+
                         Log.d("RealSerVo", "경도 : " + locationVO.getLongitude());
                         Log.d("RealSerVo", "위도 : " + locationVO.getLatitude());
                     } catch (InterruptedException e) {
