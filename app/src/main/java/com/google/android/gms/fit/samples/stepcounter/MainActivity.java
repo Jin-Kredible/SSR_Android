@@ -17,10 +17,10 @@ package com.google.android.gms.fit.samples.stepcounter;
 
 import android.Manifest;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +41,6 @@ import android.widget.Toast;
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.google.android.gms.fit.samples.backgroundgps.LocationManage;
-import com.google.android.gms.fit.samples.backgroundgps.RealService;
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.common.logger.LogWrapper;
 import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
@@ -108,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
     initializeLogging();
     Log.d("geo","oncreate");
 
-    /*
     // Get the UI widgets.
     mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
     mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
@@ -134,10 +132,10 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
       return;
     }
     Log.d("geo","inside oncreate result requesting permission2");
-    addGeofences();*/
+    addGeofences();
 
   /** 기존의 위치 받아오는 로직 **/
-   /////////////////////////////////////////////////////////////
+  /*  /////////////////////////////////////////////////////////////
     if (RealService.serviceIntent == null) {
       serviceIntent = new Intent(this, RealService.class);
       startService(serviceIntent);

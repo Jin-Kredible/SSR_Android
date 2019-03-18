@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/point_background">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iconSSR"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ssgpaylogo" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:background="@android:drawable/ic_menu_close_clear_cancel"
+            android:onClick="toFit" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgCoverB"
+            android:layout_width="70dp"
+            android:layout_height="190dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="70dp"
+            app:srcCompat="@drawable/cover_back" />
+
+        <ImageView
+            android:id="@+id/imgCartB"
+            android:layout_width="115dp"
+            android:layout_height="140dp"
+            android:layout_gravity="bottom|right"
+            app:srcCompat="@drawable/cart_back" />
+
+        <ImageView
+            android:id="@+id/imgConveyor"
+            android:layout_width="291dp"
+            android:layout_height="96dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/amin"
+            android:clickable="true" />
+
+        <ImageView
+            android:id="@+id/imgProduct"
+            android:layout_width="69dp"
+            android:layout_height="71dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="110dp"
+            app:srcCompat="@drawable/peacock_01" />
+
+        <ImageView
+            android:id="@+id/imgCartF"
+            android:layout_width="116dp"
+            android:layout_height="61dp"
+            android:layout_gravity="bottom|right"
+            app:srcCompat="@drawable/cart_front" />
+
+        <TextView
+            android:id="@+id/Point"
+            android:layout_width="98dp"
+            android:layout_height="41dp"
+            android:layout_gravity="center_vertical"
+            android:text="TextView"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgGetProduct"
+            android:layout_width="69dp"
+            android:layout_height="71dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="100dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/peacock_01" />
+
+        <ImageView
+            android:id="@+id/imgCoverF"
+            android:layout_width="70dp"
+            android:layout_height="250dp"
+            android:layout_gravity="bottom"
+            app:srcCompat="@drawable/cover_front" />
+
+        <ImageView
+            android:id="@+id/imgAd"
+            android:layout_width="320dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/ad_0" />
+
+    </FrameLayout>
+
+</LinearLayout>

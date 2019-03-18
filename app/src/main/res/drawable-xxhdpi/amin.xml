@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <item android:drawable="@drawable/belt6"
+        android:duration="80"/>
+    <item android:drawable="@drawable/belt5"
+        android:duration="80"/>
+    <item android:drawable="@drawable/belt4"
+        android:duration="80"/>
+    <item android:drawable="@drawable/belt3"
+        android:duration="80"/>
+    <item android:drawable="@drawable/belt2"
+        android:duration="80"/>
+    <item android:drawable="@drawable/belt1"
+        android:duration="80"/>
+
+
+</animation-list>
