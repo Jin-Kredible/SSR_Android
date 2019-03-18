@@ -273,7 +273,6 @@ public class Point extends AppCompatActivity {
         }
         walk--;
         imgAd.setBackgroundResource(imgs[(numPoint/10)%imgs.length]);
-        Log.d("check imgs name", "Get: "+ imgs[numPoint%5]);
         getPoint.setText(Integer.toString(numPoint));
         imgGetPro.setVisibility(View.VISIBLE);
         imgGetPro.setTranslationX(imgPro.getTranslationX());
@@ -288,6 +287,10 @@ public class Point extends AppCompatActivity {
             imgPro.setVisibility(View.GONE);
             imgGetPro.setVisibility(View.GONE);
         }
+        HttpUtil hu = new HttpUtil(Point.this);;
+        String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+numPoint, "userid:"+1} ;
+        Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
+        hu.execute(params);
     }
     private void setViewInvalidate(View... views) {
 
@@ -302,10 +305,10 @@ public class Point extends AppCompatActivity {
 
     public void toFit(View view){
         Toast.makeText(getApplicationContext(),"CLOSE",Toast.LENGTH_LONG).show();
-        HttpUtil hu = new HttpUtil(Point.this);;
-        String[] params = {SERVER_URL+"goodsToSavings.do", "steps:"+numPoint, "userno:"+ 1} ;
+       /* HttpUtil hu = new HttpUtil(Point.this);;
+        String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+numPoint, "userid:"+1} ;
         Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
-        hu.execute(params);
+        hu.execute(params);*/
         Intent intent = new Intent(Point.this,FitTab.class);
         startActivity(intent);
         finish();
