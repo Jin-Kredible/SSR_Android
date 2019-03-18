@@ -1,13 +1,30 @@
 package com.google.android.gms.fit.samples.backgroundgps;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.RemoteInput;
+import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.android.gms.fit.samples.stepcounter.R;
+import com.shin.ssr.layout.notification.GlobalNotificationBuilder;
+import com.shin.ssr.layout.notification.PushNotification;
+import com.shin.ssr.layout.notification.handlers.BigPictureSocialIntentService;
+import com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity;
+import com.shin.ssr.layout.notification.handlers.MockDatabase;
+import com.shin.ssr.layout.notification.handlers.NotificationUtil;
 import com.shin.ssr.vo.LocationVO;
 import com.shin.ssr.vo.MallVO;
 
@@ -27,8 +44,11 @@ public class LocationManage extends AppCompatActivity {
     private  float accuracy;
     private  String provider;
     private double distance;
-    MallVO mTemp = new MallVO("이마트 청계천점",37.571079,127.029903);
+    private ArrayList<MallVO> mTemp = new ArrayList<>();
     private LocationVO locationVO = new LocationVO();
+    private static final String CHANNEL_ID = "channel_01";
+    private NotificationManagerCompat mNotificationManagerCompat;
+    public static final int NOTIFICATION_ID = 888;
 
 
     @SuppressLint("MissingPermission")
@@ -83,23 +103,6 @@ public class LocationManage extends AppCompatActivity {
 
             Location locationPoint = new Location("Mall");
 
-            locationPoint.setLatitude(mTemp.getMlatitude());
-            locationPoint.setLongitude(mTemp.getLongitude());
-
-            distance = locationPoint.distanceTo(location);
-
-            if(distance < 100){
-
-            }// 지점과 지금 거리가 100m 이내 일떄
-
-            Log.d("mall",mTemp.getmMallNmae());
-            Log.d("mall","현재 위도 "  + location.getLatitude());
-            Log.d("mall","현재 경도 "  + location.getLongitude());
-            Log.d("mall","성수점 위도 "  + mTemp.getMlatitude());
-            Log.d("mall","성수점 경도 "  + mTemp.getLongitude());
-            Log.d("mall", "위치 : " + distance);
-
-
 
         }
         public void onProviderDisabled(String provider) {
@@ -129,25 +132,17 @@ public class LocationManage extends AppCompatActivity {
 
     public void InitMallLocation(){
         List<MallVO> mLocation_data = new ArrayList<MallVO>();
-      //  MallVO mTemp = new MallVO("이마트 청계천점",37.571079,127.029903);
 
-        mLocation_data.add(mTemp);
-        mTemp.setMallVO("이마트 성수점", 37.539673, 127.053375);
+        mTemp.add(new MallVO("이마트 청계천점",37.571079,127.029903));
+        mTemp.add(new MallVO("이마트 성수점", 37.539673, 127.053375));
+        mTemp.add(new MallVO("이마트 용산점", 37.529456, 126.965545));
+        mTemp.add(new MallVO("이마트 아이앤씨점", 37.559805, 126.983122));
 
-        mLocation_data.add(mTemp);
-         /* mTemp.setMallVO("이마트 용산점", 37.529456, 126.965545);
-        mLocation_data.add(mTemp);
-        mTemp.setMallVO( "이마트 아이앤씨점", 37.559805, 126.983122);
-        mLocation_data.add(mTemp);
 
-        for(int i=0;i<=3;i++){
-            Log.d("mall",i +"번쨰 : " +  mLocation_data.get(i).getmMallNmae());
-        }
-
-        Map<Integer,MallVO> mMall_data = new HashMap<>();
-*/
       //  mLocation_data.add((MallVO) mLocation_data);
 
     }
+
+
 
 }

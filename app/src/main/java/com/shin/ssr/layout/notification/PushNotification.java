@@ -64,7 +64,7 @@ public class PushNotification extends AppCompatActivity implements AdapterView.O
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fit_tab_activity);
-
+        Log.d("geo", "oncreate push noti");
         mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
 
         generateBigPictureStyleNotification();

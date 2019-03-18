@@ -39,7 +39,7 @@ public class NotificationUtil {
             // The user-visible name of the channel.
             CharSequence channelName = mockNotificationData.getChannelName();
             // The user-visible description of the channel.
-            String channelDescription = mockNotificationData.getChannelDescription();
+                    String channelDescription = mockNotificationData.getChannelDescription();
             int channelImportance = mockNotificationData.getChannelImportance();
             boolean channelEnableVibrate = mockNotificationData.isChannelEnableVibrate();
             int channelLockscreenVisibility =
