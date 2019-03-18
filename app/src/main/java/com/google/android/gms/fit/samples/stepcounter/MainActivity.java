@@ -17,6 +17,8 @@ package com.google.android.gms.fit.samples.stepcounter;
 
 import android.Manifest;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
@@ -32,6 +34,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +44,7 @@ import android.widget.Toast;
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.google.android.gms.fit.samples.backgroundgps.LocationManage;
+import com.google.android.gms.fit.samples.backgroundgps.RealService;
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.common.logger.LogWrapper;
 import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
@@ -51,6 +55,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.minew.beacon.BeaconValueIndex;
+import com.minew.beacon.BluetoothState;
+import com.minew.beacon.MinewBeacon;
+import com.minew.beacon.MinewBeaconManager;
+import com.minew.beacon.MinewBeaconManagerListener;
 import com.shin.ssr.layout.tab.FinanceTab;
 import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.LifeTab;
@@ -58,6 +67,8 @@ import com.shin.ssr.layout.tab.PaymentTab;
 import com.shin.ssr.vo.LocationVO;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 
@@ -69,6 +80,12 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
   LocationManage locationManage = new LocationManage();
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
+  ///////////////////////////////////////////////////////////////////
+  private boolean isScanning;
+  private MinewBeaconManager mMinewBeaconManager;
+  private static final int REQUEST_ENABLE_BT = 2;
+  //비콘 관련 변수
+  //////////////////////////////////////////////////////////////////
   /**
    * Tracks whether the user requested to add or remove geofences, or to do neither.
    */
@@ -107,6 +124,11 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
     initializeLogging();
     Log.d("geo","oncreate");
 
+    initManager();
+    initListener();
+   // mMinewBeaconManager.startScan();
+
+    /*
     // Get the UI widgets.
     mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
     mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
@@ -133,9 +155,9 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
     }
     Log.d("geo","inside oncreate result requesting permission2");
     addGeofences();
-
+*/
   /** 기존의 위치 받아오는 로직 **/
-  /*  /////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
     if (RealService.serviceIntent == null) {
       serviceIntent = new Intent(this, RealService.class);
       startService(serviceIntent);
@@ -148,8 +170,151 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
 
     locationManage.onLocation(lm);
     locationVO =locationManage.getVoData(); //gps 위치 받아오기
-    /////////////////////////////////////////////////////////////////*/
+    /////////////////////////////////////////////////////////////////
   }
+  //////////////////////////////////////////////////////////////////////////////////
+  private void initManager() {
+    mMinewBeaconManager = MinewBeaconManager.getInstance(this);
+  } // 비콘사용 초기화
+
+  private void initListener() {
+
+        if (mMinewBeaconManager != null) {
+          BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
+          switch (bluetoothState) {
+            case BluetoothStateNotSupported:
+              Toast.makeText(MainActivity.this, "Not Support BLE", Toast.LENGTH_SHORT).show();
+              finish();
+              break;
+            case BluetoothStatePowerOff:
+              showBLEDialog();
+              return;
+            case BluetoothStatePowerOn:
+              break;
+          }
+        }
+
+
+       /* if (isScanning) {
+          isScanning = false;
+          if (mMinewBeaconManager != null) {
+            mMinewBeaconManager.stopScan();
+          }
+        } else {
+          isScanning = true;
+          try {
+            mMinewBeaconManager.startScan();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }//수정 요망블투 버튼으로 끄고 켰을때 사용되는 부분*/
+    mMinewBeaconManager.startScan();
+
+    mMinewBeaconManager.setDeviceManagerDelegateListener(new MinewBeaconManagerListener() {
+      /**
+       *   새로운 비컨을 발견하면 메소드를 다시 호출
+       *
+       *  관리자가 스캔 한 @param minewBeacons 새로운 비컨
+       */
+      @Override
+      public void onAppearBeacons(List<MinewBeacon> minewBeacons) {
+
+        for (MinewBeacon minewBeacon : minewBeacons) {
+          String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+
+
+          if(deviceName.equals("MiniBeacon_21907")) {
+            Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
+            Log.d("beacon1", ">>>>Name : " + deviceName);
+            Log.d("beacon1", ">>>>UUID : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue());
+            Log.d("beacon1", ">>>>Major : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Major).getStringValue());
+            Log.d("beacon1", ">>>>Minor : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Minor).getStringValue());
+            Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
+            mMinewBeaconManager.stopScan();
+          }
+          Log.d("beacon1", "굿" + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue());
+        }
+
+        //String stringValue = minewBeacons.get(0).getBeaconValue.getStringValue;
+      }
+
+      /**
+       *   * 신호가 10 초 이내에 데이터를 업데이트하지 않으면이 신호가 울리지 않았다고 관리자가이 방법을 다시 호출합니다.
+       *     * @param minewBeacons 비컨 범위를 벗어났습니다.
+       */
+      @Override
+      public void onDisappearBeacons(List<MinewBeacon> minewBeacons) {
+                /*for (MinewBeacon minewBeacon : minewBeacons) {
+                    String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+                    Toast.makeText(getApplicationContext(), deviceName + "  out range", Toast.LENGTH_SHORT).show();
+                }*/
+      }
+
+      /**
+       *    * 관리자가 1 초마다이 방법을 호출하면 모든 스캔 된 신호를 얻을 수 있습니다.
+       * @param minewBeacons 모든 스캔 된 비컨
+       */
+      @Override
+      public void onRangeBeacons(final List<MinewBeacon> minewBeacons) {
+       /* runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            Collections.sort(minewBeacons, comp);
+            android.util.Log.e("tag", state + "");
+            if (state == 1 || state == 2) {
+            } else {
+              mAdapter.setItems(minewBeacons);
+            }
+
+          }
+        });*/
+      }
+
+      /**
+       *   * 관리자가 BluetoothStateChanged를 호출 할 때이 메소드를 다시 호출합니다.
+       *              *
+       *
+       *  @param state BluetoothState
+       */
+      @Override
+      public void onUpdateState(BluetoothState state) {
+        switch (state) {
+          case BluetoothStatePowerOn:
+            Toast.makeText(getApplicationContext(), "BluetoothStatePowerOn", Toast.LENGTH_SHORT).show();
+            break;
+          case BluetoothStatePowerOff:
+            Toast.makeText(getApplicationContext(), "BluetoothStatePowerOff", Toast.LENGTH_SHORT).show();
+            break;
+        }
+      }
+    });
+  }
+
+
+  /**
+   * 블루투스 상태 확인
+   */
+  private void checkBluetooth() {
+    BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
+    switch (bluetoothState) {
+      case BluetoothStateNotSupported:
+        Toast.makeText(this, "Not Support BLE", Toast.LENGTH_SHORT).show();
+        finish();
+        break;
+      case BluetoothStatePowerOff:
+        showBLEDialog();
+        break;
+      case BluetoothStatePowerOn:
+        break;
+    }
+  }
+
+  private void showBLEDialog() {
+    Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+    startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+  }
+  // 비콘 제어 부
+  /////////////////////////////////////////////////////////////////////////////////////
 
   private void populateGeofenceList() {
     Log.d("geo","populateGeofenceList");
@@ -547,6 +712,10 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
     msgFilter.setNext(logView);*/
     /*Log.i(TAG, "Ready");*/
   }
+
+
+
+
 
 
 }

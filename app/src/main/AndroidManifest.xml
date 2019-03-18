@@ -11,6 +11,12 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-feature android:name="android.hardware.bluetoothle" android:required="true"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTHADMIN" />
+
+    <uses-feature
+        android:name="android.hardware.bluetoothle"
+        android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -99,6 +105,12 @@
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <service android:name="com.minew.beacon.ScanService"/>
+        <receiver android:name="com.minew.beacon.BluetoothChangedReceiver">
+            <intent-filter>
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 
