@@ -47,7 +47,7 @@
 
 
 
-        <meta-data android:name="com.google.android.gms.version" android:value="11717000" tools:replace="android:value" />
+        <meta-data android:name="com.google.android.gms.version" android:value="12451000" tools:replace="android:value" />
         <activity
             android:name="com.shin.ssr.layout.notification.handlers.MessagingMainActivity"
             android:label="@string/title_activity_messaging_main">
@@ -76,8 +76,7 @@
             android:name="com.google.android.gms.fit.samples.backgroundgps.RestartService"
             android:enabled="true"
             android:exported="true" />
-        <service android:name="com.minew.beacon.ScanService"/>
-        <receiver android:name="com.minew.beacon.BluetoothChangedReceiver"/>
+
         <receiver android:name="com.google.android.gms.fit.samples.backgroundgps.AlarmRecever"/>
 
         <receiver
@@ -90,6 +89,14 @@
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".GeofenceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service android:name=".GeofenceTransitionsJobIntentService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
 
     </application>

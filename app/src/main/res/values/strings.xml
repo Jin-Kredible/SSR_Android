@@ -29,5 +29,23 @@ limitations under the License.
     <string name="title_activity_big_picture_main">BigPictureStyle Main Activity</string>
     <string name="title_activity_inbox_main">InboxStyle Main Activity</string>
     <string name="title_activity_messaging_main">MessagingStyle Main Activity</string>
+    <string name="insufficient_permissions">Insufficient permissions.</string>
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+
+    <string name="geofences_added">Geofences added</string>
+    <string name="geofences_removed">Geofences removed</string>
+    <string name="geofence_transition_invalid_type">
+        Geofence transition error: invalid transition type %1$d
+    </string>
+    <string name="geofence_transition_notification_text">
+        Click notification to return to app
+    </string>
+
+    <string name="geofence_transition_entered">Entered</string>
+    <string name="geofence_transition_exited">Exited</string>
+    <string name="unknown_geofence_transition">Unknown Transition</string>
+    <string name="settings">Settings</string>
 
 </resources>

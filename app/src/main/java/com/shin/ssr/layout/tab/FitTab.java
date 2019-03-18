@@ -62,6 +62,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
+    public static final String SERVER_URL="http://10.149.178.67:8088/";
   /*  private MainTimerTask timerTask = new MainTimerTask();*/
 
     @Override
@@ -179,11 +180,6 @@ public class FitTab extends AppCompatActivity  {
         startActivity(intent);
     }
 
-    public void sendMessageMain(View view)
-    {
-        Intent intent = new Intent(FitTab.this, PushNotification.class);
-        startActivity(intent);
-    }
 
     /*Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
@@ -426,10 +422,10 @@ public class FitTab extends AppCompatActivity  {
                                 textView.setText("오늘 걸은 걸음 : " + Long.toString(total));*/
 
                                 //////////////http connection
-                                String SERVER_URL="http://192.168.43.43:8088/step.do"; // 서버 주소
+                                 // 서버 주소
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL, "steps:"+total, "userno:"+ 1} ;
+                                String[] params = {SERVER_URL+"step.do", "steps:"+total, "userno:"+ 1} ;
 
 
                                 hu.execute(params);

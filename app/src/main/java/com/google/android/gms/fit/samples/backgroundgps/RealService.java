@@ -33,6 +33,8 @@ import com.shin.ssr.vo.LocationVO;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
+
 
 public class RealService  extends Service {
     private Thread mainThread;
@@ -61,10 +63,10 @@ public class RealService  extends Service {
                         showToast(getApplication(),Double.toString(locationVO.getLongitude())+" , "+Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
 
                         //////////////http connection
-                        String SERVER_URL="http://192.168.43.43:8088/product.do"; // 서버 주소
+                      /*  String SERVER_URL="http://192.168.219.108:8088/product.do"; // 서버 주소*/
                         HttpUtil hu = new HttpUtil(RealService.this);
 
-                        String[] params = {SERVER_URL, "longitude:" + locationVO.getLongitude(), "latitude:" + locationVO.getLatitude()} ;
+                        String[] params = {SERVER_URL+"product.do", "longitude:" + locationVO.getLongitude(), "latitude:" + locationVO.getLatitude()} ;
 
 
                         hu.execute(params);

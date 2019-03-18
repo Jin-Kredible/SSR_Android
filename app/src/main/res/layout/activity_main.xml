@@ -80,5 +80,24 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/add_geofences_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tabs"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="83dp"
+            android:text="Start"
+            android:onClick="addGeofencesButtonHandler"/>
 
+        <Button
+            android:id="@+id/remove_geofences_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tabs"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="101dp"
+            android:layout_marginTop="85dp"
+            android:onClick="removeGeofencesButtonHandler"
+            android:text="End"/>
 </RelativeLayout>

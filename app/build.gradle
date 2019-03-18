@@ -23,13 +23,17 @@ android {
 dependencies {
     // Note, specific version numbers are managed in gradle.properties. This is preferred since it
     // easily keeps sub-projects on the same versions.
-    implementation "com.google.android.gms:play-services-fitness:${google_play_services_library}"
-    implementation "com.google.android.gms:play-services-auth:${google_play_services_library}"
+    implementation "com.google.android.gms:play-services-fitness:16.0.1"
+    implementation "com.google.android.gms:play-services-auth:16.0.1"
     implementation "com.android.support:appcompat-v7:28.0.0"
+    implementation "com.android.support:support-media-compat:28.0.0"
+    implementation "com.android.support:support-v4:28.0.0"
     implementation "com.android.support:design:28.0.0"
     implementation 'im.dacer:AndroidCharts:1.0.4'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
