@@ -183,6 +183,7 @@ public class FitTab extends AppCompatActivity  {
 
     public void sendToPoint(View view) {
         Intent intent = new Intent(FitTab.this, Point.class);
+        android.util.Log.d("CHECK", "sendToPoint: OK");
         startActivity(intent);
     }
 
@@ -430,6 +431,7 @@ public class FitTab extends AppCompatActivity  {
                                 //////////////http connection
                                  // 서버 주소
                                 HttpUtil hu = new HttpUtil(FitTab.this);
+
                                 String[] params = {SERVER_URL+"step.do", "steps:"+total, "userno:"+ 1} ;
 
 

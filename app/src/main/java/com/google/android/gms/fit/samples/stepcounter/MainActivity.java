@@ -19,6 +19,7 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -36,7 +37,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
@@ -97,12 +97,6 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
 
   private PendingGeofenceTask mPendingGeofenceTask = PendingGeofenceTask.NONE;
 
-
-  private Button btnFinance, btnPayment, btnLife;
-  private ImageView imgMain;
-
-
-
   @RequiresApi(api = Build.VERSION_CODES.M)
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -155,18 +149,6 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
     locationManage.onLocation(lm);
     locationVO =locationManage.getVoData(); //gps 위치 받아오기
     /////////////////////////////////////////////////////////////////*/
-
-    btnFinance = findViewById(R.id.finance);
-    btnPayment = findViewById(R.id.payment);
-    btnLife = findViewById(R.id.lifestyle);
-    imgMain = findViewById(R.id.imgMain);
-
-    int getButtonNum = getIntent().getIntExtra("buttonNum",2);
-    switch (getButtonNum){
-        case 1 : btnFinance.callOnClick();   break;
-        case 2 : btnPayment.callOnClick();   break;
-        case 3 : btnLife.callOnClick();   break;
-    }
   }
 
   private void populateGeofenceList() {
@@ -416,36 +398,22 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
   }
 
   public void sendToFinance(View view) {
-    imgMain.setBackgroundResource(R.drawable.ssg_finance);
-    ButtonReset();
-    btnFinance.setBackgroundResource(R.drawable.tap_bg_on);
-    btnFinance.setTextColor(Color.parseColor("#d94d32"));
+    Intent intent = new Intent(MainActivity.this, FinanceTab.class);
+    startActivity(intent);
   }
-  public void sendToPay(View view) {
-    imgMain.setBackgroundResource(R.drawable.ssg_payment);
-    ButtonReset();
-    btnPayment.setBackgroundResource(R.drawable.tap_bg_on);
-    btnPayment.setTextColor(Color.parseColor("#d94d32"));
-  }
-  public void sendToLife(View view) {
-    imgMain.setBackgroundResource(R.drawable.ssg_lifestyle);
-    ButtonReset();
-    btnLife.setBackgroundResource(R.drawable.tap_bg_on);
-    btnLife.setTextColor(Color.parseColor("#d94d32"));
-  }
+
   public void sendToFit(View view) {
     Intent intent = new Intent(MainActivity.this, FitTab.class);
     startActivity(intent);
   }
+  public void sendToLife(View view) {
+    Intent intent = new Intent(MainActivity.this,LifeTab.class);
+    startActivity(intent);
+  }
 
-
-  public void ButtonReset(){
-    btnFinance.setBackgroundResource(R.drawable.tap_bg_off);
-    btnPayment.setBackgroundResource(R.drawable.tap_bg_off);
-    btnLife.setBackgroundResource(R.drawable.tap_bg_off);
-    btnFinance.setTextColor(Color.parseColor("#000000"));
-    btnPayment.setTextColor(Color.parseColor("#000000"));
-    btnLife.setTextColor(Color.parseColor("#000000"));
+  public void sendToPay(View view) {
+    Intent intent = new Intent(MainActivity.this, PaymentTab.class);
+    startActivity(intent);
   }
 
   @Override

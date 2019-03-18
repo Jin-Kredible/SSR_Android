@@ -53,12 +53,12 @@ public class RealService  extends Service {
             @SuppressLint("MissingPermission")
             @Override
             public void run() {
-                SimpleDateFormat sdf = new SimpleDateFormat("aa hh:mm");
+               // SimpleDateFormat sdf = new SimpleDateFormat("aa hh:mm");
 
                 boolean run = true;
                 while (run) {
                     try {
-                        Thread.sleep(5000 * 1 * 1); // 1 minute
+                        Thread.sleep(5000 * 10 * 1); // 1 minute
                         locationVO = locationManage.getVoData();
                         showToast(getApplication(),Double.toString(locationVO.getLongitude())+" , "+Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
 
