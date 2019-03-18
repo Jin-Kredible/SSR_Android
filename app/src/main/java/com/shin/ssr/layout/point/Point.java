@@ -95,7 +95,7 @@ public class Point extends AppCompatActivity {
 
             try {
                 object =  new JSONObject(result);
-                Log.d("NUM", "onCreate: ObjectNum"+object);
+                Log.d("NUM", "onCreate: ObjectNum"+result);
                 walk = (Integer)object.get("goods");
                 totalwalk = walk;
 
