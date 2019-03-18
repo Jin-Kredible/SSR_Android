@@ -19,6 +19,7 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
     Log.d("geo","oncreate");
 
     // Get the UI widgets.
+
     mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
     mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
 
@@ -121,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
     populateGeofenceList();
 
     mGeofencingClient = LocationServices.getGeofencingClient(this);
+
+
 
 
     Log.d("geo","inside oncreate result requesting permission");
