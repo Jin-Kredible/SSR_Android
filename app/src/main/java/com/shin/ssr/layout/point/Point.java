@@ -14,8 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.fit.samples.stepcounter.R;
+import com.google.android.gms.fitness.data.Field;
+import com.google.gson.JsonObject;
 import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.HttpUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+
+import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
 
 public class Point extends AppCompatActivity {
     Thread thread;      //Prodoct Move Control
@@ -44,14 +54,15 @@ public class Point extends AppCompatActivity {
     private float resetY = 0;
     private float resetR = 0;
 
-    int walk = 10;              //DB에서 가져오는 걸음 수
-    int totalwalk = 100 ;         //DB에서 가져오는 걸음 수 , Point적립 최대치 제한두기 위한 변수
+    int walk = 0;              //DB에서 가져오는 걸음 수
+    int totalwalk = 0;         //DB에서 가져오는 걸음 수 , Point적립 최대치 제한두기 위한 변수
     int numPoint = 0;           //얻는 point
     boolean done = false;       //point 전환 끝 확인 변수
 
     //DB 값 가져오기 보내기
-    String SERVER_URL="http://172.20.10.9:8088/goodsToSavings.do"; // 서버 주소
-    HttpUtil hu = new HttpUtil(Point.this);
+//    String SERVER_URL="http://172.20.10.9:8088/walkToGoods.do"; // 서버 주소
+//    HttpUtil hu = new HttpUtil(Point.this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,27 +82,35 @@ public class Point extends AppCompatActivity {
         resetY = imgPro.getTranslationY();
         resetR = imgPro.getRotation();
 
+        int total= 0;
+        HttpUtil hu = new HttpUtil(Point.this);
+        String[] params = {SERVER_URL+"walkToGoods.do", "steps:"+total , "userno:"+ 1} ;
+        hu.execute(params);
         String result;
-        /*try {
+        try {
             // resutl가 JSON 객체를 서버로부터 받아옴
             result = hu.get();
-            JSONObject object = null;
+            //JSONArray object = null;
             android.util.Log.d("log","result from spring" + result);
-
-            try {
-                object =  new JSONObject(result);
-                walk = (Integer)object.get("goods");
-                totalwalk = walk;
+            walk = Integer.parseInt(result);
+            totalwalk = walk*10;
+            /*try {
+                // object =  new JSONArray(result);
+                Log.d("NUM", "onCreate: ObjectNum"+result);
+                //walk = object.getInt(Integer.parseInt("goods"));
+                Log.d("NUM", "onCreate: WalkNum"+walk);
+                Log.d("NUM", "onCreate: TotalWalkNum"+walk);
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
+            }*/
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
 
-
+        Log.d("NUM", "onCreate: WalkNum"+walk);
+        Log.d("NUM", "onCreate: TotalWalkNum"+walk);
 
 
 
@@ -254,7 +273,6 @@ public class Point extends AppCompatActivity {
         }
         walk--;
         imgAd.setBackgroundResource(imgs[(numPoint/10)%imgs.length]);
-        Log.d("check imgs name", "Get: "+ imgs[numPoint%5]);
         getPoint.setText(Integer.toString(numPoint));
         imgGetPro.setVisibility(View.VISIBLE);
         imgGetPro.setTranslationX(imgPro.getTranslationX());
@@ -269,6 +287,10 @@ public class Point extends AppCompatActivity {
             imgPro.setVisibility(View.GONE);
             imgGetPro.setVisibility(View.GONE);
         }
+        HttpUtil hu = new HttpUtil(Point.this);;
+        String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+numPoint, "userid:"+1} ;
+        Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
+        hu.execute(params);
     }
     private void setViewInvalidate(View... views) {
 
@@ -283,8 +305,10 @@ public class Point extends AppCompatActivity {
 
     public void toFit(View view){
         Toast.makeText(getApplicationContext(),"CLOSE",Toast.LENGTH_LONG).show();
-        String[] params = {SERVER_URL, "steps:"+numPoint, "userno:"+ 1} ;
-        hu.execute(params);
+       /* HttpUtil hu = new HttpUtil(Point.this);;
+        String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+numPoint, "userid:"+1} ;
+        Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
+        hu.execute(params);*/
         Intent intent = new Intent(Point.this,FitTab.class);
         startActivity(intent);
         finish();
