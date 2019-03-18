@@ -31,10 +31,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.shin.ssr.layout.tab.FinanceTab"></activity>
         <activity android:name="com.shin.ssr.layout.tab.FitTab"></activity>
-        <activity android:name="com.shin.ssr.layout.tab.LifeTab"></activity>
-        <activity android:name="com.shin.ssr.layout.tab.PaymentTab"></activity>
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"></activity>
         <activity android:name="com.shin.ssr.layout.notification.PushNotification"></activity>
         <activity android:name="com.shin.ssr.layout.point.Point"></activity>
