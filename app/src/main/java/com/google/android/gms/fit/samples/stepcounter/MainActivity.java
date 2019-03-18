@@ -413,19 +413,19 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
 
   }
 
-  private void sendToFinance(View view) {
+  public void sendToFinance(View view) {
     imgMain.setBackgroundResource(R.drawable.ssg_finance);
     ButtonReset();
     btnFinance.setBackgroundResource(R.drawable.tap_bg_on);
     btnFinance.setTextColor(Color.parseColor("#d94d32"));
   }
-  private void sendToPay(View view) {
+  public void sendToPay(View view) {
     imgMain.setBackgroundResource(R.drawable.ssg_payment);
     ButtonReset();
     btnPayment.setBackgroundResource(R.drawable.tap_bg_on);
     btnPayment.setTextColor(Color.parseColor("#d94d32"));
   }
-  private void sendToLife(View view) {
+  public void sendToLife(View view) {
     imgMain.setBackgroundResource(R.drawable.ssg_lifestyle);
     ButtonReset();
     btnLife.setBackgroundResource(R.drawable.tap_bg_on);
