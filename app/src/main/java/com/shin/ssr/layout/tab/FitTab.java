@@ -23,7 +23,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fit.samples.common.logger.Log;
-import com.google.android.gms.fit.samples.stepcounter.MainActivity;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
@@ -37,7 +36,6 @@ import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
 import com.shin.ssr.layout.notification.PushNotification;
-import com.shin.ssr.layout.point.Point;
 import com.shin.ssr.vo.StepVO;
 
 import org.json.JSONArray;
@@ -64,7 +62,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
-    public static final String SERVER_URL="http://172.20.10.9:8088/";
+    public static final String SERVER_URL="http://10.149.178.67:8088/";
   /*  private MainTimerTask timerTask = new MainTimerTask();*/
 
     @Override
@@ -161,29 +159,24 @@ public class FitTab extends AppCompatActivity  {
         charts[0] = findViewById(R.id.chart1);
 
 
-    }
-    public void sendToFinance(View view) {
-        Intent intent = new Intent(FitTab.this, MainActivity.class);
-        intent.putExtra("buttonNum",1);
-        startActivity(intent);
-        finish();
-    }
-    public void sendToPay(View view) {
-        Intent intent = new Intent(FitTab.this, MainActivity.class);
-        intent.putExtra("buttonNum",2);
-        startActivity(intent);
-        finish();
-    }
-    public void sendToLife(View view) {
-        Intent intent = new Intent(FitTab.this, MainActivity.class);
-        intent.putExtra("buttonNum",3);
-        startActivity(intent);
-        finish();
+
+
+
     }
 
-    public void sendToPoint(View view) {
-        Intent intent = new Intent(FitTab.this, Point.class);
-        android.util.Log.d("CHECK", "sendToPoint: OK");
+    public void sendToFinance(View view) {
+        Intent intent = new Intent(FitTab.this, FinanceTab.class);
+        startActivity(intent);
+    }
+
+
+    public void sendToLife(View view) {
+        Intent intent = new Intent(FitTab.this, LifeTab.class);
+        startActivity(intent);
+    }
+
+    public void sendToPay(View view) {
+        Intent intent = new Intent(FitTab.this, PaymentTab.class);
         startActivity(intent);
     }
 
