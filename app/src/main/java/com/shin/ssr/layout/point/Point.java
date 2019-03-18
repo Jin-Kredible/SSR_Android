@@ -16,13 +16,6 @@ import android.widget.Toast;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.HttpUtil;
-import com.shin.ssr.vo.StepVO;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.concurrent.ExecutionException;
 
 public class Point extends AppCompatActivity {
     Thread thread;      //Prodoct Move Control
@@ -57,7 +50,7 @@ public class Point extends AppCompatActivity {
     boolean done = false;       //point 전환 끝 확인 변수
 
     //DB 값 가져오기 보내기
-    String SERVER_URL="http://10.149.178.149:8088/goodsToSavings.do"; // 서버 주소
+    String SERVER_URL="http://172.20.10.9:8088/goodsToSavings.do"; // 서버 주소
     HttpUtil hu = new HttpUtil(Point.this);
 
     @Override
