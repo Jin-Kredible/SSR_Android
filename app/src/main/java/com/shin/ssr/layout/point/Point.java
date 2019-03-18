@@ -90,21 +90,19 @@ public class Point extends AppCompatActivity {
         try {
             // resutl가 JSON 객체를 서버로부터 받아옴
             result = hu.get();
-            JSONObject object = null;
+            //JSONArray object = null;
             android.util.Log.d("log","result from spring" + result);
-
-            try {
-                object =  new JSONObject(result);
+            walk = Integer.parseInt(result);
+            totalwalk = walk*10;
+            /*try {
+                // object =  new JSONArray(result);
                 Log.d("NUM", "onCreate: ObjectNum"+result);
-                walk = object.getInt("goods");
-                totalwalk = walk;
-
+                //walk = object.getInt(Integer.parseInt("goods"));
                 Log.d("NUM", "onCreate: WalkNum"+walk);
                 Log.d("NUM", "onCreate: TotalWalkNum"+walk);
-
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
+            }*/
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -304,8 +302,10 @@ public class Point extends AppCompatActivity {
 
     public void toFit(View view){
         Toast.makeText(getApplicationContext(),"CLOSE",Toast.LENGTH_LONG).show();
-        String[] params = {SERVER_URL+"walkToGoods.do", "steps:"+numPoint, "userno:"+ 1} ;
-        //hu.execute(params);
+        HttpUtil hu = new HttpUtil(Point.this);;
+        String[] params = {SERVER_URL+"goodsToSavings.do", "steps:"+numPoint, "userno:"+ 1} ;
+        Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
+        hu.execute(params);
         Intent intent = new Intent(Point.this,FitTab.class);
         startActivity(intent);
         finish();
