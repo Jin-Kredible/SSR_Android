@@ -64,7 +64,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
-    public static final String SERVER_URL="http://172.20.10.9:8088/";
+    public static final String SERVER_URL="http://10.149.178.67:8088/";
   /*  private MainTimerTask timerTask = new MainTimerTask();*/
 
     @Override
@@ -323,14 +323,11 @@ public class FitTab extends AppCompatActivity  {
         ArrayList<Entry> values = new ArrayList<>();
         ArrayList<Entry> values2 = new ArrayList<>();
 
-
         for (int i = 0; i  <7; i++) {
             Log.d("result", "are you here");
             float val = (float) stepAry.get(i).getWk_am();
             values2.add(new Entry(i, val));
         }
-
-
 
         for (int i = 7; i < stepAry.size(); i++) {
                 Log.d("result", "are you here");
@@ -437,6 +434,8 @@ public class FitTab extends AppCompatActivity  {
 
                                 hu.execute(params);
                                 String result;
+
+
 
                                 try {
                                     result = hu.get();

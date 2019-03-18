@@ -433,10 +433,6 @@ public class MainActivity extends AppCompatActivity   {
 
   protected  void onResume(){
     super.onResume();
-
-
-    Log.d("geo", "onresume");
-
     SystemRequirementsChecker.checkWithDefaultDialogs(this);//블루투스 권한 및 활성화
   }
 
