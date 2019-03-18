@@ -65,7 +65,7 @@ public class FitTab extends AppCompatActivity  {
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
     public static final String SERVER_URL="http://10.149.178.67:8088/";
-  /*  private MainTimerTask timerTask = new MainTimerTask();*/
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,75 +89,9 @@ public class FitTab extends AppCompatActivity  {
             subscribe();
 
         }
-        /*mTimer.schedule(timerTask, 5000, 10000);*/
+
         android.util.Log.d("log","in fit Tab");
-
-        ///////////////기본 라인차트
-        /*lineChart = (LineChart)findViewById(R.id.line_chart);
-
-        List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 2));
-        entries.add(new Entry(3, 0));
-        entries.add(new Entry(4, 4));
-        entries.add(new Entry(5, 3));
-
-        LineDataSet lineDataSet = new LineDataSet(entries, "");
-        lineDataSet.setLineWidth(4);
-        lineDataSet.setCircleRadius(6);
-        lineDataSet.setCircleColor(Color.parseColor("#333743"));
-        lineDataSet.setCircleColorHole(Color.BLUE);
-        lineDataSet.setColor(Color.parseColor("#333743"));
-        lineDataSet.setDrawCircleHole(true);
-        lineDataSet.setDrawCircles(true);
-        lineDataSet.setDrawValues(false);
-        lineDataSet.setDrawHorizontalHighlightIndicator(false);
-        lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setDrawValues(false);
-
-        LineData lineData = new LineData(lineDataSet);
-        lineChart.setData(lineData);
-
-        XAxis xAxis = lineChart.getXAxis();
-        lineChart.setGridBackgroundColor(0);
-        lineChart.setDrawBorders(false);
-
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextColor(Color.BLACK);
-        xAxis.enableGridDashedLine(8, 24, 0);
-
-        YAxis yLAxis = lineChart.getAxisLeft();
-
-        yLAxis.setTextColor(Color.BLACK);
-        YAxis yRAxis = lineChart.getAxisRight();
-        yRAxis.setDrawLabels(false);
-        yRAxis.setDrawAxisLine(false);
-        yRAxis.setDrawGridLines(false);
-
-        yLAxis.setDrawGridLines(false);
-        yLAxis.setDrawLabels(false);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawLabels(false);
-
-
-
-        Description description = new Description();
-        description.setText("");
-
-        lineChart.setDoubleTapToZoomEnabled(false);
-        lineChart.getLegend().setEnabled(false);
-        lineChart.setDrawGridBackground(false);
-        lineChart.setDrawBorders(false);
-        lineChart.setDescription(description);
-        lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
-        lineChart.invalidate();
-
-        MyMarkerView marker = new MyMarkerView(this,R.layout.markerviewtext);
-        marker.setChartView(lineChart);
-        lineChart.setMarker(marker);*/
-
         setTitle("LineChartActivityColored");
-
         charts[0] = findViewById(R.id.chart1);
 
 
@@ -187,27 +121,6 @@ public class FitTab extends AppCompatActivity  {
         startActivity(intent);
     }
 
-
-    /*Runnable mUpdateTimeTask = new Runnable() {
-        public void run() {
-
-            readData();
-
-        }
-    };
-
-    class MainTimerTask extends TimerTask {
-        public void run() {
-            mHandler.post(mUpdateTimeTask);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        MainTimerTask timerTask = new MainTimerTask();
-        mTimer.schedule(timerTask, 5000, 10000);
-        super.onResume();
-    }*/
 
     private final int[] colors = new int[] {
             /*Color.rgb(217, 77, 50)*/
@@ -422,20 +335,14 @@ public class FitTab extends AppCompatActivity  {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
 
-                            /*    TextView textView = findViewById(R.id.steps_taken);
-                                textView.setText("오늘 걸은 걸음 : " + Long.toString(total));*/
-
                                 //////////////http connection
                                  // 서버 주소
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
                                 String[] params = {SERVER_URL+"step.do", "steps:"+total, "userno:"+ 1} ;
 
-
                                 hu.execute(params);
                                 String result;
-
-
 
                                 try {
                                     result = hu.get();
@@ -460,8 +367,6 @@ public class FitTab extends AppCompatActivity  {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-
-
 
                                 Log.d("result", "stepvO" + stepAry);
 
@@ -503,7 +408,6 @@ public class FitTab extends AppCompatActivity  {
     public void printToast(String rtn) {
         Toast.makeText(FitTab.this, rtn, Toast.LENGTH_SHORT).show();
     }
-
 
 }
 

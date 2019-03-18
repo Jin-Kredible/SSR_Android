@@ -1,18 +1,4 @@
-/*
- * Copyright (C) 2016 Google, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.google.android.gms.fit.samples.stepcounter;
 
 import android.Manifest;
@@ -69,15 +55,12 @@ import com.minew.beacon.BluetoothState;
 import com.minew.beacon.MinewBeacon;
 import com.minew.beacon.MinewBeaconManager;
 import com.minew.beacon.MinewBeaconManagerListener;
-import com.shin.ssr.layout.tab.FinanceTab;
 import com.shin.ssr.layout.notification.GlobalNotificationBuilder;
 import com.shin.ssr.layout.notification.handlers.BigPictureSocialIntentService;
 import com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity;
 import com.shin.ssr.layout.notification.handlers.MockDatabase;
 import com.shin.ssr.layout.notification.handlers.NotificationUtil;
 import com.shin.ssr.layout.tab.FitTab;
-import com.shin.ssr.layout.tab.LifeTab;
-import com.shin.ssr.layout.tab.PaymentTab;
 import com.shin.ssr.vo.LocationVO;
 
 import java.util.ArrayList;
@@ -166,34 +149,7 @@ public class MainActivity extends AppCompatActivity   {
     locationVO =locationManage.getVoData(); //gps 위치 받아오기
     Log.d("geo", "Long" + locationManage.getVoData().getLongitude() + " " + locationManage.getVoData().getLatitude());
     /////////////////////////////////////////////////////////////////
-/*
-    // Get the UI widgets.
-    mAddGeofencesButton = (Button) findViewById(R.id.add_geofences_button);
-    mRemoveGeofencesButton = (Button) findViewById(R.id.remove_geofences_button);
 
-    // Empty list for storing geofences.
-    mGeofenceList = new ArrayList<>();
-
-    // Initially set the PendingIntent used in addGeofences() and removeGeofences() to null.
-    mGeofencePendingIntent = null;
-
-    setButtonsEnabledState();
-
-    // Get the geofences used. Geofence data is hard coded in this sample.
-    populateGeofenceList();
-
-    mGeofencingClient = LocationServices.getGeofencingClient(this);
-
-
-    Log.d("geo","inside oncreate result requesting permission");
-    if (!checkPermissions()) {
-      mPendingGeofenceTask = PendingGeofenceTask.ADD;
-      requestPermissions();
-      return;
-    }
-    Log.d("geo","inside oncreate result requesting permission2");
-    addGeofences();
-    /////////////////////////////////////////////////////////////////*/
 
   btnFinance = findViewById(R.id.finance);
   btnPayment = findViewById(R.id.payment);
@@ -354,47 +310,7 @@ public class MainActivity extends AppCompatActivity   {
   // 비콘 제어 부
   /////////////////////////////////////////////////////////////////////////////////////
 
- /* private void populateGeofenceList() {
-    Log.d("geo","populateGeofenceList");
-    for (Map.Entry<String, LatLng> entry : Constants.Emart_Loc.entrySet()) {
 
-      mGeofenceList.add(new Geofence.Builder()
-              // Set the request ID of the geofence. This is a string to identify this
-              // geofence.
-              .setRequestId(entry.getKey())
-
-              // Set the circular region of this geofence.
-              .setCircularRegion(
-                      entry.getValue().latitude,
-                      entry.getValue().longitude,
-                      Constants.GEOFENCE_RADIUS_IN_METERS
-              )
-
-              // Set the expiration duration of the geofence. This geofence gets automatically
-              // removed after this period of time.
-              .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-
-              // Set the transition types of interest. Alerts are only generated for these
-              // transition. We track entry and exit transitions in this sample.
-              .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                      Geofence.GEOFENCE_TRANSITION_EXIT)
-
-              // Create the geofence.
-              .build());
-    }
-
-
-  }
-  public void addGeofencesButtonHandler(View view) {
-
-    android.util.Log.d("geo","addGeofencesButtonHandler");
-    if (!checkPermissions()) {
-      mPendingGeofenceTask = PendingGeofenceTask.ADD;
-      requestPermissions();
-      return;
-    }
-    addGeofences();
-  }*/
 
 
 
@@ -402,185 +318,8 @@ public class MainActivity extends AppCompatActivity   {
   public void onStart() {
     Log.d("geo","onStart");
     super.onStart();
-
-
- /*   if (!checkPermissions()) {
-      requestPermissions();
-    } else {
-      performPendingGeofenceTask();
-    }*/
-  }
-/*
-  @SuppressWarnings("MissingPermission")
-  private void addGeofences() {
-    Log.d("geo","addGeofences");
-    if (!checkPermissions()) {
-      showSnackbar("insufficient permission");
-      return;
-    }
-
-
-    mGeofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
-            .addOnCompleteListener(this);
   }
 
-  @SuppressWarnings("MissingPermission")
-  private void removeGeofences() {
-
-    Log.d("geo","removing geofence");
-    if (!checkPermissions()) {
-      showSnackbar(getString(R.string.insufficient_permissions));
-      return;
-    }
-
-    mGeofencingClient.removeGeofences(getGeofencePendingIntent()).addOnCompleteListener(this);
-  }
-
-  public void removeGeofencesButtonHandler(View view) {
-    if (!checkPermissions()) {
-      mPendingGeofenceTask = PendingGeofenceTask.REMOVE;
-      requestPermissions();
-      return;
-    }
-    removeGeofences();
-  }
-
-  private void showSnackbar(final String text) {
-    View container = findViewById(android.R.id.content);
-    if (container != null) {
-      Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
-    }
-  }
-
-  private void showSnackbar(final int mainTextStringId, final int actionStringId,
-                            View.OnClickListener listener) {
-    Snackbar.make(
-            findViewById(android.R.id.content),
-            getString(mainTextStringId),
-            Snackbar.LENGTH_INDEFINITE)
-            .setAction(getString(actionStringId), listener).show();
-  }
-
-  private PendingIntent getGeofencePendingIntent() {
-
-    Log.d("geo","getGeofencePendingIntent");
-    // Reuse the PendingIntent if we already have it.
-    if (mGeofencePendingIntent != null) {
-      return mGeofencePendingIntent;
-    }
-    Log.d("geo","getGeofencePendingIntent2");
-    Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
-    // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
-    // addGeofences() and removeGeofences().
-    mGeofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    return mGeofencePendingIntent;
-  }
-
-  private GeofencingRequest getGeofencingRequest() {
-
-    Log.d("geo","getGeofencingRequest");
-    GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-
-    // The INITIAL_TRIGGER_ENTER flag indicates that geofencing service should trigger a
-    // GEOFENCE_TRANSITION_ENTER notification when the geofence is added and if the device
-    // is already inside that geofence.
-    builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-
-    // Add the geofences to be monitored by geofencing service.
-    builder.addGeofences(mGeofenceList);
-
-    // Return a GeofencingRequest.
-    return builder.build();
-  }
-
-
-  private boolean checkPermissions() {
-    int permissionState = ActivityCompat.checkSelfPermission(this,
-            Manifest.permission.ACCESS_FINE_LOCATION);
-    return permissionState == PackageManager.PERMISSION_GRANTED;
-  }*/
-
-  /*private void requestPermissions() {
-
-    Log.d("geo","request permission");
-    boolean shouldProvideRationale =
-            ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION);
-
-    // Provide an additional rationale to the user. This would happen if the user denied the
-    // request previously, but didn't check the "Don't ask again" checkbox.
-    if (shouldProvideRationale) {
-      android.util.Log.i("rationale", "Displaying permission rationale to provide additional context.");
-      showSnackbar(R.string.permission_rationale, android.R.string.ok,
-              new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                  // Request permission
-                  ActivityCompat.requestPermissions(MainActivity.this,
-                          new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                          REQUEST_PERMISSIONS_REQUEST_CODE);
-                }
-              });
-    } else {
-      android.util.Log.i("rationale", "Requesting permission");
-      // Request permission. It's possible this can be auto answered if device policy
-      // sets the permission in a given state or the user denied the permission
-      // previously and checked "Never ask again".
-      ActivityCompat.requestPermissions(MainActivity.this,
-              new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-              REQUEST_PERMISSIONS_REQUEST_CODE);
-    }
-  }
-
-  private void performPendingGeofenceTask() {
-    if (mPendingGeofenceTask == PendingGeofenceTask.ADD) {
-      addGeofences();
-    } else if (mPendingGeofenceTask == PendingGeofenceTask.REMOVE) {
-      removeGeofences();
-    }
-  }
-
-  @Override
-  public void onComplete(@NonNull Task<Void> task) {
-    Log.d("geo", "oncomplete");
-    mPendingGeofenceTask = PendingGeofenceTask.NONE;
-    if (task.isSuccessful()) {
-      updateGeofencesAdded(!getGeofencesAdded());
-      setButtonsEnabledState();
-
-      int messageId = getGeofencesAdded() ? R.string.geofences_added :
-              R.string.geofences_removed;
-      Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
-    } else {
-      // Get the status code for the error and log it using a user-friendly message.
-
-    }
-  }
-  private void setButtonsEnabledState() {
-
-    Log.d("geo","setButtonsEnabledState");
-    if (getGeofencesAdded()) {
-      mAddGeofencesButton.setEnabled(false);
-      mRemoveGeofencesButton.setEnabled(true);
-    } else {
-      mAddGeofencesButton.setEnabled(true);
-      mRemoveGeofencesButton.setEnabled(false);
-    }
-  }
-
-  private boolean getGeofencesAdded() {
-
-    Log.d("geo","getGeofencesAdded");
-    return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
-            Constants.GEOFENCES_ADDED_KEY, false);
-  }
-  private void updateGeofencesAdded(boolean added) {
-    Log.d("geo","updateGeofencesAdded");
-    PreferenceManager.getDefaultSharedPreferences(this)
-            .edit()
-            .putBoolean(Constants.GEOFENCES_ADDED_KEY, added)
-            .apply();
-  }*/
 
 
   @Override
@@ -720,13 +459,6 @@ public class MainActivity extends AppCompatActivity   {
 
     android.util.Log.d("geo", "generateBigPictureStyleNotification()");
 
-    // Main steps for building a BIG_PICTURE_STYLE notification:
-    //      0. Get your data
-    //      1. Create/Retrieve Notification Channel for O and beyond devices (26+)
-    //      2. Build the BIG_PICTURE_STYLE
-    //      3. Set up main Intent for notification
-    //      4. Set up RemoteInput, so users can input (keyboard and voice) from notification
-    //      5. Build and issue the notification
 
     // 0. Get your data (everything unique per Notification).
     MockDatabase.BigPictureStyleSocialAppData bigPictureStyleSocialAppData =
@@ -751,25 +483,6 @@ public class MainActivity extends AppCompatActivity   {
     // 3. Set up main Intent for notification.
     Intent mainIntent = new Intent(this, BigPictureSocialMainActivity.class);
 
-    // When creating your Intent, you need to take into account the back state, i.e., what
-    // happens after your Activity launches and the user presses the back button.
-
-    // There are two options:
-    //      1. Regular activity - You're starting an Activity that's part of the application's
-    //      normal workflow.
-
-    //      2. Special activity - The user only sees this Activity if it's started from a
-    //      notification. In a sense, the Activity extends the notification by providing
-    //      information that would be hard to display in the notification itself.
-
-    // Even though this sample's MainActivity doesn't link to the Activity this Notification
-    // launches directly, i.e., it isn't part of the normal workflow, a social app generally
-    // always links to individual posts as part of the app flow, so we will follow option 1.
-
-    // For an example of option 2, check out the BIG_TEXT_STYLE example.
-
-    // For more information, check out our dev article:
-    // https://developer.android.com/training/notify-user/navigation.html
 
     TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
     // Adds the back stack.
