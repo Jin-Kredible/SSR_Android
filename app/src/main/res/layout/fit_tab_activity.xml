@@ -11,20 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:id="@+id/main">
-
-
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_inidicator" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_top" />
 
-        <ImageView
-            android:id="@+id/ssglogo"
-            android:layout_width="314dp"
-            android:layout_height="23dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ssgpaylogo2" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,51 +24,51 @@
         android:orientation="horizontal"
         android:id="@+id/tabs"
         >
+
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="금융"
             android:id="@+id/finance"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:background="@drawable/tap_bg_off"
             android:gravity="center"
-            android:textSize="18dp"
-            android:onClick="sendToFinance"/>
+            android:onClick="sendToFinance"
+            android:text="금융"
+            android:textSize="18dp" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/payment"
-            android:text="결제"
-            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:background="@drawable/tap_bg_off"
             android:gravity="center"
-            android:textSize="18dp"
             android:onClick="sendToPay"
-            />
+            android:text="결제"
+            android:textSize="18dp" />
 
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/lifestyle"
-            android:text="생활"
-            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:background="@drawable/tap_bg_off"
             android:gravity="center"
-            android:textSize="18dp"
-            android:onClick="sendToLife"/>
+            android:onClick="sendToLife"
+            android:text="생활"
+            android:textSize="18dp" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/steps"
-            android:text="Fit"
-            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
+            android:background="@drawable/tap_bg_on"
+            android:textColor="#d94d32"
             android:gravity="center"
-            android:textSize="18dp"
-          />
+            android:text="Fit"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
@@ -113,13 +104,12 @@
                 android:layout_height="230dp"/>
 
             <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
                 android:id="@+id/today"
-            android:text="오늘의 걸음 수  "
-            android:textSize="18dp"
-            android:gravity="center"
-            />
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="오늘의 걸음 수  "
+                android:textSize="18dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -137,42 +127,40 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_below="@+id/chart_layout">
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="179dp"
-            android:layout_height="36dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="109dp"
-            android:layout_marginLeft="109dp"
-            android:layout_marginBottom="171dp"
-            android:text="알림을 보내라아아아"
-         />
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="179dp"
-            android:layout_height="36dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="111dp"
-            android:layout_marginLeft="111dp"
-            android:layout_marginBottom="124dp"
-            android:text="마트 방문" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="179dp"
-            android:layout_height="36dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="115dp"
-            android:layout_marginLeft="115dp"
-            android:layout_marginBottom="77dp" />
 
+    <!--        <Button
+                android:id="@+id/button2"
+                android:layout_width="179dp"
+                android:layout_height="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="109dp"
+                android:layout_marginLeft="109dp"
+                android:layout_marginBottom="171dp"
+                android:text="알림을 보내라아아아"
+             />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="179dp"
+                android:layout_height="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="111dp"
+                android:layout_marginLeft="111dp"
+                android:layout_marginBottom="124dp"
+                android:text="마트 방문" />
+-->
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Point"
+                android:onClick="sendToPoint"/>
         </LinearLayout>
     </RelativeLayout>
 

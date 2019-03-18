@@ -1,85 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context=".MainActivity">
 
         <LinearLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:id="@+id/tabs">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_inidicator" />
+            android:layout_height="70dp">
 
                 <ImageView
-                    android:id="@+id/ssglogo"
-                    android:layout_width="314dp"
-                    android:layout_height="23dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ssgpaylogo2" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/view_top" />
+
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tabs"
-            android:orientation="horizontal"
-           >
-           <Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-               android:background="@android:color/transparent"
-                    android:text="금융"
-                    android:id="@+id/finance"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textSize="18dp"
-                    android:onClick="sendToFinance"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/payment"
-            android:text="결제"
-            android:background="@android:color/transparent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="18dp"
-            android:onClick="sendToPay"
-            />
-
-
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/lifestyle"
-            android:text="생활"
-            android:background="@android:color/transparent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="18dp"
-            android:onClick="sendToLife"/>
+            android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/finance"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/steps"
-                    android:text="Fit"
-                    android:background="@android:color/transparent"
+                    android:layout_height="60dp"
                     android:layout_weight="1"
+                    android:background="@drawable/tap_bg_off"
                     android:gravity="center"
-                    android:textSize="18dp"
-                    android:onClick="sendToFit"/>
+                    android:onClick="sendToFinance"
+                    android:text="금융"
+                    android:textSize="18dp" />
+
+                <Button
+                    android:id="@+id/payment"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/tap_bg_on"
+                    android:textColor="#d94d32"
+                    android:gravity="center"
+                    android:onClick="sendToPay"
+                    android:text="결제"
+                    android:textSize="18dp" />
+
+
+                <Button
+                    android:id="@+id/lifestyle"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/tap_bg_off"
+                    android:gravity="center"
+                    android:onClick="sendToLife"
+                    android:text="생활"
+                    android:textSize="18dp" />
+
+                <Button
+                    android:id="@+id/steps"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/tap_bg_off"
+                    android:gravity="center"
+                    android:onClick="sendToFit"
+                    android:text="Fit"
+                    android:textSize="18dp" />
 
         </LinearLayout>
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn"
+            android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/imgMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ssg_payment" />
+        </RelativeLayout>
         <Button
             android:id="@+id/add_geofences_button"
             android:layout_width="wrap_content"
@@ -87,8 +91,8 @@
             android:layout_below="@+id/tabs"
             android:layout_alignParentStart="true"
             android:layout_marginTop="83dp"
-            android:text="Start"
-            android:onClick="addGeofencesButtonHandler"/>
+            android:onClick="addGeofencesButtonHandler"
+            android:text="Start" />
 
         <Button
             android:id="@+id/remove_geofences_button"
@@ -99,5 +103,7 @@
             android:layout_marginStart="101dp"
             android:layout_marginTop="85dp"
             android:onClick="removeGeofencesButtonHandler"
-            android:text="End"/>
+            android:text="End" />
+
+
 </RelativeLayout>
