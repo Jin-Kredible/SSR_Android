@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="beige">#e6f0fa</color>
     <color name="lightred">#fdfafa</color>
+    <color name="ssgpaydark_semitrans">#7F333743</color>
+    <color name="ssgpaydark">#333743</color>
+    <color name="chartbg">#fafafa</color>
 </resources>

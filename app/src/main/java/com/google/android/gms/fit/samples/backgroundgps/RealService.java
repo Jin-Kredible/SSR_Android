@@ -33,7 +33,7 @@ import com.shin.ssr.layout.notification.handlers.NotificationUtil;
 import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.vo.LocationVO;
-import com.shin.ssr.vo.MallVO;
+import com.shin.ssr.vo.MallsVO;
 import com.shin.ssr.vo.ProductVO;
 import com.shin.ssr.vo.StepVO;
 
@@ -62,7 +62,7 @@ public class RealService  extends Service {
     public static final int NOTIFICATION_ID = 888;
 
     private NotificationManagerCompat mNotificationManagerCompat;
-    private ArrayList<MallVO> mTemp = new ArrayList<>();
+    private ArrayList<MallsVO> mTemp = new ArrayList<>();
     private double distance;
     private int result2;
 
@@ -70,10 +70,10 @@ public class RealService  extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         serviceIntent = intent;
         showToast(getApplication(), "Start Service");
-        mTemp.add(new MallVO("이마트 청계천점",37.571079,127.029903));
-        mTemp.add(new MallVO("이마트 성수점", 37.539673, 127.053375));
-        mTemp.add(new MallVO("이마트 용산점", 37.529456, 126.965545));
-        mTemp.add(new MallVO("이마트 아이앤씨점", 37.559805, 126.983122));
+        mTemp.add(new MallsVO("이마트 청계천점",37.571079,127.029903));
+        mTemp.add(new MallsVO("이마트 성수점", 37.539673, 127.053375));
+        mTemp.add(new MallsVO("이마트 용산점", 37.529456, 126.965545));
+        mTemp.add(new MallsVO("이마트 아이앤씨점", 37.559805, 126.983122));
 
         mainThread = new Thread(new Runnable() {
             @SuppressLint("MissingPermission")
@@ -109,8 +109,8 @@ public class RealService  extends Service {
                                 Location locationPoint = new Location("Mall");
 
                                 for (int i = 0; i < mTemp.size(); i++) {
-                                    locationPoint.setLatitude(mTemp.get(i).getMlatitude());
-                                    locationPoint.setLongitude(mTemp.get(i).getLongitude());
+                                    locationPoint.setLatitude(mTemp.get(i).getMall_la());
+                                    locationPoint.setLongitude(mTemp.get(i).getMall_long());
                                     distance = locationPoint.distanceTo(location);
                                     Log.d("geo", Double.toString(distance));
 
@@ -121,11 +121,11 @@ public class RealService  extends Service {
                                         generateBigPictureStyleNotification();
                                     }
 
-                                    Log.d("mall", mTemp.get(i).getmMallNmae());
+                                    Log.d("mall", mTemp.get(i).getMall_nm());
                                     Log.d("mall", "현재 위도 " + location.getLatitude());
                                     Log.d("mall", "현재 경도 " + location.getLongitude());
-                                    Log.d("mall", "성수점 위도 " + mTemp.get(i).getMlatitude());
-                                    Log.d("mall", "성수점 경도 " + mTemp.get(i).getLongitude());
+                                    Log.d("mall", "성수점 위도 " + mTemp.get(i).getMall_la());
+                                    Log.d("mall", "성수점 경도 " + mTemp.get(i).getMall_long());
                                     Log.d("mall", "위치 : " + distance);
                                 }
                             }

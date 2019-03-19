@@ -1,9 +1,10 @@
-package com.sinc.ssr.vo;
+package com.shin.ssr.vo;
 /*
  * MALLS TABLE + VISITS TABLE + BEACONS TABLE
  * */
 public class MallsVO {
-    int 	mall_id, mall_la, mall_long;
+    int 	mall_id;
+    double mall_la, mall_long;
     String 	mall_nm;
     int 	user_id, vi_id, vi_wk;
     String 	vi_start, vi_end;
@@ -32,6 +33,28 @@ public class MallsVO {
         this.uuid = uuid;
     }
 
+    public MallsVO( String mall_nm, double mall_la, double mall_long) {
+        this.mall_la = mall_la;
+        this.mall_long = mall_long;
+        this.mall_nm = mall_nm;
+    }
+
+    public double getMall_la() {
+        return mall_la;
+    }
+
+    public void setMall_la(double mall_la) {
+        this.mall_la = mall_la;
+    }
+
+    public double getMall_long() {
+        return mall_long;
+    }
+
+    public void setMall_long(double mall_long) {
+        this.mall_long = mall_long;
+    }
+
     public int getMall_id() {
         return mall_id;
     }
@@ -40,17 +63,13 @@ public class MallsVO {
         this.mall_id = mall_id;
     }
 
-    public int getMall_la() {
-        return mall_la;
-    }
+
 
     public void setMall_la(int mall_la) {
         this.mall_la = mall_la;
     }
 
-    public int getMall_long() {
-        return mall_long;
-    }
+
 
     public void setMall_long(int mall_long) {
         this.mall_long = mall_long;

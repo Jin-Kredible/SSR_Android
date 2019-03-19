@@ -8,7 +8,10 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +68,7 @@ public class FitTab extends AppCompatActivity  {
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
     public static final String SERVER_URL="http://192.168.43.43:8088/";
+    public ImageView help;
 
 
     @Override
@@ -94,6 +98,8 @@ public class FitTab extends AppCompatActivity  {
         setTitle("LineChartActivityColored");
         charts[0] = findViewById(R.id.chart1);
 
+        help = findViewById(R.id.helppop);
+        help.setOnClickListener(new helpListener());
 
     }
     public void sendToFinance(View view) {
@@ -251,7 +257,7 @@ public class FitTab extends AppCompatActivity  {
 
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(values, "이번 주");
-        LineDataSet set2 = new LineDataSet(values2, "저번 주");
+        LineDataSet set2 = new LineDataSet(values2, "지난 주");
    /*     set1.setFillAlpha(110);
         set1.setFillColor(Color.RED);*/
 
@@ -378,13 +384,9 @@ public class FitTab extends AppCompatActivity  {
                                 TextView txtView2 = findViewById(R.id.today);
                                 txtView.setText("[ " + total + " / 6000 ] ");
 
-                                String text = "<font color='#fffffc'> [ </font><font color='#fef1f3'><b> "+total+ "</b> </font><font color='#fffffc'> / 6000 ]</font>";
+                                String text = "<font color='#333743'> <b> "+total+ "</b> / 6000 </font>";
                                 txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
 
-                                /*txtView.setTextColor(Color.parseColor("#FFFFFF"));*/
-                                txtView.setBackgroundColor(Color.parseColor("#333743"));
-                                txtView2.setTextColor(Color.parseColor("#FFFFFF"));
-                                txtView2.setBackgroundColor(Color.parseColor("#333743"));
 
 
                             }
@@ -404,6 +406,19 @@ public class FitTab extends AppCompatActivity  {
 
     public void printToast(String rtn) {
         Toast.makeText(FitTab.this, rtn, Toast.LENGTH_SHORT).show();
+    }
+
+
+    class helpListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View helpicon) {
+            Toast.makeText(getApplicationContext(),"are you clicked?",Toast.LENGTH_LONG).show();
+            View popupView = getLayoutInflater().inflate(R.layout.help_popup_activity,null);
+            PopupWindow helpPopup = new PopupWindow(popupView, 1000, 1000,true);
+            helpPopup.setAnimationStyle(-1);
+            helpPopup.showAtLocation(popupView, Gravity.CENTER, 0,0);
+        }
     }
 
 }
