@@ -3,6 +3,7 @@ package com.shin.ssr.layout.tab;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -169,6 +170,7 @@ public class FitTab extends AppCompatActivity  {
         l.setXEntrySpace(20f);
         l.setMaxSizePercent(0.5f);
         l.setForm(Legend.LegendForm.CIRCLE);
+        l.setTypeface(Typeface.createFromAsset(getAssets(),"font/applesgothic_regular.ttf"));
         l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
 
         chart.getAxisLeft().setEnabled(false);
@@ -189,6 +191,7 @@ public class FitTab extends AppCompatActivity  {
 
         xAxis.setYOffset(-10f);
         xAxis.setTextSize(10f);
+        xAxis.setTypeface(Typeface.createFromAsset(getAssets(),"font/applesgothic_regular.ttf"));
         xAxis.setEnabled(true);
         xAxis.setDrawLabels(true);
         xAxis.setDrawGridLines(false);
