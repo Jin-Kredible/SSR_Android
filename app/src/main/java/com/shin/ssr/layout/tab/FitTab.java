@@ -81,7 +81,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
-    public static final String SERVER_URL="http://192.168.43.43:8088/";
+    public static final String SERVER_URL="http://10.149.178.250:8088/";
     public ImageView help;
 
 
@@ -446,7 +446,7 @@ public class FitTab extends AppCompatActivity  {
                                  // 서버 주소
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL+"step.do", "steps:"+total, "userno:"+ 1} ;
+                                String[] params = {SERVER_URL+"step.do", "wk_am:"+total, "user_id:"+ 1} ;
 
                                 hu.execute(params);
                                 String result;
