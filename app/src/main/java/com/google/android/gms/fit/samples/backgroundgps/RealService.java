@@ -83,7 +83,7 @@ public class RealService  extends Service {
                 boolean run = true;
                 while (run) {
                     try {
-                        Thread.sleep(3000 * 10); // 1 minute
+                        Thread.sleep(1000 * 10); // 1 minute
                         HttpUtil hu = new HttpUtil(RealService.this);
 
                         String[] params = {SERVER_URL+"checkPush.do", "dummy1:" + 1, "dummy2:" + 1} ;
@@ -114,11 +114,13 @@ public class RealService  extends Service {
                                     locationPoint.setLongitude(mTemp.get(i).getLongitude());
                                     distance = locationPoint.distanceTo(location);
                                     Log.d("geo", Double.toString(distance));
+
+                                    // 지점과 지금 거리가 100m 이내일떄
                                     if (distance < 100) {
                                         Log.d("geo", "inside distance for loop");
                                         mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
                                         generateBigPictureStyleNotification();
-                                    }// 지점과 지금 거리가 100m 이내일떄
+                                    }
 
                                     Log.d("mall", mTemp.get(i).getmMallNmae());
                                     Log.d("mall", "현재 위도 " + location.getLatitude());

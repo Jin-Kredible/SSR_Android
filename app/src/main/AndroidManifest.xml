@@ -41,6 +41,7 @@
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"></activity>
         <activity android:name="com.shin.ssr.layout.notification.PushNotification"></activity>
         <activity android:name="com.shin.ssr.layout.point.Point"></activity>
+
         <activity
             android:name="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
             android:label="@string/title_activity_big_picture_main">

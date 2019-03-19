@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.fit.samples.stepcounter.GeofenceTransitionsJobIntentService;
 import com.google.android.gms.fit.samples.stepcounter.R;
@@ -55,7 +56,9 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
 
 
     ArrayList<Bitmap> bitmap = new ArrayList<>();
+    ArrayList<ProductVO> productArry = new ArrayList<>();
     ImageView img1,img2,img3,img4;
+    TextView name1,name2,name3,name4,weight1,weight2,weight3,weight4,price1,price2,price3,price4;
 
 
     Handler handler = new Handler(){
@@ -64,6 +67,10 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
             super.handleMessage(msg);
 
             ImageView[] productImg = {img1,img2,img3,img4};
+            TextView[] productName = {name1,name2,name3,name4};
+            TextView[] productWeight = {weight1,weight2,weight3,weight4};
+            TextView[] productPrice = {price1,price2,price3,price4};
+
             for(int z =0; z<bitmap.size(); z++) {
                 Log.d("geo",bitmap.get(z).toString());
             }
@@ -75,6 +82,13 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
                 Bitmap bitmap1 = bitmap.get(i);
                 productImg[i].setImageBitmap(bitmap1);
             }
+
+            for(int i =0; i< productArry.size(); i++) {
+                productName[i].setText(productArry.get(i).getItem_name() );
+                productWeight[i].setText(productArry.get(i).getItem_weight());
+                productPrice[i].setText(productArry.get(i).getItem_price());
+            }
+
 
         }
     };
@@ -88,6 +102,21 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
         img2 = findViewById(R.id.recommendedProduct2);
         img3 = findViewById(R.id.recommendedProduct3);
         img4 = findViewById(R.id.recommendedProduct4);
+
+        name1 = findViewById(R.id.recommendedProduct1_name);
+        name2 = findViewById(R.id.recommendedProduct2_name);
+        name3 = findViewById(R.id.recommendedProduct3_name);
+        name4 = findViewById(R.id.recommendedProduct4_name);
+
+        weight1 = findViewById(R.id.recommendedProduct1_weight);
+        weight2 = findViewById(R.id.recommendedProduct2_weight);
+        weight3 = findViewById(R.id.recommendedProduct3_weight);
+        weight4 = findViewById(R.id.recommendedProduct4_weight);
+
+        price1 = findViewById(R.id.recommendedProduct1_price);
+        price2 = findViewById(R.id.recommendedProduct2_price);
+        price3 = findViewById(R.id.recommendedProduct3_price);
+        price4 = findViewById(R.id.recommendedProduct4_price);
 
 
         // Cancel Notification
@@ -108,7 +137,7 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
         HttpUtil hu = new HttpUtil(BigPictureSocialMainActivity.this);
         String[] params = {SERVER_URL+"/product.do", "dummy1:"+1, "dummy2:"+ 1} ;
 
-        ArrayList<ProductVO> productArry = new ArrayList<>();
+
         hu.execute(params);
         String result;
         URL url = null;
