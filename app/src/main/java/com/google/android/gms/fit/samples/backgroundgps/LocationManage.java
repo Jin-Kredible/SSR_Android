@@ -26,7 +26,7 @@ import com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity;
 import com.shin.ssr.layout.notification.handlers.MockDatabase;
 import com.shin.ssr.layout.notification.handlers.NotificationUtil;
 import com.shin.ssr.vo.LocationVO;
-import com.shin.ssr.vo.MallVO;
+import com.shin.ssr.vo.MallsVO;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class LocationManage extends AppCompatActivity {
     private  float accuracy;
     private  String provider;
     private double distance;
-    private ArrayList<MallVO> mTemp = new ArrayList<>();
+    private ArrayList<MallsVO> mTemp = new ArrayList<>();
     private LocationVO locationVO = new LocationVO();
     private static final String CHANNEL_ID = "channel_01";
     private NotificationManagerCompat mNotificationManagerCompat;
@@ -131,12 +131,12 @@ public class LocationManage extends AppCompatActivity {
 //    }
 
     public void InitMallLocation(){
-        List<MallVO> mLocation_data = new ArrayList<MallVO>();
+        List<MallsVO> mLocation_data = new ArrayList<MallsVO>();
 
-        mTemp.add(new MallVO("이마트 청계천점",37.571079,127.029903));
-        mTemp.add(new MallVO("이마트 성수점", 37.539673, 127.053375));
-        mTemp.add(new MallVO("이마트 용산점", 37.529456, 126.965545));
-        mTemp.add(new MallVO("이마트 아이앤씨점", 37.559805, 126.983122));
+        mTemp.add(new MallsVO("이마트 청계천점",37.571079,127.029903));
+        mTemp.add(new MallsVO("이마트 성수점", 37.539673, 127.053375));
+        mTemp.add(new MallsVO("이마트 용산점", 37.529456, 126.965545));
+        mTemp.add(new MallsVO("이마트 아이앤씨점", 37.559805, 126.983122));
 
 
       //  mLocation_data.add((MallVO) mLocation_data);

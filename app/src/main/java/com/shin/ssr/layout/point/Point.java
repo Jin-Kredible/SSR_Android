@@ -83,31 +83,17 @@ public class Point extends AppCompatActivity {
         resetR = imgPro.getRotation();
 
         int total= 0;
-        HttpUtil hu = new HttpUtil(Point.this);
+        HttpUtil_P hu = new HttpUtil_P(Point.this);
         String[] params = {SERVER_URL+"walkToGoods.do", "steps:"+total , "userno:"+ 1} ;
         hu.execute(params);
-        String result;
         try {
-            // resutl가 JSON 객체를 서버로부터 받아옴
-            result = hu.get();
-            //JSONArray object = null;
-            android.util.Log.d("log","result from spring" + result);
-            walk = Integer.parseInt(result);
-            totalwalk = walk*10;
-            /*try {
-                // object =  new JSONArray(result);
-                Log.d("NUM", "onCreate: ObjectNum"+result);
-                //walk = object.getInt(Integer.parseInt("goods"));
-                Log.d("NUM", "onCreate: WalkNum"+walk);
-                Log.d("NUM", "onCreate: TotalWalkNum"+walk);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
+            hu.get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
 
         Log.d("NUM", "onCreate: WalkNum"+walk);
         Log.d("NUM", "onCreate: TotalWalkNum"+walk);
@@ -287,7 +273,8 @@ public class Point extends AppCompatActivity {
             imgPro.setVisibility(View.GONE);
             imgGetPro.setVisibility(View.GONE);
         }
-        HttpUtil hu = new HttpUtil(Point.this);;
+
+        HttpUtil_P hu = new HttpUtil_P(Point.this);;
         String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+numPoint, "userid:"+1} ;
         Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
         hu.execute(params);
@@ -312,5 +299,9 @@ public class Point extends AppCompatActivity {
         Intent intent = new Intent(Point.this,FitTab.class);
         startActivity(intent);
         finish();
+    }
+
+    public void getPoints(int point) {
+        this.walk = point;
     }
 }

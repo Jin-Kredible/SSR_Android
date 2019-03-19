@@ -1,56 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- Copyright 2013 The Android Open Source Project
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity">
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
+    android:background="#ffffff">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/recommendedProduct1"
-        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/recommendedProduct2"
-        />
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center_vertical|center_horizontal|center|clip_horizontal"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/close_icon"
+            android:onClick="closePage"
+            tools:ignore="OnClick" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/recommendedProduct3"
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="상품 추천"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumbarunpenr"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:id="@+id/recommendedProduct4"
-        />
+    </FrameLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="4"
+            android:orientation="vertical"
+            android:stretchColumns="*"
+            android:paddingTop="15dp"
+            android:radius="2dp"
+            >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/beige"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/recommendedProduct1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/recommendedProduct1_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/applesgothic_regular"
+                        android:gravity="center_horizontal"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/recommendedProduct1_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/applesgothic_regular"
+                        android:gravity="center_horizontal"
+                        android:text="NULL"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/recommendedProduct1_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/applesgothic_regular"
+                        android:gravity="center_horizontal"
+                        android:text="NULL"
+                        android:textAlignment="center" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:elevation="3dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/lightred">
+
+                <ImageView
+                    android:id="@+id/recommendedProduct2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    >
+
+
+                    <TextView
+                        android:id="@+id/recommendedProduct2_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/applesgothic_regular"/>
+
+                    <TextView
+                        android:id="@+id/recommendedProduct2_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/applesgothic_regular"/>
+
+                    <TextView
+                        android:id="@+id/recommendedProduct2_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/applesgothic_regular"/>
+                </LinearLayout>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:background="@color/beige"
+                android:elevation="3dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/recommendedProduct3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/recommendedProduct3_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/applesgothic_regular"/>
+
+                    <TextView
+                        android:id="@+id/recommendedProduct3_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/applesgothic_regular"/>
+
+                    <TextView
+                        android:id="@+id/recommendedProduct3_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/applesgothic_regular"/>
+                </LinearLayout>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:elevation="3dp"
+                android:background="@color/lightred"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/recommendedProduct4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:id="@+id/recommendedProduct4_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/applesgothic_regular"/>
+
+                    <TextView
+                        android:id="@+id/recommendedProduct4_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/applesgothic_regular"/>
+
+                    <TextView
+                        android:id="@+id/recommendedProduct4_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_margin="5dp"
+                        android:text="NULL"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/applesgothic_regular"/>
+                </LinearLayout>
+            </TableRow>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_centerInParent="true"
+                android:background="#D2D2D2"/>
+        </TableLayout>
 </LinearLayout>

@@ -3,6 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="beige">#e6f0fa</color>
+    <color name="lightred">#fdfafa</color>
+    <color name="ssgpaydark_semitrans">#7F333743</color>
+    <color name="ssgpaydark">#333743</color>
+    <color name="chartbg">#fafafa</color>
 
     <color name="primary">#2196F3</color>
     <color name="primary_dark">#1976D2</color>

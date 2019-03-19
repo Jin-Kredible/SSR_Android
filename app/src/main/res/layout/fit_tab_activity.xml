@@ -96,6 +96,14 @@
             android:orientation="vertical"
             android:id="@+id/chart_layout"
             >
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="right"
+                android:src="@drawable/info"
+                android:layout_margin="7dp"
+                android:id="@+id/helppop"/>
+
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart1"
@@ -109,15 +117,21 @@
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:text="오늘의 걸음 수  "
-                android:textSize="18dp" />
+                android:fontFamily="@font/applesgothic_regular"
+                android:textSize="20dp"
+                android:textColor="@color/ssgpaydark"
+                android:background="@color/chartbg"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:id="@+id/steps_taken"
                 android:text=""
-                android:textSize="18dp"
+                android:fontFamily="@font/applesgothic_regular"
+                android:textSize="25dp"
                 android:gravity="center"
+                android:textColor="@color/ssgpaydark"
+                android:background="@color/chartbg"
                 />
 
         </LinearLayout>
