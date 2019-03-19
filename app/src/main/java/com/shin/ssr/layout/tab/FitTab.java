@@ -64,7 +64,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
-    public static final String SERVER_URL="http://10.149.179.153:8088/";
+    public static final String SERVER_URL="http://192.168.43.43:8088/";
 
 
     @Override

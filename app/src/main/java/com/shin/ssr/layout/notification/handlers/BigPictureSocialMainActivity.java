@@ -18,6 +18,7 @@ package com.shin.ssr.layout.notification.handlers;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -131,6 +132,13 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
 
 
     }
+
+    public void closePage(){
+        Intent intent = new Intent(BigPictureSocialMainActivity.this, com.shin.ssr.layout.tab.FitTab.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     @Override
     public void run() {

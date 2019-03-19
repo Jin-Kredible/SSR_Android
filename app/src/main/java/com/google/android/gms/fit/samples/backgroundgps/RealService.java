@@ -64,6 +64,7 @@ public class RealService  extends Service {
     private NotificationManagerCompat mNotificationManagerCompat;
     private ArrayList<MallVO> mTemp = new ArrayList<>();
     private double distance;
+    private int result2;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -84,18 +85,16 @@ public class RealService  extends Service {
                 while (run) {
                     try {
                         Thread.sleep(1000 * 10); // 1 minute
-                        HttpUtil hu = new HttpUtil(RealService.this);
+                        HttpUtil_GPS hu = new HttpUtil_GPS(RealService.this);
 
                         String[] params = {SERVER_URL+"checkPush.do", "dummy1:" + 1, "dummy2:" + 1} ;
 
                         hu.execute(params);
-                        String result;
+
 
                         try {
-                            result = hu.get();
-                            int result2 = Integer.parseInt(result);
-                            android.util.Log.d("log","result from spring" + result);
 
+                            hu.get();
                             if(result2==0) {
 
                                 locationVO = locationManage.getVoData();
@@ -377,6 +376,11 @@ public class RealService  extends Service {
         Notification notification = notificationCompatBuilder.build();
 
         mNotificationManagerCompat.notify(NOTIFICATION_ID, notification);
+    }
+
+    public void checkPush(int pushYN) {
+        Log.d("push",Integer.toString(pushYN));
+        result2 = pushYN;
     }
 
 }
