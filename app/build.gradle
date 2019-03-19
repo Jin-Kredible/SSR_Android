@@ -18,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
@@ -42,4 +46,6 @@ dependencies {
     implementation files('lib/minewBeaconScan.jar')
 
 
+    implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
+    implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
 }

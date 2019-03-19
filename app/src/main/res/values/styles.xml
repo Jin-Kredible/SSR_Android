@@ -20,6 +20,7 @@ limitations under the License.
         <!-- Customize your theme here. -->
     </style>
 
+
     <style name="Log" parent="AppTheme">
         <item name="android:typeface">monospace</item>
 

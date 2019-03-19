@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:background="@drawable/tap_bg_off"
             android:gravity="center"
-            android:onClick="sendToPay"
+            android:onClick="goal"
             android:text="결제"
             android:textSize="18dp" />
 
@@ -159,8 +159,22 @@
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Point"
-                android:onClick="sendToPoint"/>
+                android:onClick="sendToPoint"
+                android:text="Point" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="stepgoal"
+                android:text="걸음 수 달성" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="sendToPoint"
+                android:text="SSGPAY 결제" />
         </LinearLayout>
     </RelativeLayout>
 

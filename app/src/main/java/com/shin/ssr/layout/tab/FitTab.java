@@ -1,18 +1,27 @@
 package com.shin.ssr.layout.tab;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -52,10 +61,14 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.concurrent.ExecutionException;
 
+import at.grabner.circleprogress.CircleProgressView;
+
 import static android.graphics.Color.rgb;
 
-
 public class FitTab extends AppCompatActivity  {
+
+    private PopupWindow mPopupWindow;
+
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
@@ -64,31 +77,31 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
-    public static final String SERVER_URL="http://10.149.178.67:8088/";
+    public static final String SERVER_URL="http://172.20.10.9:8081/";
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.fit_tab_activity);
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fit_tab_activity);
+            FitnessOptions fitnessOptions =
+                    FitnessOptions.builder()
+                            .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                            .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
+                            .build();
+            if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
+                GoogleSignIn.requestPermissions(
+                        this,
+                        REQUEST_OAUTH_REQUEST_CODE,
+                        GoogleSignIn.getLastSignedInAccount(this),
+                        fitnessOptions);
+                android.util.Log.d("log","in Fitness regist");
+            } else {
+                android.util.Log.d("log","in Fitness regist");
+                subscribe();
 
-        FitnessOptions fitnessOptions =
-                FitnessOptions.builder()
-                        .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
-                        .build();
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this,
-                    REQUEST_OAUTH_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(this),
-                    fitnessOptions);
-            android.util.Log.d("log","in Fitness regist");
-        } else {
-            android.util.Log.d("log","in Fitness regist");
-            subscribe();
-
-        }
+            }
 
         android.util.Log.d("log","in fit Tab");
         setTitle("LineChartActivityColored");
@@ -121,6 +134,89 @@ public class FitTab extends AppCompatActivity  {
         startActivity(intent);
     }
 
+
+    double step_percentage;
+    CircleProgressView mCircleView;
+
+
+    public void getTodoList(double result){
+        step_percentage = result;
+    }
+
+
+
+    public void stepgoal(View v){
+
+        HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
+
+                String[] params = {SERVER_URL+"todayGoal.do", "steps:"+1, "userno:"+ 1} ;
+                hu.execute(params);
+
+                System.out.println("++++++++++++++++++++++++" + "step_percentage :"+ step_percentage + "++++++++++++++++++++++++" );
+
+                switch (v.getId()) {
+                    case R.id.button2:
+
+                        View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
+
+                        mCircleView = popupView.findViewById(R.id.circleView);
+
+
+
+
+                        mCircleView.setValueAnimated(42);
+
+
+
+                        /**
+                         * LayoutParams WRAP_CONTENT를 주면 inflate된 View의 사이즈 만큼의
+                         * PopupWinidow를 생성한다.
+                         */
+                mPopupWindow = new PopupWindow(popupView,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+                /**
+                 * showAsDropDown(anchor, xoff, yoff)
+                 * @View anchor : anchor View를 기준으로 바로 아래 왼쪽에 표시.
+                 * @예외 : 하지만 anchor View가 화면에 가장 하단 View라면 시스템이
+                 * 자동으로 위쪽으로 표시되게 한다.
+                 * xoff, yoff : anchor View를 기준으로 PopupWindow가 xoff는 x좌표,
+                 * yoff는 y좌표 만큼 이동된 위치에 표시되게 한다.
+                 * @int xoff : -숫자(화면 왼쪽으로 이동), +숫자(화면 오른쪽으로 이동)
+                 * @int yoff : -숫자(화면 위쪽으로 이동), +숫자(화면 아래쪽으로 이동)
+                 * achor View 를 덮는 것도 가능.
+                 * 화면바깥 좌우, 위아래로 이동 가능. (짤린 상태로 표시됨)
+                 */
+                mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
+    //          mPopupWindow.showAsDropDown(btn_Popup, 50, 50);
+
+                /**
+                 * showAtLocation(parent, gravity, x, y)
+                 * @praent : PopupWindow가 생성될 parent View 지정
+                 * View v = (View) findViewById(R.id.btn_click)의 형태로 parent 생성
+                 * @gravity : parent View의 Gravity 속성 지정 Popupwindow 위치에 영향을 줌.
+                 * @x : PopupWindow를 (-x, +x) 만큼 좌,우 이동된 위치에 생성
+                 * @y : PopupWindow를 (-y, +y) 만큼 상,하 이동된 위치에 생성
+                 */
+//          mPopupWindow.showAtLocation(popupView, Gravity.NO_GRAVITY, 0, 0);
+                mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
+
+                /**
+                 * update() 메서드를 통해 PopupWindow의 좌우 사이즈, x좌표, y좌표
+                 * anchor View까지 재설정 해줄수 있습니다.
+                 */
+//          mPopupWindow.update(anchor, xoff, yoff, width, height)(width, height);
+
+                break;
+            default:
+                break;
+
+        }
+
+
+
+
+    }
 
     private final int[] colors = new int[] {
             /*Color.rgb(217, 77, 50)*/
@@ -227,6 +323,9 @@ public class FitTab extends AppCompatActivity  {
         leftAxis.addLimitLine(ll1);
         leftAxis.setDrawLimitLinesBehindData(false);
     }
+
+
+
 
     private LineData getData(int count, float range, int total) {
         for(int i =0; i < stepAry.size(); i++ ) {
