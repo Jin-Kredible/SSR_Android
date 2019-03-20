@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@color/chartbg"
-                android:fontFamily="@font/applesgothic_regular"
+                android:fontFamily="@font/BMHANNAPro"
                 android:gravity="center"
                 android:text="오늘의 걸음 수  "
                 android:textColor="@color/ssgpaydark"
@@ -150,7 +150,7 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:background="@drawable/buttonshape"
-                android:fontFamily="@font/applesgothic_regular"
+                android:fontFamily="@font/BMHANNAPro"
                 android:onClick="sendToPoint"
                 android:shadowColor="#C2BCBD"
                 android:shadowDx="0"
@@ -166,33 +166,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal"
-                android:paddingStart="80dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="" />
+                android:paddingStart="50dp">
 
                 <TextView
-                    android:id="@+id/todo2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:onClick="stepgoal1"
                     android:paddingLeft="30dp"
-                    android:text="매장 방문"
-                    android:textSize="15sp" />
-
+                    android:text="일일 미션"
+                    android:fontFamily="@font/BMHANNAPro"
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:paddingStart="80dp">
 
@@ -230,7 +222,53 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:paddingStart="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:onClick="stepgoal1"
+                    android:paddingLeft="30dp"
+                    android:text="주간 미션"
+                    android:fontFamily="@font/BMHANNAPro"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingStart="80dp">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/todo2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:onClick="stepgoal1"
+                    android:paddingLeft="30dp"
+                    android:text="매장 방문"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:paddingStart="80dp">
 

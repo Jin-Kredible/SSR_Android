@@ -78,7 +78,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<>();
-    public static final String SERVER_URL="http://192.168.43.43:8088/";
+    public static final String SERVER_URL="http://172.20.10.13:8088/";
     public ImageView help;
     private int total;
     Handler handler=new Handler();
