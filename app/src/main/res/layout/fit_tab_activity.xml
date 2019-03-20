@@ -43,7 +43,6 @@
             android:layout_weight="1"
             android:background="@drawable/tap_bg_off"
             android:gravity="center"
-            android:onClick="goal"
             android:text="결제"
             android:textSize="18dp" />
 
@@ -132,6 +131,7 @@
                 android:gravity="center"
                 android:textColor="@color/ssgpaydark"
                 android:background="@color/chartbg"
+                android:layout_marginBottom="10dp"
                 />
 
         </LinearLayout>
@@ -170,11 +170,22 @@
                 android:text="마트 방문" />
 -->
             <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/button3"
+                android:layout_width="327dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/buttonshape"
+                android:fontFamily="@font/applesgothic_regular"
                 android:onClick="sendToPoint"
-                android:text="Point" />
+                android:shadowColor="#C2BCBD"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="포인트 변환"
+                android:textColor="#2B2B2B"
+                android:drawableEnd="@drawable/cart2"
+
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/button2"
@@ -183,12 +194,7 @@
                 android:onClick="stepgoal"
                 android:text="걸음 수 달성" />
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="sendToPoint"
-                android:text="SSGPAY 결제" />
+
         </LinearLayout>
     </RelativeLayout>
 
