@@ -84,8 +84,9 @@ public class FitTab extends AppCompatActivity  {
     public static final String SERVER_URL="http://192.168.43.43:8088/";
     public ImageView help;
     private int total;
+    Handler handler=new Handler();
 
-    Handler mHandler = new Handler() {
+    /*Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             updateSteps();
             TextView txtView = findViewById(R.id.steps_taken);
@@ -96,7 +97,7 @@ public class FitTab extends AppCompatActivity  {
             txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
             mHandler.sendEmptyMessageDelayed(0,2000);
         }
-    };
+    };*/
 
 
         @Override
@@ -133,10 +134,24 @@ public class FitTab extends AppCompatActivity  {
 
 
 
-            mHandler.sendEmptyMessage(0);
+            handler.post(new Runnable(){
+                @Override
+                public void run() {
+                    updateSteps();
+                    TextView txtView = findViewById(R.id.steps_taken);
+                    TextView txtView2 = findViewById(R.id.todo1_step);
+                    txtView.setText(" " + total + " / 6000  ");
+                    txtView2.setText(" " + total + " / 6000  ");
+                    String text = "<font color='#333743'> <b> "+total+ "</b> / 6000 </font>";
+                    txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                    handler.postDelayed(this,500); // set time here to refresh textView
+                }
+            });
 
 
     }
+
+
     public void sendToFinance(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
         intent.putExtra("buttonNum",1);

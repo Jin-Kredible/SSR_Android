@@ -24,7 +24,7 @@
             android:layout_height="30dp"
             android:layout_gravity="right|center_vertical|center_horizontal|center|clip_horizontal"
             android:layout_marginRight="10dp"
-            android:background="@drawable/close_icon"
+            android:background="@drawable/close_icon2"
             android:onClick="closePage"
             tools:ignore="OnClick" />
 
