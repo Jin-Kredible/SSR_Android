@@ -60,10 +60,10 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
     ArrayList<Bitmap> bitmap = new ArrayList<>();
     ArrayList<ProductVO> productArry = new ArrayList<>();
     ImageView img1,img2,img3,img4;
-    TextView name1,name2,name3,name4,weight1,weight2,weight3,weight4,price1,price2,price3,price4;
+    TextView name1,name2,name3,name4,weight1,weight2,weight3,weight4,price1,price2,price3,price4,customTxt;
 
 
-    Handler handler = new Handler(){
+    final Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -85,12 +85,33 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
                 productImg[i].setImageBitmap(bitmap1);
             }
 
-            for(int i =0; i< productArry.size(); i++) {
+            for(int i =0; i< 4; i++) {
                 productName[i].setText(productArry.get(i).getItem_name() );
                 productWeight[i].setText(productArry.get(i).getItem_weight());
                 productPrice[i].setText(productArry.get(i).getItem_price());
             }
 
+            String gender=null;
+            String time=null;
+            if(productArry.get(4).getGender()==1) {
+                gender = "남성";
+            } else if (productArry.get(4).getGender()==2) {
+                gender = "여성";
+            }
+
+            if(productArry.get(4).getTime()==1) {
+                time = "아침";
+            } else if(productArry.get(4).getTime()==2) {
+                time = "점심";
+            } else if(productArry.get(4).getTime()==3) {
+                time = "오후";
+            } else if (productArry.get(4).getTime()==4) {
+                time = "저녁";
+            } else if (productArry.get(4).getTime()==5) {
+                time = "야간";
+            }
+
+            customTxt.setText(time+"에 " + productArry.get(4).getAge() + " 대 " + gender + "을 위한 SSG PAY 의 추천");
 
         }
     };
@@ -119,6 +140,8 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
         price2 = findViewById(R.id.recommendedProduct2_price);
         price3 = findViewById(R.id.recommendedProduct3_price);
         price4 = findViewById(R.id.recommendedProduct4_price);
+
+        customTxt = findViewById(R.id.custom_recom);
 
 
         // Cancel Notification
@@ -159,16 +182,20 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
             try {
                 object =  new JSONArray(result);
 
-                for(int i =0; i < object.length(); i++) {
+                for(int i =0; i < 4; i++) {
                     JSONObject obj = (JSONObject)object.get(i);
                     android.util.Log.d("geo",obj.getString("item_price"));
                     android.util.Log.d("geo",obj.getString("item_name"));
                     android.util.Log.d("geo",obj.getString("item_img_path"));
                     productArry.add(new ProductVO(obj.optString("item_name"),obj.optString("item_price"),obj.optString("item_weight"),obj.optString("item_img_path")));
                 }
+                JSONObject obj2 = (JSONObject)object.get(4) ;
+                productArry.add(new ProductVO(obj2.optInt("age"),obj2.optInt("gender"),obj2.optInt("time")));
+
                 HttpURLConnection conn=null;
                 InputStream is=null;
-                for(int i=0; i < productArry.size(); i++ ) {
+
+                for(int i=0; i < 4; i++ ) {
                     url = new URL(SERVER_URL + "resources/img" + productArry.get(i).getItem_img_path());
                     conn = (HttpURLConnection) url.openConnection();
                     conn.connect();
@@ -184,9 +211,14 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
 
 
                 }
-
+                new Thread() {
+                    public void run() {
+                        Message message = handler.obtainMessage();
+                        handler.sendMessage(message);
+                    }
+                }.start();
                 // 핸들러에게 화면 갱신을 요청한다.
-                handler.sendEmptyMessage(0);
+                /*handler.sendEmptyMessage(0);*/
                 // 연결 종료
                 is.close();
                 conn.disconnect();

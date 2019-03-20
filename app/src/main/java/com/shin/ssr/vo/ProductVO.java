@@ -73,6 +73,12 @@ public class ProductVO {
         this.item_img_path = item_img_path;
     }
 
+    public ProductVO(int age, int gender, int time) {
+        this.age = age;
+        this.gender = gender;
+        this.time = time;
+    }
+
     public ProductVO(String item_name, String item_price, String item_weight, String item_img_path) {
         this.item_name = item_name;
         this.item_price = item_price;

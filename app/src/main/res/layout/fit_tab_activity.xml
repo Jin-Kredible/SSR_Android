@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@color/chartbg"
-                android:fontFamily="@font/BMHANNAPro"
+                android:fontFamily="@font/bmhannapro"
                 android:gravity="center"
                 android:text="오늘의 걸음 수  "
                 android:textColor="@color/ssgpaydark"
@@ -150,7 +150,7 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:background="@drawable/buttonshape"
-                android:fontFamily="@font/BMHANNAPro"
+                android:fontFamily="@font/bmhannapro"
                 android:onClick="sendToPoint"
                 android:shadowColor="#C2BCBD"
                 android:shadowDx="0"
@@ -177,7 +177,7 @@
                     android:onClick="stepgoal1"
                     android:paddingLeft="30dp"
                     android:text="일일 미션"
-                    android:fontFamily="@font/BMHANNAPro"
+                    android:fontFamily="@font/bmhannapro"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -233,7 +233,7 @@
                     android:onClick="stepgoal1"
                     android:paddingLeft="30dp"
                     android:text="주간 미션"
-                    android:fontFamily="@font/BMHANNAPro"
+                    android:fontFamily="@font/bmhannapro"
                     android:textSize="20sp" />
             </LinearLayout>
 
