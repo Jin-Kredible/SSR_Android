@@ -7,8 +7,8 @@
     <color name="lightred">#fdfafa</color>
     <color name="ssgpaydark_semitrans">#7F333743</color>
     <color name="ssgpaydark">#333743</color>
+<!--    <color name="chartbg">#fafafa</color>-->
     <color name="chartbg">#fafafa</color>
-
     <color name="primary">#2196F3</color>
     <color name="primary_dark">#1976D2</color>
     <color name="primary_light">#BBDEFB</color>
