@@ -3,7 +3,6 @@ package com.shin.ssr.layout.tab;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,11 +14,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class HttpUtil_Todo extends AsyncTask<String, String, String>  {
+public class HttpUtil_Todo1 extends AsyncTask<String, String, String>  {
     private Context context;
-    private float stepgoal_data;
 
-    public HttpUtil_Todo(Context context) {
+    public HttpUtil_Todo1(Context context) {
         this.context = context;
     }
 
@@ -139,14 +137,9 @@ public class HttpUtil_Todo extends AsyncTask<String, String, String>  {
 
         System.out.println("************************************************* 서버 호출 후행");
 
-        this.stepgoal_data = Float.parseFloat(result);
-        ((FitTab)context).getTodoList(Float.parseFloat(result));
+        ((FitTab)context).getTodoList2(Float.parseFloat(result));
 
 
-    }
-
-    public float getdata(){
-        return this.stepgoal_data;
     }
 
 }

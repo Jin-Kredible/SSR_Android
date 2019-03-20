@@ -257,5 +257,12 @@
 
         </LinearLayout>
     </RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/backmain"
+        android:background="#a1000000"
+        android:visibility="gone">
 
+    </FrameLayout>
 </RelativeLayout>
