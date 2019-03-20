@@ -94,6 +94,8 @@ public class Point extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        Log.d("point", "coverted point" + Integer.toString(walk));
+
 
         Log.d("NUM", "onCreate: WalkNum"+walk);
         Log.d("NUM", "onCreate: TotalWalkNum"+walk);

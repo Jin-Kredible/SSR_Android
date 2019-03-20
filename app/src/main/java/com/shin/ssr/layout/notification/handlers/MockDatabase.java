@@ -361,7 +361,7 @@ public final class MockDatabase {
                             .setName("Wendy Wonda")
                             .setKey("2233221122")
                             .setUri("tel:2233221122")
-                            .setIcon(IconCompat.createWithResource(context, R.drawable.wendy_wonda))
+                            .setIcon(IconCompat.createWithResource(context, R.drawable.ic_inidicator))
                             .build();
 
             // If the phone is in "Do not disturb mode, the user will still be notified if
