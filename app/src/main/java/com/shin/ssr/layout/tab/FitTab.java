@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -77,12 +78,25 @@ public class FitTab extends AppCompatActivity  {
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private Timer mTimer = new Timer();
-    private Handler mHandler = new Handler();
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<>();
     public static final String SERVER_URL="http://192.168.43.43:8088/";
     public ImageView help;
+    private int total;
+
+    Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            updateSteps();
+            TextView txtView = findViewById(R.id.steps_taken);
+            TextView txtView2 = findViewById(R.id.todo1_step);
+            txtView.setText(" " + total + " / 6000  ");
+            txtView2.setText(" " + total + " / 6000  ");
+            String text = "<font color='#333743'> <b> "+total+ "</b> / 6000 </font>";
+            txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+            mHandler.sendEmptyMessageDelayed(0,2000);
+        }
+    };
 
 
         @Override
@@ -108,12 +122,19 @@ public class FitTab extends AppCompatActivity  {
 
         }
 
-        android.util.Log.d("log","in fit Tab");
+        Log.d("fit","after readdata"+Integer.toString(total));
+
         setTitle("LineChartActivityColored");
         charts[0] = findViewById(R.id.chart1);
 
         help = findViewById(R.id.helppop);
         help.setOnClickListener(new helpListener());
+
+
+
+
+            mHandler.sendEmptyMessage(0);
+
 
     }
     public void sendToFinance(View view) {
@@ -122,12 +143,14 @@ public class FitTab extends AppCompatActivity  {
         startActivity(intent);
         finish();
     }
+
     public void sendToPay(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
         intent.putExtra("buttonNum",2);
         startActivity(intent);
         finish();
     }
+
     public void sendToLife(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
         intent.putExtra("buttonNum",3);
@@ -433,7 +456,7 @@ public class FitTab extends AppCompatActivity  {
     }
 
     private void readData() {
-        Log.d("log","in readdata");
+        Log.d("fit","in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -442,17 +465,9 @@ public class FitTab extends AppCompatActivity  {
                             @Override
                             public void onSuccess(DataSet dataSet) {
 
-                                int total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-
-
-                                //////////////http connection
-                                 // 서버 주소
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL+"step.do", "wk_am:"+total, "user_id:"+ 1} ;
+                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
 
                                 hu.execute(params);
                                 String result;
@@ -481,21 +496,29 @@ public class FitTab extends AppCompatActivity  {
                                     e.printStackTrace();
                                 }
 
-                                Log.d("result", "stepvO" + stepAry);
+                                total =
+                                        dataSet.isEmpty()
+                                                ? 0
+                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                Log.d("fit", "todays walk");
+                                Log.d("fit", "stepvO" + stepAry);
 
                                 LineData data1 = getData(7, 10000, total);
 
-                                Log.d("result","getdata" + data1.getDataSets().toString());
+                                Log.d("fit","getdata" + data1.getDataSets().toString());
 
                                 // add some transparency to the color with "& 0x90FFFFFF"
                                 setupChart(charts[0], data1, colors[0 % colors.length]);
 
                                 TextView txtView = findViewById(R.id.steps_taken);
                                 TextView txtView2 = findViewById(R.id.today);
-                                txtView.setText("[ " + total + " / 6000 ] ");
+                                txtView.setText(" " + total + " / 6000  ");
 
                                 String text = "<font color='#333743'> <b> "+total+ "</b> / 6000 </font>";
                                 txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+                                //////////////http connection
+                                 // 서버 주소
 
 
 
@@ -531,5 +554,35 @@ public class FitTab extends AppCompatActivity  {
         }
     }
 
+
+    protected void updateSteps() {
+
+        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
+                .addOnSuccessListener(
+                        new OnSuccessListener<DataSet>() {
+
+                            @Override
+                            public void onSuccess(DataSet dataSet) {
+
+                                total =
+                                        dataSet.isEmpty()
+                                                ? 0
+                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+
+
+
+
+                            }
+                        })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "There was a problem getting the step count.", e);
+                            }
+                        });
+
+    }
 }
 
