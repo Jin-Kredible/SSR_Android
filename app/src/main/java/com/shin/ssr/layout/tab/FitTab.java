@@ -1,31 +1,24 @@
 package com.shin.ssr.layout.tab;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -49,24 +42,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
-import com.shin.ssr.layout.notification.PushNotification;
 import com.shin.ssr.layout.point.Point;
 import com.shin.ssr.vo.StepVO;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 import java.util.concurrent.ExecutionException;
-
 import at.grabner.circleprogress.CircleProgressView;
-
 import static android.graphics.Color.rgb;
 
 
@@ -134,19 +120,6 @@ public class FitTab extends AppCompatActivity  {
 
 
 
-            handler.post(new Runnable(){
-                @Override
-                public void run() {
-                    updateSteps();
-                    TextView txtView = findViewById(R.id.steps_taken);
-                    TextView txtView2 = findViewById(R.id.todo1_step);
-                    txtView.setText(" " + total + " / 6000  ");
-                    txtView2.setText(" " + total + " / 6000  ");
-                    String text = "<font color='#333743'> <b> "+total+ "</b> / 6000 </font>";
-                    txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-                    handler.postDelayed(this,500); // set time here to refresh textView
-                }
-            });
 
 
     }
@@ -255,12 +228,7 @@ public class FitTab extends AppCompatActivity  {
                 break;
             default:
                 break;
-
         }
-
-
-
-
     }
 
     public void stepgoal1(View v){
@@ -449,6 +417,12 @@ public class FitTab extends AppCompatActivity  {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     public void subscribe() {
         // To create a subscription, invoke the Recording API. As soon as the subscription is
         // active, fitness data will start recording.
@@ -526,17 +500,22 @@ public class FitTab extends AppCompatActivity  {
                                 setupChart(charts[0], data1, colors[0 % colors.length]);
 
                                 TextView txtView = findViewById(R.id.steps_taken);
-                                TextView txtView2 = findViewById(R.id.today);
-                                txtView.setText(" " + total + " / 6000  ");
+                                TextView txtView2 = findViewById(R.id.todo1_step);
+                                txtView.setText(" " + total + " / 7000  ");
 
-                                String text = "<font color='#333743'> <b> "+total+ "</b> / 6000 </font>";
+                                String text = "<font color='#333743'> <b> "+total+ "</b> / 7000 </font>";
+                                txtView2.setText(" " + total + " / 7000  ");
                                 txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
 
                                 //////////////http connection
                                  // 서버 주소
 
 
-
+                                if(total>=100) {
+                                    Log.d("fit", "inside checkbox");
+                                    CheckBox step_checkbox = findViewById(R.id.steps_check);
+                                    step_checkbox.setChecked(true);
+                                }
                             }
                         })
                 .addOnFailureListener(
@@ -570,7 +549,7 @@ public class FitTab extends AppCompatActivity  {
     }
 
 
-    protected void updateSteps() {
+ /*   protected void updateSteps() {
 
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
@@ -598,6 +577,6 @@ public class FitTab extends AppCompatActivity  {
                             }
                         });
 
-    }
+    }*/
 }
 
