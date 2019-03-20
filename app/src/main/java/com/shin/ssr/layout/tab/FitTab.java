@@ -80,8 +80,8 @@ public class FitTab extends AppCompatActivity  {
     private Handler mHandler = new Handler();
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
-    ArrayList<StepVO> stepAry = new ArrayList<StepVO>();
-    public static final String SERVER_URL="http://10.149.178.250:8088/";
+    ArrayList<StepVO> stepAry = new ArrayList<>();
+    public static final String SERVER_URL="http://192.168.43.43:8088/";
     public ImageView help;
 
 
@@ -152,7 +152,7 @@ public class FitTab extends AppCompatActivity  {
 
 
 
-    public void stepgoal(View v){
+    public void stepgoal2(View v){
 
         HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
 
@@ -162,7 +162,7 @@ public class FitTab extends AppCompatActivity  {
                 System.out.println("++++++++++++++++++++++++" + "step_percentage :"+ step_percentage + "++++++++++++++++++++++++" );
 
                 switch (v.getId()) {
-                    case R.id.button2:
+                    case R.id.todo1:
 
                         View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
 
@@ -225,6 +225,12 @@ public class FitTab extends AppCompatActivity  {
 
     }
 
+    public void stepgoal1(View v){
+
+    }
+    public void stepgoal3(View v){
+
+    }
     private final int[] colors = new int[] {
             /*Color.rgb(217, 77, 50)*/
             rgb(250, 250, 250)

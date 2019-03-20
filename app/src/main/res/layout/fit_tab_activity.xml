@@ -95,6 +95,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/chart_layout"
+            android:background="@color/chartbg"
             >
             <ImageView
                 android:layout_width="22dp"
@@ -120,20 +121,22 @@
                 android:fontFamily="@font/applesgothic_regular"
                 android:textSize="20dp"
                 android:textColor="@color/ssgpaydark"
-                android:background="@color/chartbg"/>
+                android:background="@color/chartbg"
+                />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:id="@+id/steps_taken"
                 android:text=""
                 android:fontFamily="@font/applesgothic_regular"
                 android:textSize="25dp"
                 android:gravity="center"
                 android:textColor="@color/ssgpaydark"
-                android:background="@color/chartbg"
-                android:layout_marginBottom="10dp"
+                android:background="@drawable/bottom_line"
+                android:layout_marginBottom="20dp"
                 />
+
 
         </LinearLayout>
 
@@ -143,33 +146,6 @@
             android:orientation="vertical"
             android:layout_below="@+id/chart_layout">
 
-
-
-    <!--        <Button
-                android:id="@+id/button2"
-                android:layout_width="179dp"
-                android:layout_height="36dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="109dp"
-                android:layout_marginLeft="109dp"
-                android:layout_marginBottom="171dp"
-                android:text="알림을 보내라아아아"
-             />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="179dp"
-                android:layout_height="36dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="111dp"
-                android:layout_marginLeft="111dp"
-                android:layout_marginBottom="124dp"
-                android:text="마트 방문" />
--->
             <Button
                 android:id="@+id/button3"
                 android:layout_width="327dp"
@@ -182,19 +158,92 @@
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="5"
-                android:text="포인트 변환"
+                android:text="@string/point_convert"
                 android:textColor="#2B2B2B"
-                android:drawableEnd="@drawable/cart2"
+                android:drawableEnd="@drawable/cart_icon"
+                android:paddingRight="10dp"
+                android:paddingLeft="35dp"
+                android:textSize="20sp"/>
 
-                android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/button2"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="stepgoal"
-                android:text="걸음 수 달성" />
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:paddingLeft="120dp"
+                >
 
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:text=""
+                    />
+
+                <TextView
+                    android:id="@+id/todo2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:gravity="start"
+                    android:textSize="15sp"
+                    android:onClick="stepgoal1"
+                    android:text="매장 방문"
+                   />
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="120dp"
+            >
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:text=""
+                />
+            <TextView
+                android:id="@+id/todo1"
+                android:paddingLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="stepgoal2"
+                android:layout_gravity="center"
+                android:textSize="15sp"
+                android:text="걸음 수 달성"
+                android:gravity="start"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="120dp"
+            >
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                android:text=""
+                />
+            <TextView
+                android:id="@+id/todo3"
+                android:paddingLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="stepgoal3"
+                android:layout_gravity="center"
+                android:textSize="15dp"
+                android:text="SSG 페이콘 선물"
+                android:gravity="start"/>
+        </LinearLayout>
 
         </LinearLayout>
     </RelativeLayout>

@@ -4,7 +4,7 @@
     package="com.google.android.gms.fit.samples.stepcounter">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -37,10 +37,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.shin.ssr.layout.tab.FitTab"></activity>
-        <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"></activity>
-        <activity android:name="com.shin.ssr.layout.notification.PushNotification"></activity>
-        <activity android:name="com.shin.ssr.layout.point.Point"></activity>
+        <activity android:name="com.shin.ssr.layout.tab.FitTab"/>
+        <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"/>
+        <activity android:name="com.shin.ssr.layout.notification.PushNotification"/>
+        <activity android:name="com.shin.ssr.layout.point.Point"/>
 
         <activity
             android:name="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
