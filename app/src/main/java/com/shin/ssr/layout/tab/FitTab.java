@@ -176,7 +176,6 @@ public class FitTab extends AppCompatActivity  {
     }
 
 
-    double step_percentage;
     CircleProgressView mCircleView;
 
 
