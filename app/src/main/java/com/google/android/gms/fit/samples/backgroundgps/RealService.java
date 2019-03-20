@@ -75,6 +75,9 @@ public class RealService  extends Service {
         mTemp.add(new MallsVO("이마트 용산점", 37.529456, 126.965545));
         mTemp.add(new MallsVO("이마트 아이앤씨점", 37.559805, 126.983122));
 
+        Log.d("real", "RealService start");
+        Log.d("real", Integer.toString(result2));
+
         mainThread = new Thread(new Runnable() {
             @SuppressLint("MissingPermission")
             @Override
@@ -90,12 +93,12 @@ public class RealService  extends Service {
                         String[] params = {SERVER_URL+"checkPush.do", "dummy1:" + 1, "dummy2:" + 1} ;
 
                         hu.execute(params);
-
+                        String pushyn;
 
                         try {
 
-                            hu.get();
-                            if(result2==0) {
+                            pushyn = hu.get();
+                            if(result2==0||Integer.parseInt(pushyn)==0) {
 
                                 locationVO = locationManage.getVoData();
                                 showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
