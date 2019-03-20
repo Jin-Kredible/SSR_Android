@@ -98,7 +98,9 @@ public class RealService  extends Service {
                         try {
 
                             pushyn = hu.get();
-                            if(result2==0||Integer.parseInt(pushyn)==0) {
+
+                            Log.d("real","pushyn : " + Integer.parseInt(pushyn) + "result2" + Integer.toString(result2));
+                            if(Integer.parseInt(pushyn)==0) {
 
                                 locationVO = locationManage.getVoData();
                                 showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
