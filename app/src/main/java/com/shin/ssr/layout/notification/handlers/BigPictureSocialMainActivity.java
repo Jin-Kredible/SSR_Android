@@ -28,6 +28,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.fit.samples.backgroundgps.HttpUtil_GPS;
 import com.google.android.gms.fit.samples.stepcounter.GeofenceTransitionsJobIntentService;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.shin.ssr.layout.notification.PushNotification;
@@ -142,7 +143,7 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
 
     @Override
     public void run() {
-        HttpUtil hu = new HttpUtil(BigPictureSocialMainActivity.this);
+        HttpUtil_Push hu = new HttpUtil_Push(BigPictureSocialMainActivity.this);
         String[] params = {SERVER_URL+"/product.do", "dummy1:"+1, "dummy2:"+ 1} ;
 
 
