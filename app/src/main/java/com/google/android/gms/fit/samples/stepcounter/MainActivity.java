@@ -343,19 +343,19 @@ public class MainActivity extends AppCompatActivity   {
   }
 
   public void sendToFinance(View view) {
-    imgMain.setBackgroundResource(R.drawable.ssg_finance);
+    imgMain.setBackgroundResource(R.drawable.ssg_finance2);
     ButtonReset();
     btnFinance.setBackgroundResource(R.drawable.tap_bg_on);
     btnFinance.setTextColor(Color.parseColor("#d94d32"));
   }
   public void sendToPay(View view) {
-    imgMain.setBackgroundResource(R.drawable.ssg_payment);
+    imgMain.setBackgroundResource(R.drawable.ssg_payment2);
     ButtonReset();
     btnPayment.setBackgroundResource(R.drawable.tap_bg_on);
     btnPayment.setTextColor(Color.parseColor("#d94d32"));
   }
   public void sendToLife(View view) {
-    imgMain.setBackgroundResource(R.drawable.ssg_lifestyle);
+    imgMain.setBackgroundResource(R.drawable.ssg_lifestyle2);
     ButtonReset();
     btnLife.setBackgroundResource(R.drawable.tap_bg_on);
     btnLife.setTextColor(Color.parseColor("#d94d32"));
