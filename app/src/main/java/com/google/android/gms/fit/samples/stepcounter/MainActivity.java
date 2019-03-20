@@ -2,6 +2,7 @@
 package com.google.android.gms.fit.samples.stepcounter;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -38,11 +39,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fit.samples.backgroundgps.LocationManage;
 import com.google.android.gms.fit.samples.backgroundgps.RealService;
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.common.logger.LogWrapper;
 import com.google.android.gms.fit.samples.common.logger.MessageOnlyLogFilter;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
@@ -116,6 +121,7 @@ public class MainActivity extends AppCompatActivity   {
 
   private Button btnFinance, btnPayment, btnLife;
   private ImageView imgMain;
+  private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
 
 
   @RequiresApi(api = Build.VERSION_CODES.M)
@@ -163,8 +169,57 @@ public class MainActivity extends AppCompatActivity   {
     case 3: btnLife.callOnClick();     break;
   }
 
+    FitnessOptions fitnessOptions =
+            FitnessOptions.builder()
+                    .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                    .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
+                    .build();
+    if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
+      GoogleSignIn.requestPermissions(
+              this,
+              REQUEST_OAUTH_REQUEST_CODE,
+              GoogleSignIn.getLastSignedInAccount(this),
+              fitnessOptions);
+      android.util.Log.d("fit","in Fitness regist1");
+    } else {
+      android.util.Log.d("fit","in Fitness regist2");
+      subscribe();
+
+    }
 
 
+
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    Log.d("fit", "in activity result");
+    if (resultCode == Activity.RESULT_OK) {
+      if (requestCode == REQUEST_OAUTH_REQUEST_CODE) {
+        subscribe();
+      }
+    }
+  }
+  public void subscribe() {
+    // To create a subscription, invoke the Recording API. As soon as the subscription is
+    // active, fitness data will start recording.
+    Log.d("fit","in subscribe");
+    Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
+            .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+            .addOnCompleteListener(
+                    new OnCompleteListener<Void>() {
+                      @Override
+                      public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                          /*Log.i(TAG, "Successfully subscribed!");*/
+                        } else {
+                          Log.w("fit", "There was a problem subscribing.", task.getException());
+                        }
+                        Log.d("readdata","before read data - in subscribe");
+
+                      }
+                    });
   }
   //////////////////////////////////////////////////////////////////////////////////
   private void initManager() {
@@ -374,21 +429,6 @@ public class MainActivity extends AppCompatActivity   {
     btnFinance.setTextColor(Color.parseColor("#000000"));
     btnPayment.setTextColor(Color.parseColor("#000000"));
     btnLife.setTextColor(Color.parseColor("#000000"));
-  }
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-
-
-
-   /* Log.d("geo","inside activity result requesting permission");
-    if (!checkPermissions()) {
-      mPendingGeofenceTask = PendingGeofenceTask.ADD;
-      requestPermissions();
-      return;
-    }
-    Log.d("geo","inside activity result requesting permission2");
-    addGeofences();*/
   }
 
   @Override

@@ -112,7 +112,7 @@ public class FitTab extends AppCompatActivity  {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
 
-        FitnessOptions fitnessOptions =
+        /*FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
                         .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
                         .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
@@ -123,12 +123,12 @@ public class FitTab extends AppCompatActivity  {
                     REQUEST_OAUTH_REQUEST_CODE,
                     GoogleSignIn.getLastSignedInAccount(this),
                     fitnessOptions);
-            android.util.Log.d("log","in Fitness regist");
+            android.util.Log.d("fit","in Fitness regist1");
         } else {
-            android.util.Log.d("log","in Fitness regist");
+            android.util.Log.d("fit","in Fitness regist2");
             subscribe();
 
-        }
+        }*/
 
         Log.d("fit","after readdata"+Integer.toString(total));
 
@@ -139,7 +139,7 @@ public class FitTab extends AppCompatActivity  {
         help.setOnClickListener(new helpListener());
 
         mBackground = findViewById(R.id.backmain);
-
+        readData();
 
 
 
@@ -289,6 +289,8 @@ public class FitTab extends AppCompatActivity  {
 
     private void setupChart(LineChart chart, LineData data, int color) {
 
+        Log.d("fit", "in setup chart");
+
         // no description text
         chart.getDescription().setEnabled(false);
 
@@ -393,6 +395,9 @@ public class FitTab extends AppCompatActivity  {
 
 
     private LineData getData(int count, float range, int total) {
+
+
+        Log.d("fit", "in getdata");
         for(int i =0; i < stepAry.size(); i++ ) {
             Log.d("values", Integer.toString(stepAry.get(i).getWk_am()));
         }
@@ -452,15 +457,16 @@ public class FitTab extends AppCompatActivity  {
         return new LineData(set2, set1);
     }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("log",Integer.toString(resultCode));
+
+        Log.d("fit", "in activity result");
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_OAUTH_REQUEST_CODE) {
                 subscribe();
             }
         }
-    }
+    }*/
 
     @Override
     protected void onResume() {
@@ -468,10 +474,10 @@ public class FitTab extends AppCompatActivity  {
 
     }
 
-    public void subscribe() {
+    /*public void subscribe() {
         // To create a subscription, invoke the Recording API. As soon as the subscription is
         // active, fitness data will start recording.
-        Log.d("log","in subscribe");
+        Log.d("fit","in subscribe");
         Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
                 .addOnCompleteListener(
@@ -479,18 +485,18 @@ public class FitTab extends AppCompatActivity  {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    /*Log.i(TAG, "Successfully subscribed!");*/
+                                    *//*Log.i(TAG, "Successfully subscribed!");*//*
                                 } else {
                                     Log.w(TAG, "There was a problem subscribing.", task.getException());
                                 }
+                                Log.d("readdata","before read data - in subscribe");
 
-                                readData();
                             }
                         });
-    }
+    }*/
 
     private void readData() {
-        Log.d("log","in readdata");
+        Log.d("fit","in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -504,36 +510,33 @@ public class FitTab extends AppCompatActivity  {
                                 String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
 
                                 hu.execute(params);
-                                String result;
-
-                                try {
-                                    result = hu.get();
-                                    JSONArray object = null;
-                                    android.util.Log.d("log","result from spring" + result);
-
-                                    try {
-                                        object =  new JSONArray(result);
-
-                                        for(int i =0; i < object.length(); i++) {
-                                            JSONObject obj = (JSONObject)object.get(i);
-                                            android.util.Log.d("log",obj.getString("wk_am"));
-                                            android.util.Log.d("log",obj.getString("user_id"));
-                                            stepAry.add(new StepVO(obj.optInt("user_id"),obj.optInt("wk_am"),obj.optString("wk_dt")));
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                } catch (ExecutionException e) {
-                                    e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-
                                 total =
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+
+                                JSONArray object = null;
+                                String result;
+                                try {
+                                    result = hu.get();
+                                    object =  new JSONArray(result);
+
+                                    android.util.Log.d("log","result from spring" + result);
+
+                                    for(int i =0; i < object.length(); i++) {
+                                        JSONObject obj = (JSONObject)object.get(i);
+                                        android.util.Log.d("log",obj.getString("wk_am"));
+                                        android.util.Log.d("log",obj.getString("user_id"));
+                                        stepAry.add(new StepVO(obj.optInt("user_id"),obj.optInt("wk_am"),obj.optString("wk_dt")));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+
                                 Log.d("fit", "todays walk");
                                 Log.d("fit", "stepvO" + stepAry);
 
@@ -591,6 +594,14 @@ public class FitTab extends AppCompatActivity  {
             helpPopup.setAnimationStyle(-1);
             helpPopup.showAtLocation(popupView, Gravity.CENTER, 0,0);
         }
+    }
+
+    public void getPastSteps(ArrayList<StepVO> arry) {
+
+        Log.d("fit", "in get past steps");
+
+        this.stepAry=arry;
+
     }
 
 

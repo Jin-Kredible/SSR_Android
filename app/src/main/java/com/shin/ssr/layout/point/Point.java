@@ -276,7 +276,7 @@ public class Point extends AppCompatActivity {
             imgGetPro.setVisibility(View.GONE);
         }
 
-        HttpUtil_P_UPDATE hu = new HttpUtil_P_UPDATE(Point.this);;
+        HttpUtil_P hu = new HttpUtil_P(Point.this);;
         String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+numPoint, "userid:"+1} ;
         Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
         hu.execute(params);

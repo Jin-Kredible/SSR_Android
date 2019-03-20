@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 
 public class HttpUtil extends AsyncTask<String, String, String>  {
@@ -141,7 +142,26 @@ public class HttpUtil extends AsyncTask<String, String, String>  {
         //    e.printStackTrace();
        // }
 
+        ArrayList<StepVO> stepAry = new ArrayList<>();
+            JSONArray object = null;
+            android.util.Log.d("log","result from spring" + result);
+
+            try {
+                object =  new JSONArray(result);
+
+                for(int i =0; i < object.length(); i++) {
+                    JSONObject obj = (JSONObject)object.get(i);
+                    android.util.Log.d("log",obj.getString("wk_am"));
+                    android.util.Log.d("log",obj.getString("user_id"));
+                    stepAry.add(new StepVO(obj.optInt("user_id"),obj.optInt("wk_am"),obj.optString("wk_dt")));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        ((FitTab)context).getPastSteps(stepAry);
+
+        }
 
     }
 
-}
