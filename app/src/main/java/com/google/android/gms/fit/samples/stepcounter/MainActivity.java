@@ -4,25 +4,19 @@ package com.google.android.gms.fit.samples.stepcounter;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -79,9 +73,8 @@ public class MainActivity extends AppCompatActivity   {
 
   private Intent serviceIntent;
   private LocationVO locationVO = new LocationVO();
-  LocationManage locationManage = new LocationManage();
+  private LocationManage locationManage = new LocationManage();
   public static final int NOTIFICATION_ID = 888;
-
   private NotificationManagerCompat mNotificationManagerCompat;
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
@@ -91,44 +84,35 @@ public class MainActivity extends AppCompatActivity   {
   private static final int REQUEST_ENABLE_BT = 2;
   //비콘 관련 변수
   //////////////////////////////////////////////////////////////////
-  /**
-   * Tracks whether the user requested to add or remove geofences, or to do neither.
-   */
-  private enum PendingGeofenceTask {
-    ADD, REMOVE, NONE
-  }
-
-  /**
-   * Provides access to the Geofencing API.
-   */
-  private GeofencingClient mGeofencingClient;
-
-  /**
-   * The list of geofences used in this sample.
-   */
-  private ArrayList<Geofence> mGeofenceList;
-
-  /**
-   * Used when requesting to add or remove geofences.
-   */
-  private PendingIntent mGeofencePendingIntent;
-
-  // Buttons for kicking off the process of adding or removing geofences.
-  private Button mAddGeofencesButton;
-  private Button mRemoveGeofencesButton;
-
-  private PendingGeofenceTask mPendingGeofenceTask = PendingGeofenceTask.NONE;
 
   private Button btnFinance, btnPayment, btnLife;
   private ImageView imgMain;
   private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
+  private static final int MY_PERMISSIONS_REQUEST_LOCATION=11;
 
 
   @RequiresApi(api = Build.VERSION_CODES.M)
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    int permssionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+      if (ContextCompat.checkSelfPermission(this,
+              Manifest.permission.ACCESS_FINE_LOCATION)
+              != PackageManager.PERMISSION_GRANTED) {
+
+          if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                  Manifest.permission.CAMERA)) {
+          } else {
+              ActivityCompat.requestPermissions(this,
+                      new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                      MY_PERMISSIONS_REQUEST_LOCATION);
+          }
+      }
+
+
     // This method sets up our custom logger, which will print all log messages to the device
     // screen, as well as to adb logcat.
     initializeLogging();
@@ -189,7 +173,29 @@ public class MainActivity extends AppCompatActivity   {
 
 
 
+
   }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode,
+                                         String permissions[], int[] grantResults) {
+    switch (requestCode) {
+      case MY_PERMISSIONS_REQUEST_LOCATION: {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+          Toast.makeText(this,"승인이 허가되어 있습니다.",Toast.LENGTH_LONG).show();
+
+        } else {
+          Toast.makeText(this,"아직 승인받지 않았습니다.",Toast.LENGTH_LONG).show();
+        }
+        return;
+      }
+
+    }
+  }
+
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {

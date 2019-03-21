@@ -66,6 +66,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -88,10 +89,12 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<>();
-    public static final String SERVER_URL="http://10.149.179.10:8088/";
+    public static final String SERVER_URL="http://192.168.43.43:8088/";
     public ImageView help;
     private int total;
-    Handler handler=new Handler();
+    private Handler handler=new Handler();
+
+
 
     /*Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -113,6 +116,7 @@ public class FitTab extends AppCompatActivity  {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
 
+            readData();
         /*FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
                         .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
@@ -144,8 +148,19 @@ public class FitTab extends AppCompatActivity  {
 
 
 
-
-
+            handler.post(new Runnable(){
+                @Override
+                public void run() {
+                    updateData();
+                    TextView txtView = findViewById(R.id.steps_taken);
+                    TextView txtView2 = findViewById(R.id.todo1_step);
+                    txtView.setText(" " + total + " / 7000  ");
+                    txtView2.setText(" " + total + " / 7000  ");
+                    String text = "<font color='#333743'> <b> "+total+ "</b> / 7000 </font>";
+                    txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                    handler.postDelayed(this,5000); // set time here to refresh textView
+                }
+            });
     }
 
 
@@ -642,6 +657,37 @@ public class FitTab extends AppCompatActivity  {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
+
+    }*/
+
+
+    private void updateData() {
+        Log.d("fit","in readdata");
+        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
+                .addOnSuccessListener(
+                        new OnSuccessListener<DataSet>() {
+
+                            @Override
+                            public void onSuccess(DataSet dataSet) {
+                                total =
+                                        dataSet.isEmpty()
+                                                ? 0
+                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+
+
+
+
+                            }
+                        })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "There was a problem getting the step count.", e);
+                            }
+                        });
+    }
 
     }*/
 }
