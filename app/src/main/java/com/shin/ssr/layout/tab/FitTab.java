@@ -691,8 +691,7 @@ public class FitTab extends AppCompatActivity  {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
-    }
 
     }
-
+}
 

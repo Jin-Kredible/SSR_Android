@@ -364,7 +364,7 @@ public class Point extends AppCompatActivity {
 
         imgGetPro.setRotation(imgPro.getRotation());
         Log.d("pointy", Float.toString(imgPro.getRotation()));
-        
+
         imgPro.setTranslationX(resetX);
         Log.d("pointy", Float.toString(resetX));
 
