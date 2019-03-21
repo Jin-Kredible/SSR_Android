@@ -1,24 +1,34 @@
 package com.shin.ssr.layout.tab;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -79,7 +89,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<>();
-    public static final String SERVER_URL="http://10.149.178.200:8088/";
+    public static final String SERVER_URL="http://192.168.43.43:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -125,6 +135,8 @@ public class FitTab extends AppCompatActivity  {
 
         }*/
 
+        Log.d("fit","after readdata"+Integer.toString(total));
+
         setTitle("LineChartActivityColored");
         charts[0] = findViewById(R.id.chart1);
 
@@ -132,6 +144,8 @@ public class FitTab extends AppCompatActivity  {
         help.setOnClickListener(new helpListener());
 
         mBackground = findViewById(R.id.backmain);
+        readData();
+
 
 
             handler.post(new Runnable(){
@@ -194,7 +208,16 @@ public class FitTab extends AppCompatActivity  {
 
             mBackground.setVisibility(View.VISIBLE);
             mCircleView = popupView.findViewById(R.id.circleView);
-
+            mCircleView.setFocusable(true);
+            mBackground.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN){
+                        mBackground.setVisibility(View.GONE);
+                    }
+                    return false;
+                }
+            });
 
 
             mCircleView.setValueAnimated((float)step_percentage);
@@ -244,7 +267,7 @@ public class FitTab extends AppCompatActivity  {
 
         mBackground.setVisibility(View.VISIBLE);
         mCircleView = popupView.findViewById(R.id.circleView);
-
+        mCircleView.setFocusable(true);
 
 
         mCircleView.setValueAnimated(1);
@@ -652,6 +675,9 @@ public class FitTab extends AppCompatActivity  {
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
+
+
+
                             }
                         })
                 .addOnFailureListener(
@@ -663,5 +689,6 @@ public class FitTab extends AppCompatActivity  {
                         });
     }
 
+    }*/
 }
 
