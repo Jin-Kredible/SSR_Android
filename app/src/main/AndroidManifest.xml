@@ -29,21 +29,24 @@
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW"/>
-
+                
                 <category android:name="android.intent.category.LAUNCHER" />
 
             </intent-filter>
         </activity>
 
-        <activity android:name="com.shin.ssr.layout.tab.FitTab"/>
+        <activity android:name="com.shin.ssr.layout.tab.FitTab"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"/>
         <activity android:name="com.shin.ssr.layout.notification.PushNotification"/>
         <activity android:name="com.shin.ssr.layout.point.Point"/>
-
+        
         <activity
             android:name="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
             android:label="@string/title_activity_big_picture_main">
@@ -52,7 +55,6 @@
                 android:value=".MainActivity"
              />
         </activity>
-
 
 
         <meta-data android:name="com.google.android.gms.version" android:value="12451000" tools:replace="android:value" />
