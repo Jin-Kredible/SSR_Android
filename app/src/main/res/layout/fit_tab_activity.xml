@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,6 +21,7 @@
             android:background="@drawable/view_top2" />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,19 +95,19 @@
         </LinearLayout>
 -->
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/chart_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/chart_layout"
             android:background="@color/chartbg"
-            >
+            android:orientation="vertical">
+
             <ImageView
+                android:id="@+id/helppop"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_gravity="right"
-                android:src="@drawable/info"
                 android:layout_margin="7dp"
-                android:id="@+id/helppop"/>
+                android:src="@drawable/info" />
 
 
             <com.github.mikephil.charting.charts.LineChart
@@ -133,136 +137,33 @@
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/ssgpaydark"
-                android:textSize="22dp" />
-
-
+                android:textSize="20dp" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@+id/chart_layout">
+            android:layout_below="@+id/chart_layout"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="327dp"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/buttonshape"
+                android:drawableEnd="@drawable/cart_icon_white"
                 android:fontFamily="@font/bmhannapro"
                 android:onClick="sendToPoint"
+                android:paddingLeft="35dp"
+                android:paddingRight="20dp"
                 android:shadowColor="#C2BCBD"
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="5"
                 android:text="@string/point_convert"
                 android:textColor="#FFFF"
-                android:drawableEnd="@drawable/cart_icon_white"
-                android:paddingRight="20dp"
-                android:paddingLeft="35dp"
-                android:textSize="20sp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                android:paddingStart="50dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:onClick="stepgoal1"
-                    android:paddingLeft="30dp"
-                    android:text="일일 미션"
-                    android:fontFamily="@font/bmhannapro"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingStart="80dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:id="@+id/steps_check"
-                    android:text="" />
-
-                <TextView
-                    android:id="@+id/todo1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="start"
-                    android:onClick="stepgoal2"
-                    android:paddingLeft="30dp"
-                    android:text="걸음 수 달성"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/todo1_step"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="50dp"
-                    android:gravity="start"
-                    android:onClick="stepgoal2"
-                    android:text=""
-                    android:textSize="15sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                android:paddingStart="50dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:onClick="stepgoal1"
-                    android:paddingLeft="30dp"
-                    android:text="주간 미션"
-                    android:fontFamily="@font/bmhannapro"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingStart="80dp">
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="" />
-
-                <TextView
-                    android:id="@+id/todo2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:onClick="stepgoal1"
-                    android:paddingLeft="30dp"
-                    android:text="매장 방문"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
+                android:textSize="20sp" />
 
 
             <LinearLayout
@@ -270,25 +171,143 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:paddingStart="80dp">
+                android:paddingStart="20dp">
 
-                <CheckBox
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+                <GridLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="" />
+                    android:columnCount="5"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:rowCount="3"
+                    android:scrollingCache="false"
+                    >
 
-                <TextView
-                    android:id="@+id/todo3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="start"
-                    android:onClick="stepgoal3"
-                    android:paddingLeft="30dp"
-                    android:text="SSG 페이콘 선물"
-                    android:textSize="15dp" />
+                    <ImageView
+                        android:background="@drawable/mission_day"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="84dp"
+                        android:fontFamily="@font/bmhannapro"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:text="일일 미션"
+                        android:textSize="20sp" />
+
+
+
+                    <CheckBox
+                        android:id="@+id/steps_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:text=""
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:id="@+id/todo1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:onClick="stepgoal2"
+                        android:paddingLeft="20dp"
+                        android:text="걸음 수 달성"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/todo1_step"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:onClick="stepgoal2"
+                        android:text=""
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:layout_rowSpan="2"
+                        android:background="@drawable/mission_week"
+                        android:layout_marginLeft="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_rowSpan="2"
+                        android:layout_gravity="fill"
+                        android:fontFamily="@font/bmhannapro"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="5dp"
+                        android:text="주간 미션"
+                        android:textSize="20sp" />
+
+
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:text=""
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/todo2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="2"
+                        android:layout_marginTop="10dp"
+                        android:gravity="start"
+                        android:onClick="stepgoal1"
+                        android:paddingLeft="20dp"
+                        android:text="매장 방문"
+                        android:textSize="15sp" />
+
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:text=""
+                        android:layout_marginLeft="10dp" />
+
+                    <TextView
+                        android:id="@+id/todo3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:gravity="start"
+                        android:onClick="stepgoal3"
+                        android:paddingLeft="20dp"
+                        android:text="SSG 페이콘 선물"
+                        android:textSize="15dp" />
+                </GridLayout>
             </LinearLayout>
 
         </LinearLayout>
