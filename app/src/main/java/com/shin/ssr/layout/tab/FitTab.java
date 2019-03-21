@@ -80,7 +80,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://192.168.43.43:8088/";
+    public static final String SERVER_URL="http://10.149.178.68:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -576,7 +576,7 @@ public class FitTab extends AppCompatActivity  {
                                  // 서버 주소
 
 
-                                if(total>=100) {
+                                if(total>=7000) {
                                     Log.d("fit", "inside checkbox");
                                     CheckBox step_checkbox = findViewById(R.id.steps_check);
                                     step_checkbox.setChecked(true);

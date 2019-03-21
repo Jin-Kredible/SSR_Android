@@ -144,6 +144,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/chart_layout"
+            android:background="@color/icons"
             android:orientation="vertical">
 
             <Button
@@ -236,7 +237,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
-                        android:layout_marginLeft="50dp"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:onClick="stepgoal2"

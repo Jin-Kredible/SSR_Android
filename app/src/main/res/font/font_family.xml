@@ -4,5 +4,9 @@
         android:fontStyle="normal"
         android:fontWeight="400"
         android:font="@font/nanumbarunpenr" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/bmhannapro" />
 
 </font-family>

@@ -3,6 +3,10 @@ package com.shin.ssr.layout.point;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.google.android.gms.fit.samples.common.logger.Log;
+
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -84,6 +88,9 @@ public class HttpUtil_P extends AsyncTask<String, String, String>  {
     // 호출이 끝난
     @Override
     protected void onPostExecute(String result) {
+
+
+
         /*JSONArray object = null;
         Log.d("log","result from spring" + result);
         ArrayList<Object> stepAry = new ArrayList<Object>();
@@ -132,7 +139,10 @@ public class HttpUtil_P extends AsyncTask<String, String, String>  {
         //    e.printStackTrace();
        // }
 
-        ((Point)context).getPoints(Integer.parseInt(result));
+        Log.d("pointy",result);
+
+
+        ((Point)context).getPoints(result);
 
 
     }
