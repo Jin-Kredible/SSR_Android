@@ -24,6 +24,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,58 +64,7 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
     TextView name1,name2,name3,name4,weight1,weight2,weight3,weight4,price1,price2,price3,price4,customTxt;
 
 
-    final Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            ImageView[] productImg = {img1,img2,img3,img4};
-            TextView[] productName = {name1,name2,name3,name4};
-            TextView[] productWeight = {weight1,weight2,weight3,weight4};
-            TextView[] productPrice = {price1,price2,price3,price4};
-
-            for(int z =0; z<bitmap.size(); z++) {
-                Log.d("geo",bitmap.get(z).toString());
-            }
-
-            // 서버에서 받아온 이미지를 핸들러를 경유해 이미지뷰에 비트맵 리소스 연결
-            for(int i =0; i< bitmap.size(); i++) {
-                Log.d("geo",productImg[i].toString());
-                Log.d("geo", "inside for loop for image?");
-                Bitmap bitmap1 = bitmap.get(i);
-                productImg[i].setImageBitmap(bitmap1);
-            }
-
-            for(int i =0; i< 4; i++) {
-                productName[i].setText(productArry.get(i).getItem_name() );
-                productWeight[i].setText(productArry.get(i).getItem_weight());
-                productPrice[i].setText(productArry.get(i).getItem_price());
-            }
-
-            String gender=null;
-            String time=null;
-            if(productArry.get(4).getGender()==1) {
-                gender = "남성";
-            } else if (productArry.get(4).getGender()==2) {
-                gender = "여성";
-            }
-
-            if(productArry.get(4).getTime()==1) {
-                time = "아침";
-            } else if(productArry.get(4).getTime()==2) {
-                time = "점심";
-            } else if(productArry.get(4).getTime()==3) {
-                time = "오후";
-            } else if (productArry.get(4).getTime()==4) {
-                time = "저녁";
-            } else if (productArry.get(4).getTime()==5) {
-                time = "야간";
-            }
-
-            customTxt.setText(time+"에 " + productArry.get(4).getAge() + " 대 " + gender + "을 위한 SSG PAY 의 추천");
-
-        }
-    };
+    final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,12 +161,62 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
 
 
                 }
-                new Thread() {
+                /*new Thread() {
                     public void run() {
                         Message message = handler.obtainMessage();
                         handler.sendMessage(message);
                     }
-                }.start();
+                }.start();*/
+
+                handler.post(new Runnable(){
+                    @Override
+                    public void run() {
+                        ImageView[] productImg = {img1,img2,img3,img4};
+                        TextView[] productName = {name1,name2,name3,name4};
+                        TextView[] productWeight = {weight1,weight2,weight3,weight4};
+                        TextView[] productPrice = {price1,price2,price3,price4};
+
+                        for(int z =0; z<bitmap.size(); z++) {
+                            Log.d("geo",bitmap.get(z).toString());
+                        }
+
+                        // 서버에서 받아온 이미지를 핸들러를 경유해 이미지뷰에 비트맵 리소스 연결
+                        for(int i =0; i< bitmap.size(); i++) {
+                            Log.d("geo",productImg[i].toString());
+                            Log.d("geo", "inside for loop for image?");
+                            Bitmap bitmap1 = bitmap.get(i);
+                            productImg[i].setImageBitmap(bitmap1);
+                        }
+
+                        for(int i =0; i< 4; i++) {
+                            productName[i].setText(productArry.get(i).getItem_name() );
+                            productWeight[i].setText(productArry.get(i).getItem_weight());
+                            productPrice[i].setText(productArry.get(i).getItem_price());
+                        }
+
+                        String gender=null;
+                        String time=null;
+                        if(productArry.get(4).getGender()==1) {
+                            gender = "남성";
+                        } else if (productArry.get(4).getGender()==2) {
+                            gender = "여성";
+                        }
+
+                        if(productArry.get(4).getTime()==1) {
+                            time = "아침";
+                        } else if(productArry.get(4).getTime()==2) {
+                            time = "점심";
+                        } else if(productArry.get(4).getTime()==3) {
+                            time = "오후";
+                        } else if (productArry.get(4).getTime()==4) {
+                            time = "저녁";
+                        } else if (productArry.get(4).getTime()==5) {
+                            time = "야간";
+                        }
+
+                        customTxt.setText(time+"에 " + productArry.get(4).getAge() + " 대 " + gender + "을 위한 SSG PAY 의 추천");
+                    }
+                });
                 // 핸들러에게 화면 갱신을 요청한다.
                 /*handler.sendEmptyMessage(0);*/
                 // 연결 종료
