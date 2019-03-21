@@ -111,11 +111,18 @@
             app:srcCompat="@drawable/cover_front" />
 
         <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="358dp"
+            android:layout_height="269dp"
+            android:layout_gravity="center_horizontal|top"
+            android:background="@drawable/ad_board" />
+
+        <ImageView
             android:id="@+id/imgAd"
-            android:layout_width="320dp"
-            android:layout_height="200dp"
+            android:layout_width="336dp"
+            android:layout_height="182dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="75dp"
             android:background="@drawable/ad_0" />
 
     </FrameLayout>

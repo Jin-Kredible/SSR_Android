@@ -49,6 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -64,7 +65,7 @@ import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
 
 
 public class RealService  extends Service {
-    private Thread mainThread;
+    public static Thread mainThread;
     public static Intent serviceIntent = null;
     LocationManage locationManage = new LocationManage();
     private LocationVO locationVO = new LocationVO();
@@ -100,13 +101,19 @@ public class RealService  extends Service {
         Log.d("real", Integer.toString(result2));
 
         mainThread = new Thread(new Runnable() {
+
+
             @SuppressLint("MissingPermission")
             @Override
             public void run() {
                // SimpleDateFormat sdf = new SimpleDateFormat("aa hh:mm");
-
                 boolean run = true;
+
                 while (run) {
+
+                    if (Thread.interrupted())  {
+                        break;
+                    }
                     try {
                         Thread.sleep(1000 * 10); // 1 minute
                         HttpUtil_GPS hu = new HttpUtil_GPS(RealService.this);
@@ -155,8 +162,11 @@ public class RealService  extends Service {
                                     if (distance < 100) {
                                         Log.d("geo", "inside distance for loop");
                                         mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-                                        generateBigPictureStyleNotification();
-                                        isBeaconOn = true; // 비콘 켜준다.
+                                        StepVO vo = new StepVO();
+                                        vo.setAge(20);
+                                        vo.setGender(1);
+                                        vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+                                        generateBigPictureStyleNotification(vo);
                                     }
 
                                     Log.d("mall", mTemp.get(i).getMall_nm());
@@ -174,6 +184,7 @@ public class RealService  extends Service {
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
+                            Log.d("pointy", "inside interrupted Exception of real service");
                             e.printStackTrace();
                         }
 
@@ -181,6 +192,7 @@ public class RealService  extends Service {
                          /*  String SERVER_URL="http://192.168.219.108:8088/product.do"; // 서버 주소*/
 
                     } catch (InterruptedException e) {
+                        Log.d("pointy", "inside interrupted Exception of real service");
                         run = false;
                         e.printStackTrace();
                     }
@@ -252,7 +264,31 @@ public class RealService  extends Service {
         mAlarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), sender);
     }
 
-    public void generateBigPictureStyleNotification() {
+    public void generateBigPictureStyleNotification(StepVO vo) {
+
+        String gender= null;
+        String time =null;
+        if(vo.getGender()==1) {
+            gender = "남성";
+        } else {
+            gender="여성";
+        }
+
+        if(vo.getTime()> 7 && vo.getTime() <=10) {
+
+            time = "아침";
+        } else if (vo.getTime() > 10 && vo.getTime() <= 13) {
+            time = "나른한 점심";
+        } else if (vo.getTime() > 13 && vo.getTime() <= 17) {
+            time = "오후";
+        } else if (vo.getTime() > 17 && vo.getTime() <= 20) {
+            time = "저녁";
+        } else {
+            time = "야심한 밤";
+        }
+
+
+
 
         android.util.Log.d("geo", "generateBigPictureStyleNotification()");
 
@@ -281,9 +317,9 @@ public class RealService  extends Service {
                                 getResources(),
                                 bigPictureStyleSocialAppData.getBigImage()))
                 // Overrides ContentTitle in the big form of the template.
-                .setBigContentTitle(bigPictureStyleSocialAppData.getBigContentTitle())
+                .setBigContentTitle("100M 내에 위치한 EMART에서 지금 GET")
                 // Summary line after the detail section in the big form of the template.
-                .setSummaryText(bigPictureStyleSocialAppData.getSummaryText());
+                .setSummaryText(time +"에 " + vo.getAge() + "대 " + gender + "에게 추천하는 이마트 제품");
 
         // 3. Set up main Intent for notification.
         Intent mainIntent = new Intent(this, BigPictureSocialMainActivity.class);
@@ -352,13 +388,6 @@ public class RealService  extends Service {
             replyActionPendingIntent = mainPendingIntent;
         }
 
-        NotificationCompat.Action replyAction =
-                new NotificationCompat.Action.Builder(
-                        R.drawable.ic_reply_white_18dp,
-                        replyLabel,
-                        replyActionPendingIntent)
-                        .addRemoteInput(remoteInput)
-                        .build();
 
         // 5. Build and issue the notification.
 
@@ -375,9 +404,9 @@ public class RealService  extends Service {
                 // BIG_PICTURE_STYLE sets title and content for API 16 (4.1 and after).
                 .setStyle(bigPictureStyle)
                 // Title for API <16 (4.0 and below) devices.
-                .setContentTitle(bigPictureStyleSocialAppData.getContentTitle())
+                .setContentTitle("↓↓↓↓ 근처 EMART 추천 제품" )
                 // Content for API <24 (7.0 and below) devices.
-                .setContentText(bigPictureStyleSocialAppData.getContentText())
+                .setContentText(time +"에 " + vo.getAge() + "대 " + gender + "에게 추천하는 이마트 제품")
                 .setSmallIcon(R.drawable.ssgpaylogo2)
                 .setLargeIcon(BitmapFactory.decodeResource(
                         getResources(),
@@ -395,7 +424,6 @@ public class RealService  extends Service {
                 // .setGroup(GROUP_KEY_YOUR_NAME_HERE)
 
                 .setSubText(Integer.toString(1))
-                .addAction(replyAction)
                 .setCategory(Notification.CATEGORY_SOCIAL)
 
                 // Sets priority for 25 and below. For 26 and above, 'priority' is deprecated for

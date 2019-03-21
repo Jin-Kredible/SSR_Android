@@ -2,34 +2,31 @@ package com.shin.ssr.layout.tab;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -67,7 +64,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -197,7 +193,6 @@ public class FitTab extends AppCompatActivity  {
 
 
 
-        @SuppressLint("ClickableViewAccessibility")
         public void getTodoList(double result){
 
             this.step_percentage = result;
@@ -210,16 +205,7 @@ public class FitTab extends AppCompatActivity  {
 
             mBackground.setVisibility(View.VISIBLE);
             mCircleView = popupView.findViewById(R.id.circleView);
-            mCircleView.setFocusable(true);
-            mBackground.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_DOWN){
-                        mBackground.setVisibility(View.GONE);
-                    }
-                    return false;
-                }
-            });
+
 
 
             mCircleView.setValueAnimated((float)step_percentage);
@@ -269,7 +255,7 @@ public class FitTab extends AppCompatActivity  {
 
         mBackground.setVisibility(View.VISIBLE);
         mCircleView = popupView.findViewById(R.id.circleView);
-        mCircleView.setFocusable(true);
+
 
 
         mCircleView.setValueAnimated(1);
@@ -586,7 +572,7 @@ public class FitTab extends AppCompatActivity  {
                                  // 서버 주소
 
 
-                                if(total>=100) {
+                                if(total>=7000) {
                                     Log.d("fit", "inside checkbox");
                                     CheckBox step_checkbox = findViewById(R.id.steps_check);
                                     step_checkbox.setChecked(true);
@@ -610,16 +596,36 @@ public class FitTab extends AppCompatActivity  {
         Toast.makeText(FitTab.this, rtn, Toast.LENGTH_SHORT).show();
     }
 
+    PopupWindow helpPopup;
+    View popupView;
 
     class helpListener implements View.OnClickListener {
-
         @Override
         public void onClick(View helpicon) {
-            Toast.makeText(getApplicationContext(),"are you clicked?",Toast.LENGTH_LONG).show();
-            View popupView = getLayoutInflater().inflate(R.layout.help_popup_activity,null);
-            PopupWindow helpPopup = new PopupWindow(popupView, 1000, 1000,true);
-            helpPopup.setAnimationStyle(-1);
-            helpPopup.showAtLocation(popupView, Gravity.CENTER, 0,0);
+
+            Toast.makeText(getApplicationContext(), "are you clicked?", Toast.LENGTH_LONG).show();
+
+            switch (helpicon.getId()) {
+                case R.id.helppop:
+                    popupView = getLayoutInflater().inflate(R.layout.help_popup_activity, null);
+                    helpPopup = new PopupWindow(popupView,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    helpPopup.setAnimationStyle(-1);
+                    helpPopup.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+                    popupView.setOnTouchListener(new View.OnTouchListener(){
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event){
+                            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                                popupView.setVisibility(View.GONE);
+                            }
+                            return false;
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -685,8 +691,7 @@ public class FitTab extends AppCompatActivity  {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
-    }
 
     }
-
+}
 

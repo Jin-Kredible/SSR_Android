@@ -33,6 +33,7 @@ import com.google.android.gms.fit.samples.backgroundgps.HttpUtil_GPS;
 import com.google.android.gms.fit.samples.stepcounter.GeofenceTransitionsJobIntentService;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.shin.ssr.layout.notification.PushNotification;
+import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.vo.ProductVO;
 import com.shin.ssr.vo.StepVO;
@@ -112,6 +113,8 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
         startActivity(intent);
         finish();
     }
+
+
 
 
     @Override
@@ -205,16 +208,17 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
                         if(productArry.get(4).getTime()==1) {
                             time = "아침";
                         } else if(productArry.get(4).getTime()==2) {
-                            time = "점심";
+                            time = "나른한 점심";
                         } else if(productArry.get(4).getTime()==3) {
                             time = "오후";
                         } else if (productArry.get(4).getTime()==4) {
                             time = "저녁";
                         } else if (productArry.get(4).getTime()==5) {
-                            time = "야간";
+                            time = "야심한 밤";
                         }
 
-                        customTxt.setText(time+"에 " + productArry.get(4).getAge() + " 대 " + gender + "을 위한 SSG PAY 의 추천");
+                        customTxt.setText(time+ productArry.get(4).getAge() + " 대 " + gender + "을 위한 추천");
+
                     }
                 });
                 // 핸들러에게 화면 갱신을 요청한다.
