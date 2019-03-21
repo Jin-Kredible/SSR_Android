@@ -45,8 +45,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"/>
         <activity android:name="com.shin.ssr.layout.notification.PushNotification"/>
-        <activity android:name="com.shin.ssr.layout.point.Point"/>
-        
+
         <activity
             android:name="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
             android:label="@string/title_activity_big_picture_main">
@@ -56,6 +55,8 @@
              />
         </activity>
 
+        <activity android:name="com.shin.ssr.layout.point.Point"/>
+        <activity android:name="com.shin.ssr.get.PointGet"/>
 
         <meta-data android:name="com.google.android.gms.version" android:value="12451000" tools:replace="android:value" />
         <activity
