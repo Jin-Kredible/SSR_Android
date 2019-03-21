@@ -78,12 +78,6 @@ public class MainActivity extends AppCompatActivity   {
   private NotificationManagerCompat mNotificationManagerCompat;
   private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
-  ///////////////////////////////////////////////////////////////////
-  private boolean isScanning;
-  private MinewBeaconManager mMinewBeaconManager;
-  private static final int REQUEST_ENABLE_BT = 2;
-  //비콘 관련 변수
-  //////////////////////////////////////////////////////////////////
 
   private Button btnFinance, btnPayment, btnLife;
   private ImageView imgMain;
@@ -118,9 +112,6 @@ public class MainActivity extends AppCompatActivity   {
     initializeLogging();
     Log.d("geo","oncreate");
 
-    initManager();
-    initListener();
-   // mMinewBeaconManager.startScan();
 
     /*
     /** 기존의 위치 받아오는 로직 **/
@@ -227,153 +218,6 @@ public class MainActivity extends AppCompatActivity   {
                       }
                     });
   }
-  //////////////////////////////////////////////////////////////////////////////////
-  private void initManager() {
-    mMinewBeaconManager = MinewBeaconManager.getInstance(this);
-  } // 비콘사용 초기화
-
-  private void initListener() {
-
-        if (mMinewBeaconManager != null) {
-          BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
-          switch (bluetoothState) {
-            case BluetoothStateNotSupported:
-              Toast.makeText(MainActivity.this, "Not Support BLE", Toast.LENGTH_SHORT).show();
-              finish();
-              break;
-            case BluetoothStatePowerOff:
-              showBLEDialog();
-              return;
-            case BluetoothStatePowerOn:
-              break;
-          }
-        }
-
-
-       /* if (isScanning) {
-          isScanning = false;
-          if (mMinewBeaconManager != null) {
-            mMinewBeaconManager.stopScan();
-          }
-        } else {
-          isScanning = true;
-          try {
-            mMinewBeaconManager.startScan();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        }//수정 요망블투 버튼으로 끄고 켰을때 사용되는 부분*/
-    mMinewBeaconManager.startScan();
-
-    mMinewBeaconManager.setDeviceManagerDelegateListener(new MinewBeaconManagerListener() {
-      /**
-       *   새로운 비컨을 발견하면 메소드를 다시 호출
-       *
-       *  관리자가 스캔 한 @param minewBeacons 새로운 비컨
-       */
-      @Override
-      public void onAppearBeacons(List<MinewBeacon> minewBeacons) {
-
-        for (MinewBeacon minewBeacon : minewBeacons) {
-          String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
-
-
-          if(deviceName.equals("MiniBeacon_21907")) {
-            Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
-            Log.d("beacon1", ">>>>Name : " + deviceName);
-            Log.d("beacon1", ">>>>UUID : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue());
-            Log.d("beacon1", ">>>>Major : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Major).getStringValue());
-            Log.d("beacon1", ">>>>Minor : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Minor).getStringValue());
-            Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
-            mMinewBeaconManager.stopScan();
-          }
-          Log.d("beacon1", "굿" + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue());
-        }
-
-        //String stringValue = minewBeacons.get(0).getBeaconValue.getStringValue;
-      }
-
-      /**
-       *   * 신호가 10 초 이내에 데이터를 업데이트하지 않으면이 신호가 울리지 않았다고 관리자가이 방법을 다시 호출합니다.
-       *     * @param minewBeacons 비컨 범위를 벗어났습니다.
-       */
-      @Override
-      public void onDisappearBeacons(List<MinewBeacon> minewBeacons) {
-                /*for (MinewBeacon minewBeacon : minewBeacons) {
-                    String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
-                    Toast.makeText(getApplicationContext(), deviceName + "  out range", Toast.LENGTH_SHORT).show();
-                }*/
-      }
-
-      /**
-       *    * 관리자가 1 초마다이 방법을 호출하면 모든 스캔 된 신호를 얻을 수 있습니다.
-       * @param minewBeacons 모든 스캔 된 비컨
-       */
-      @Override
-      public void onRangeBeacons(final List<MinewBeacon> minewBeacons) {
-       /* runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            Collections.sort(minewBeacons, comp);
-            android.util.Log.e("tag", state + "");
-            if (state == 1 || state == 2) {
-            } else {
-              mAdapter.setItems(minewBeacons);
-            }
-
-          }
-        });*/
-      }
-
-      /**
-       *   * 관리자가 BluetoothStateChanged를 호출 할 때이 메소드를 다시 호출합니다.
-       *              *
-       *
-       *  @param state BluetoothState
-       */
-      @Override
-      public void onUpdateState(BluetoothState state) {
-        switch (state) {
-          case BluetoothStatePowerOn:
-            Toast.makeText(getApplicationContext(), "BluetoothStatePowerOn", Toast.LENGTH_SHORT).show();
-            break;
-          case BluetoothStatePowerOff:
-            Toast.makeText(getApplicationContext(), "BluetoothStatePowerOff", Toast.LENGTH_SHORT).show();
-            break;
-        }
-      }
-    });
-  }
-
-
-  /**
-   * 블루투스 상태 확인
-   */
-  private void checkBluetooth() {
-    BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
-    switch (bluetoothState) {
-      case BluetoothStateNotSupported:
-        Toast.makeText(this, "Not Support BLE", Toast.LENGTH_SHORT).show();
-        finish();
-        break;
-      case BluetoothStatePowerOff:
-        showBLEDialog();
-        break;
-      case BluetoothStatePowerOn:
-        break;
-    }
-  }
-
-  private void showBLEDialog() {
-    Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-    startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-  }
-  // 비콘 제어 부
-  /////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
   @Override
   public void onStart() {
