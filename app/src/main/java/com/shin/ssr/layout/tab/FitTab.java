@@ -1,5 +1,6 @@
 package com.shin.ssr.layout.tab;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -88,8 +89,8 @@ public class FitTab extends AppCompatActivity  {
     private Timer mTimer = new Timer();
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
-    ArrayList<StepVO> stepAry = new ArrayList<>();
-    public static final String SERVER_URL="http://192.168.43.43:8088/";
+
+    public static final String SERVER_URL="http://10.149.178.200:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -196,6 +197,7 @@ public class FitTab extends AppCompatActivity  {
 
 
 
+        @SuppressLint("ClickableViewAccessibility")
         public void getTodoList(double result){
 
             this.step_percentage = result;
@@ -419,7 +421,7 @@ public class FitTab extends AppCompatActivity  {
 
 
 
-    private LineData getData(int count, float range, int total) {
+    private LineData getData(int count, float range, int total, ArrayList<StepVO> stepAry) {
 
 
         Log.d("fit", "in getdata");
@@ -529,7 +531,7 @@ public class FitTab extends AppCompatActivity  {
 
                             @Override
                             public void onSuccess(DataSet dataSet) {
-
+                                ArrayList<StepVO> stepAry = new ArrayList<>();
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
                                 String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
@@ -565,7 +567,7 @@ public class FitTab extends AppCompatActivity  {
                                 Log.d("fit", "todays walk");
                                 Log.d("fit", "stepvO" + stepAry);
 
-                                LineData data1 = getData(7, 10000, total);
+                                LineData data1 = getData(7, 10000, total, stepAry);
 
                                 Log.d("fit","getdata" + data1.getDataSets().toString());
 
@@ -622,10 +624,6 @@ public class FitTab extends AppCompatActivity  {
     }
 
     public void getPastSteps(ArrayList<StepVO> arry) {
-
-        Log.d("fit", "in get past steps");
-
-        this.stepAry=arry;
 
     }
 
@@ -689,6 +687,6 @@ public class FitTab extends AppCompatActivity  {
                         });
     }
 
-    }*/
-}
+    }
+
 
