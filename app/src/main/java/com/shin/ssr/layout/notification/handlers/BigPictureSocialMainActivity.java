@@ -33,6 +33,7 @@ import com.google.android.gms.fit.samples.backgroundgps.HttpUtil_GPS;
 import com.google.android.gms.fit.samples.stepcounter.GeofenceTransitionsJobIntentService;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.shin.ssr.layout.notification.PushNotification;
+import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.vo.ProductVO;
 import com.shin.ssr.vo.StepVO;
@@ -112,6 +113,8 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
         startActivity(intent);
         finish();
     }
+
+
 
 
     @Override
