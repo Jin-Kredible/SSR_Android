@@ -90,7 +90,6 @@ public class FitTab extends AppCompatActivity  {
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
-    private static ArrayList<StepVO> stepAry = new ArrayList<>();
 
 
 
@@ -485,7 +484,7 @@ public class FitTab extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-
+        readData();
     }
 
     /*public void subscribe() {
@@ -518,6 +517,7 @@ public class FitTab extends AppCompatActivity  {
 
                             @Override
                             public void onSuccess(DataSet dataSet) {
+                                ArrayList<StepVO> stepAry = new ArrayList<>();
 
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
@@ -668,7 +668,6 @@ public class FitTab extends AppCompatActivity  {
 
 
     private void updateData() {
-        Log.d("fit","in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -680,9 +679,6 @@ public class FitTab extends AppCompatActivity  {
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-
-
-
 
                             }
                         })
