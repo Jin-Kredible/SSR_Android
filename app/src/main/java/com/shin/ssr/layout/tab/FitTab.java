@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -87,7 +88,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
     ArrayList<StepVO> stepAry = new ArrayList<>();
-    public static final String SERVER_URL="http://192.168.43.43:8088/";
+    public static final String SERVER_URL="http://10.149.179.10:8088/";
     public ImageView help;
     private int total;
     Handler handler=new Handler();
@@ -192,7 +193,16 @@ public class FitTab extends AppCompatActivity  {
 
             mBackground.setVisibility(View.VISIBLE);
             mCircleView = popupView.findViewById(R.id.circleView);
-
+            mCircleView.setFocusable(true);
+            mBackground.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN){
+                        mBackground.setVisibility(View.GONE);
+                    }
+                    return false;
+                }
+            });
 
 
             mCircleView.setValueAnimated((float)step_percentage);
@@ -242,7 +252,7 @@ public class FitTab extends AppCompatActivity  {
 
         mBackground.setVisibility(View.VISIBLE);
         mCircleView = popupView.findViewById(R.id.circleView);
-
+        mCircleView.setFocusable(true);
 
 
         mCircleView.setValueAnimated(1);
