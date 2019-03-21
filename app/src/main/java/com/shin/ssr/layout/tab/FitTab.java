@@ -90,6 +90,7 @@ public class FitTab extends AppCompatActivity  {
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
+    private static ArrayList<StepVO> stepAry = new ArrayList<>();
 
 
 
@@ -113,7 +114,7 @@ public class FitTab extends AppCompatActivity  {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
 
-            readData();
+
         /*FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
                         .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
@@ -517,7 +518,7 @@ public class FitTab extends AppCompatActivity  {
 
                             @Override
                             public void onSuccess(DataSet dataSet) {
-                                ArrayList<StepVO> stepAry = new ArrayList<>();
+
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
                                 String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
@@ -553,13 +554,14 @@ public class FitTab extends AppCompatActivity  {
                                 Log.d("fit", "todays walk");
                                 Log.d("fit", "stepvO" + stepAry);
 
-                                LineData data1 = getData(7, 10000, total, stepAry);
+                                if(stepAry.size()!=0) {
+                                    LineData data1 = getData(7, 10000, total, stepAry);
 
-                                Log.d("fit","getdata" + data1.getDataSets().toString());
+                                    Log.d("fit", "getdata" + data1.getDataSets().toString());
 
-                                // add some transparency to the color with "& 0x90FFFFFF"
-                                setupChart(charts[0], data1, colors[0 % colors.length]);
-
+                                    // add some transparency to the color with "& 0x90FFFFFF"
+                                    setupChart(charts[0], data1, colors[0 % colors.length]);
+                                }
                                 TextView txtView = findViewById(R.id.steps_taken);
                                 TextView txtView2 = findViewById(R.id.todo1_step);
                                 txtView.setText(" " + total + " / 7000  ");
