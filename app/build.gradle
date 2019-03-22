@@ -48,4 +48,6 @@ dependencies {
 
     implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
+
+
 }

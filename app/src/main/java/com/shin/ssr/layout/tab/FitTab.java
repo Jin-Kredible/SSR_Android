@@ -6,12 +6,18 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -20,7 +26,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -34,11 +42,14 @@ import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.stepcounter.MainActivity;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
 import com.shin.ssr.layout.point.Point;
@@ -48,10 +59,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -75,7 +89,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.178.249:8088/";
+    public static final String SERVER_URL="http://10.149.178.247:8081/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -227,19 +241,16 @@ public class FitTab extends AppCompatActivity  {
 
     public void stepgoal2(View v){
             HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
-            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ 0, "user_id:"+ 1} ;
+            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ total, "user_id:"+ 2} ;
             hu.execute(params);
-
-
     }
+
 
     public void stepgoal1(View v){
         HttpUtil_Todo1 hu = new HttpUtil_Todo1(FitTab.this);
 
-        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ 0, "user_id:"+ 1} ;
+        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ total, "user_id:"+ 2} ;
         hu.execute(params);
-
-
 
     }
 
@@ -517,25 +528,25 @@ public class FitTab extends AppCompatActivity  {
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
-                        new OnSuccessListener<DataSet>() {
+                                            new OnSuccessListener<DataSet>() {
 
-                            @Override
-                            public void onSuccess(DataSet dataSet) {
-                                ArrayList<StepVO> stepAry = new ArrayList<>();
+                                                @Override
+                                                public void onSuccess(DataSet dataSet) {
+                                                    ArrayList<StepVO> stepAry = new ArrayList<>();
 
-                                HttpUtil hu = new HttpUtil(FitTab.this);
+                                                    HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
+                                                    String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 2} ;
 
-                                hu.execute(params);
-                                total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                                    hu.execute(params);
+                                                    total =
+                                                            dataSet.isEmpty()
+                                                                    ? 0
+                                                                    : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                JSONArray object = null;
-                                String result;
-                                try {
+                                                    JSONArray object = null;
+                                                    String result;
+                                                    try {
                                     result = hu.get();
                                     object =  new JSONArray(result);
 
@@ -589,20 +600,20 @@ public class FitTab extends AppCompatActivity  {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the step count.", e);
-                            }
-                        });
-
-
+        Log.w(TAG, "There was a problem getting the step count.", e);
     }
+});
 
-    public void httpWeb(){
 
-    }
+        }
 
-    public void printToast(String rtn) {
+public void httpWeb(){
+
+        }
+
+public void printToast(String rtn) {
         Toast.makeText(FitTab.this, rtn, Toast.LENGTH_SHORT).show();
-    }
+        }
 
     PopupWindow helpPopup;
     View popupView;
@@ -703,4 +714,5 @@ public class FitTab extends AppCompatActivity  {
     }
 
     }
+
 
