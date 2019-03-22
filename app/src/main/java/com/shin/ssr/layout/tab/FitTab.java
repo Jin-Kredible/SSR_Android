@@ -116,7 +116,7 @@ public class FitTab extends AppCompatActivity  {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
 
-            readData();
+
         /*FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
                         .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
@@ -487,7 +487,7 @@ public class FitTab extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-
+        readData();
     }
 
     /*public void subscribe() {
@@ -512,8 +512,6 @@ public class FitTab extends AppCompatActivity  {
     }*/
 
     private void readData() {
-        read_counter++;
-        Log.d("fit_err", "read data 들어온 횟수 : " + Integer.toString(read_counter));
         Log.d("fit","in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
@@ -522,79 +520,67 @@ public class FitTab extends AppCompatActivity  {
 
                             @Override
                             public void onSuccess(DataSet dataSet) {
-                                Log.d("fit_err", "OnSuccess 진입 : lorddata = " + lorddata );
+                                ArrayList<StepVO> stepAry = new ArrayList<>();
 
-                                if (lorddata == false) {
-                                    lorddata = true;
-                                    Log.d("fit_err", "lorddata 상태변경 " + lorddata );
-                                    ArrayList<StepVO> stepAry = new ArrayList<>();
-                                    HttpUtil hu = new HttpUtil(FitTab.this);
+                                HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                    String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + 1};
+                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
 
-                                    hu.execute(params);
-                                    total =
-                                            dataSet.isEmpty()
-                                                    ? 0
-                                                    : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                hu.execute(params);
+                                total =
+                                        dataSet.isEmpty()
+                                                ? 0
+                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                    JSONArray object = null;
-                                    String result;
-                                    try {
+                                JSONArray object = null;
+                                String result;
+                                try {
+                                    result = hu.get();
+                                    object =  new JSONArray(result);
 
-                                        result = hu.get();
-                                        object = new JSONArray(result);
+                                    android.util.Log.d("log","result from spring" + result);
 
-                                        android.util.Log.d("log", "result from spring" + result);
-
-                                        for (int i = 0; i < object.length(); i++) {
-                                            JSONObject obj = (JSONObject) object.get(i);
-                                            android.util.Log.d("log", obj.getString("wk_am"));
-                                            android.util.Log.d("log", obj.getString("user_id"));
-                                            stepAry.add(new StepVO(obj.optInt("user_id"), obj.optInt("wk_am"), obj.optString("wk_dt")));
-                                        }
-
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    } catch (ExecutionException e) {
-                                        e.printStackTrace();
+                                    for(int i =0; i < object.length(); i++) {
+                                        JSONObject obj = (JSONObject)object.get(i);
+                                        android.util.Log.d("log",obj.getString("wk_am"));
+                                        android.util.Log.d("log",obj.getString("user_id"));
+                                        stepAry.add(new StepVO(obj.optInt("user_id"),obj.optInt("wk_am"),obj.optString("wk_dt")));
                                     }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
 
-                                    Log.d("fit_err", "lorddata 파일 불러오기 종료 : lorddata 상태 = " + lorddata );
-                                    lorddata = false;
-                                    Log.d("fit", "todays walk");
-                                    Log.d("fit", "stepvO" + stepAry);
+                                Log.d("fit", "todays walk");
+                                Log.d("fit", "stepvO" + stepAry);
 
+                                if(stepAry.size()!=0) {
                                     LineData data1 = getData(7, 10000, total, stepAry);
 
                                     Log.d("fit", "getdata" + data1.getDataSets().toString());
 
                                     // add some transparency to the color with "& 0x90FFFFFF"
                                     setupChart(charts[0], data1, colors[0 % colors.length]);
-
-                                    TextView txtView = findViewById(R.id.steps_taken);
-                                    TextView txtView2 = findViewById(R.id.todo1_step);
-                                    txtView.setText(" " + total + " / 7000  ");
-
-                                    String text = "<font color='#333743'> <b> " + total + "</b> / 7000 </font>";
-                                    txtView2.setText(" " + total + " / 7000  ");
-                                    txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-
-                                    //////////////http connection
-                                    // 서버 주소
-
-
-                                    if (total >= 7000) {
-                                        Log.d("fit", "inside checkbox");
-                                        CheckBox step_checkbox = findViewById(R.id.steps_check);
-                                        step_checkbox.setChecked(true);
-                                    }
                                 }
-                                else {
+                                TextView txtView = findViewById(R.id.steps_taken);
+                                TextView txtView2 = findViewById(R.id.todo1_step);
+                                txtView.setText(" " + total + " / 7000  ");
 
+                                String text = "<font color='#333743'> <b> "+total+ "</b> / 7000 </font>";
+                                txtView2.setText(" " + total + " / 7000  ");
+                                txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+                                //////////////http connection
+                                 // 서버 주소
+
+
+                                if(total>=7000) {
+                                    Log.d("fit", "inside checkbox");
+                                    CheckBox step_checkbox = findViewById(R.id.steps_check);
+                                    step_checkbox.setChecked(true);
                                 }
                             }
                         })
@@ -687,7 +673,6 @@ public class FitTab extends AppCompatActivity  {
 
 
     private void updateData() {
-        Log.d("fit","in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -699,9 +684,6 @@ public class FitTab extends AppCompatActivity  {
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-
-
-
 
                             }
                         })

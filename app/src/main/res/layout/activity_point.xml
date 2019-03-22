@@ -100,7 +100,7 @@
             android:layout_height="71dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="100dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:srcCompat="@drawable/peacock_01" />
 
         <ImageView
