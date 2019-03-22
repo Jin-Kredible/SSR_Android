@@ -124,11 +124,11 @@ public class MainActivity extends AppCompatActivity   {
       Toast.makeText(getApplicationContext(), "already", Toast.LENGTH_LONG).show();
     }//백그라운드 실행
     ////////////////////////////////////////////////////////////////
-    final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+/*    final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
     locationManage.onLocation(lm);
     locationVO =locationManage.getVoData(); //gps 위치 받아오기
-    Log.d("geo", "Long" + locationManage.getVoData().getLongitude() + " " + locationManage.getVoData().getLatitude());
+    Log.d("geo", "Long" + locationManage.getVoData().getLongitude() + " " + locationManage.getVoData().getLatitude());*/
     /////////////////////////////////////////////////////////////////
 
 

@@ -719,5 +719,5 @@ public class FitTab extends AppCompatActivity  {
                         });
     }
 
-    }
+}
 
