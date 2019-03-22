@@ -49,10 +49,10 @@
             android:id="@+id/custom_recom"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@drawable/recom"
             android:fontFamily="@font/bmhannapro"
+            android:background="@drawable/recom"
             android:gravity="center"
-            android:text=""
+            android:text="null"
             android:textColor="@color/chartbg"
             android:textSize="20dp" />
 
@@ -81,7 +81,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
-
             android:elevation="3dp"
             android:orientation="horizontal">
 
@@ -94,7 +93,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/recommendedProduct1_name"
@@ -104,7 +104,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text=""
+                    android:text="NULL"
                     android:textAlignment="center"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -117,7 +117,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text=""
+                    android:text="NULL"
                     android:textAlignment="center" />
 
                 <TextView
@@ -128,7 +128,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text=""
+                    android:text="NULL"
                     android:textAlignment="center" />
             </LinearLayout>
         </TableRow>
@@ -151,7 +151,8 @@
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp" >
 
 
                 <TextView
@@ -205,7 +206,8 @@
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp" >
 
                 <TextView
                     android:id="@+id/recommendedProduct3_name"
@@ -258,7 +260,8 @@
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp" >
 
                 <TextView
                     android:id="@+id/recommendedProduct4_name"

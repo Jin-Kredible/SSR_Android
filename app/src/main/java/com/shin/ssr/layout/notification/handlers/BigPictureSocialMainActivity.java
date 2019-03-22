@@ -233,7 +233,8 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
                             time = "야심한 밤";
                         }
 
-                        customTxt.setText(time+ productArry.get(4).getAge() + " 대 " + gender + "을 위한 추천");
+                        //customTxt.setText(time + " " + productArry.get(4).getAge() + " 대 " + gender + "을 위한 추천");
+                        customTxt.setText(time + " " + productArry.get(4).getAge() + " 대 " + gender + "을 위한 추천");
 
                     }
                 });
