@@ -1,13 +1,13 @@
 package com.shin.ssr.layout.point;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,48 +15,33 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.fit.samples.backgroundgps.RealService;
 import com.google.android.gms.fit.samples.stepcounter.R;
-import com.google.android.gms.fitness.data.Field;
-import com.google.gson.JsonObject;
-import com.shin.ssr.layout.tab.FitTab;
-import com.shin.ssr.layout.tab.HttpUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.concurrent.ExecutionException;
-
-import static com.google.android.gms.fit.samples.backgroundgps.RealService.mainThread;
 import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
 
 public class Point extends AppCompatActivity {
-    Thread thread;      //Prodoct Move Control
-   Thread2 thread2;    //Prodoct Rotate Control*/
+    ProductThread thread;      //Prodoct Move Control
+    Thread2 thread2;    //Prodoct Rotate Control*/
 
 
     //Thread stop message
-    public static final int SEND_INFORMATION =0;
+    public static final int SEND_INFORMATION = 0;
     public static final int SEND_STOP = 1;
     public static final int SEND_STOP_ROTATION = 2;
 
     private ImageView imgCon, imgPro, imgGetPro;
     private TextView getPoint;
-    private ImageView   imgCart, imgAd;
+    private ImageView imgCart, imgAd;
 
     //광고 이미지 배열
     int[] imgs = {R.drawable.ad_0, R.drawable.ad_1, R.drawable.ad_2, R.drawable.ad_3, R.drawable.ad_4};
 
-    private int dx = 20;        //Product 이동 정도
-    private int dy = 10;
-    private int dr = 15;
-    private int hx = 0;         //Product 현재 위치
-    private int hy = 0;
-    private int hr = 0;
-    private float resetX = 0;   //Product 처음 위치
+    private float dx = 20;          //Product 이동 정도
+    private float dy = 10;
+    private float dr = 15;
+    private float hx = 0;           //Product 현재 위치
+    private float hy = 0;
+    private float hr = 0;
+    private float resetX = 0;       //Product 처음 위치
     private float resetY = 0;
     private float resetR = 0;
 
@@ -64,14 +49,16 @@ public class Point extends AppCompatActivity {
     int totalwalk = 0;         //DB에서 가져오는 걸음 수 , Point적립 최대치 제한두기 위한 변수
     int numPoint = 0;           //얻는 point
     boolean done = false;       //point 전환 끝 확인 변수
+    boolean none = false;       //DB에서 가져오는 걸음 수 여부(true = 걸음 수 0)
 
     //DB 값 가져오기 보내기
 //    String SERVER_URL="http://172.20.10.9:8088/walkToGoods.do"; // 서버 주소
 //    HttpUtil hu = new HttpUtil(Point.this);
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point);
 
@@ -80,79 +67,76 @@ public class Point extends AppCompatActivity {
         imgGetPro = findViewById(R.id.imgGetProduct);
         imgCart = findViewById(R.id.imgCartF);
         imgAd = findViewById(R.id.imgAd);
-
         getPoint = findViewById(R.id.Point);
+
+        HttpUtil_P hu = new HttpUtil_P(Point.this);
+        String[] params = {SERVER_URL + "walkToGoods.do", "steps:" + 1, "userno:" + 1};
+        Log.d("pointy", Boolean.toString(Thread.currentThread().isInterrupted()));
+        hu.execute(params);
+        Log.d("pointy", "inside Try");
+        Log.d("pointy", "inside Try after get" + walk);
+
+        //walk = getPoint();
+
+        Log.d("pointy", "point" + walk);
+        Log.d("pointy", "after try" + walk);
+        Log.d("NUM", "onCreate: WalkNum" + walk);
+        Log.d("NUM", "onCreate: TotalWalkNum" + walk);
+
+
 
         resetX = imgPro.getTranslationX();
         resetY = imgPro.getTranslationY();
         resetR = imgPro.getRotation();
-        Log.d("pointy",Float.toString(resetX));
-        Log.d("pointy",Float.toString(resetY));
-        Log.d("pointy",Float.toString(resetR));
-
-
-
-       /* Thread dataThread = new Thread(
-                new Runnable() {
-
-                    @Override
-                    public void run() {
-                        while(true) {*/
-
-                                HttpUtil_P hu = new HttpUtil_P(Point.this);
-                                String[] params = {SERVER_URL+"walkToGoods.do", "steps:"+1 , "userno:"+ 1} ;
-                                Log.d("pointy", Boolean.toString(Thread.currentThread().isInterrupted()));
-                                hu.execute(params);
-                                Log.d("pointy", "inside Try");
-
-                                Log.d("pointy", "inside Try after get" + walk );
-
-                            walk = getPoint();
-
-                            Log.d("pointy", "YO?");
-                            Log.d("pointy", "YO?2");
-                            Log.d("pointy", "point"+ walk);
-
-
-                            Log.d("pointy", "after try" + walk);
-
-                            Log.d("NUM", "onCreate: WalkNum"+walk);
-                            Log.d("NUM", "onCreate: TotalWalkNum"+walk);
-
-
-                     /*   }
-                    }
-                }
-        );
-
-       dataThread.start();*/
-
-
+        Log.d("pointy resetX", Float.toString(resetX));
+        Log.d("pointy resetY", Float.toString(resetY));
+        Log.d("pointy resetZ", Float.toString(resetR));
 
 
         final AnimationDrawable drawable = (AnimationDrawable) imgCon.getBackground();  //Conveyor belt animation
 
         //Touch event
-        imgCon.setOnTouchListener(new View.OnTouchListener(){
+
+
+
+        imgCon.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch(motionEvent.getAction()){
-                    case MotionEvent.ACTION_DOWN :
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.d("pointy", Integer.toString(walk) + "inside on touch listeneer");
+
+                        if (none) {
+                            imgPro.setVisibility(View.GONE);
+
+                        } else {
+                            thread = new ProductThread();
+                            System.out.println("alive   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+thread.isAlive());
+                            if(thread.isAlive()) {
+
+                                //thread.notify();
+                            }else {
+
+                                thread.start();
+                                System.out.println("alive   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> start");
+
+                            }
+                        }
                         //Log.d("check", "onTouch: productMove" + hx);
                         drawable.start();
-                        Log.d("pointy", Integer.toString(walk) + "inside on touch listeneer");
-                        if(walk > 0) {
-                            thread = new Thread();
-                            thread.start();
-                        }else{
-                            imgGetPro.setVisibility(View.GONE);
-                        }
                         break;
-                    case MotionEvent.ACTION_UP :
+                    case MotionEvent.ACTION_UP:
                         Log.d("pointy", "onTouch: up!!!!!!!!!!!!!!");
                         drawable.stop();
-                        handler.sendEmptyMessage(SEND_STOP);
+                        if(!none)   handler.sendEmptyMessage(SEND_STOP);
+                        /*try {
+                            System.out.println("alive   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  wait");
+                            thread.stopThread();
+                            //thread.wait();
+                        }catch(Exception e) {
+                            e.printStackTrace();
+                        }*/
                         break;
                 }
                 return false;
@@ -160,8 +144,6 @@ public class Point extends AppCompatActivity {
         });
 
         Log.d("pointy", "after: setOnTouchListener");
-
-        getPoint.setText(Integer.toString(walk));
     }
 
     @Override
@@ -203,7 +185,8 @@ public class Point extends AppCompatActivity {
         super.onPostCreate(savedInstanceState, persistentState);
         Log.d("pointy", "onPostCreate");
     }
-    public void onWindowFocusChanged (boolean hasFocus) {
+
+    public void onWindowFocusChanged(boolean hasFocus) {
         Log.d("pointy", "onWindowFocusChanged");
     }
 
@@ -215,7 +198,8 @@ public class Point extends AppCompatActivity {
     }
 
     //Thread Stop Handler
-    final Handler handler = new Handler(){
+    @SuppressLint("HandlerLeak")
+    final Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SEND_INFORMATION:
@@ -226,10 +210,12 @@ public class Point extends AppCompatActivity {
                     Log.d("pointy", "run: stop thread1");
                     break;
                 case SEND_STOP_ROTATION:    //Product get Stop
-                   /* if(done) {
-                        Get();
-                    }*/
                     thread2.stopThread();
+
+                    if(done && !none) {
+                        Get();
+                        done = false;
+                    }
 
                     Log.d("pointy", "run: stop thread2");
                     //Toast.makeText(getApplicationContext(), "Thread2중지", Toast.LENGTH_LONG).show();
@@ -239,75 +225,76 @@ public class Point extends AppCompatActivity {
     };
 
 
-    class Thread extends java.lang.Thread{
+    class ProductThread extends java.lang.Thread {
         boolean stopped1;
         int i = 0;
 
-        public Thread() {
+        public ProductThread() {
             stopped1 = false;
         }
 
-
-        public void stopThread(){
+        public void stopThread() {
             stopped1 = true;
         }
 
         @Override
         public void run() {
             Log.d("pointy", "inside thread1 run");
-            super.run();
-            while(!stopped1){
-                i++;
-                // 메시지 얻어오기
-                Message message = handler.obtainMessage();
-                // 메시지 ID 설정
-                message.what = SEND_INFORMATION;
-                // 메시지 내용 설정 (int)
-                message.arg1 = i;
-                // 메시지 내용 설정 (Object)
-                String information = new String("초 째 Thread 동작 중입니다."); message.obj = information;
-                // 메시지 전
-                handler.sendMessage(message);
+            //super.run();
+            //try {
+                while (!stopped1) {
+                    i++;
+                    // 메시지 얻어오기
+                    Message message = handler.obtainMessage();
+                    // 메시지 ID 설정
+                    message.what = SEND_INFORMATION;
+                    // 메시지 내용 설정 (int)
+                    message.arg1 = i;
+                    // 메시지 내용 설정 (Object)
+                    String information = new String("초 째 Thread 동작 중입니다.");
+                    message.obj = information;
+                    // 메시지 전
+                    //handler.sendMessage(message);
 
-                try{
-                    if(imgPro.getTranslationX()==700) {
-                        Log.d("pointy", "before stopping");
-                        thread2 = new Thread2();
-                        thread2.start();
-                    }
-                    sleep(20);
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        hx = (int) imgPro.getTranslationX();
-                        hr = (int) imgPro.getRotation();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (imgPro.getTranslationX() == 700) {
+
+                                Log.d("pointy", "before stopping");
+                                if(!none) {
+                                    thread2 = new Thread2();
+                                    thread2.start();
+                                }
+                            }
+                            hx = (int) imgPro.getTranslationX();
+                            hr = (int) imgPro.getRotation();
 
 
-                        if(hx<700){
-                            imgPro.setTranslationX(hx + dx);
+                            if (hx < 700) {
+                                imgPro.setTranslationX(hx + dx);
+                            }
+                            hx = (int) imgPro.getTranslationX();
+                            hy = (int) imgPro.getTranslationY();
                         }
-                        hx = (int) imgPro.getTranslationX();
-                        hy = (int)imgPro.getTranslationY();
-                        Log.d("pointy", "Thread1 hx" + hx);
-                        Log.d("pointy", "Thread1 hy" + hy);
-                    }
-                });
-
-            }
-
+                    });
+                    SystemClock.sleep(20);
+                }
+            /*} catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
         }
     }
-    class Thread2 extends java.lang.Thread{
+
+    class Thread2 extends java.lang.Thread {
         boolean stopped2;
         int i = 0;
 
         public Thread2() {
             stopped2 = false;
         }
-        public void stopThread(){
+
+        public void stopThread() {
             stopped2 = true;
 
         }
@@ -315,129 +302,119 @@ public class Point extends AppCompatActivity {
         @Override
         public void run() {
             Log.d("pointy", "inside thread2 run");
-            super.run();
-            while(!stopped2){
-                i++;
-                // 메시지 얻어오기
-                Message message = handler.obtainMessage();
-                // 메시지 ID 설정
-                message.what = SEND_INFORMATION;
-                // 메시지 내용 설정 (int)
-                message.arg1 = i;
-                // 메시지 내용 설정 (Object)
-                String information = new String("초 째 Thread 동작 중입니다."); message.obj = information;
-                // 메시지 전
-                handler.sendMessage(message);
+            //super.run();
+           // try {
+                while (!stopped2) {
+                    i++;
+                    // 메시지 얻어오기
+                    Message message = handler.obtainMessage();
+                    // 메시지 ID 설정
+                    message.what = SEND_INFORMATION;
+                    // 메시지 내용 설정 (int)
+                    message.arg1 = i;
+                    // 메시지 내용 설정 (Object)
+                    String information = new String("초 째 Thread 동작 중입니다.");
+                    message.obj = information;
+                    // 메시지 전
+                    handler.sendMessage(message);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (imgPro.getTranslationX() >=  900 && imgPro.getTranslationX() <920) {
+                                Log.d("pointy", "before rotation get translation x" + imgPro.getTranslationX());
+                                Log.d("pointy", "before rotation");
+                                done = true;
+                                handler.sendEmptyMessage(SEND_STOP_ROTATION);
+                                //stopThread();
+                            }
+                            dx = 10;
+                            imgPro.setTranslationY(hy + dy);
+                            imgPro.setTranslationX(hx + dx);
+                            imgPro.setRotation(hr + dr);
 
-                try{
-                    sleep(20);
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                }
+                            hx = (int) imgPro.getTranslationX();
+                            hy = (int) imgPro.getTranslationY();
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(imgPro.getTranslationX()==900){
-                            Log.d("pointy", "before rotation get translation x" + imgPro.getTranslationX());
-                            //done = true;
-                            Get();
-                            Log.d("pointy", "before rotation");
-                            handler.sendEmptyMessage(SEND_STOP_ROTATION);
                         }
-                        dx = 10;
-                        imgPro.setTranslationY(hy + dy);
-                        imgPro.setTranslationX(hx + dx);
-                        imgPro.setRotation(hr + dr);
-
-                        hx = (int)imgPro.getTranslationX();
-                        hy = (int)imgPro.getTranslationY();
-                        Log.d("pointy", "Thread2 hr" + hr);
-                        Log.d("pointy", "Thread2 hx" + hx);
-                        Log.d("pointy", "Thread2 hy" + hy);
-
-                    }
-                });
-            }
+                    });
+                    //sleep(20);
+                    SystemClock.sleep(20);
+                }
+            /*} catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+            //추가
+            stopThread();
         }
     }
-    public void Get(){
-        Log.d("pointy", "Get: numPoint : "+numPoint+"/ walk : "+walk);
-        numPoint+=10;
-        if(numPoint>totalwalk*10){
+
+    public void Get() {
+        Log.d("pointy", "Get: numPoint : " + numPoint + "/ walk : " + walk +"totlal walk : " + totalwalk);
+        numPoint += 10;
+        if (numPoint > totalwalk * 10) {
             numPoint = totalwalk;
         }
         walk--;
+        if(walk==0) none=true;
+        getPoint.setText(Integer.toString(numPoint));
+        Log.d("pointy", "Get: numPoint2nd : " + numPoint + "/ walk : " + walk +"totlal walk : " + totalwalk);
 
-        Log.d("pointy", "Get: numPoint2nd : "+numPoint+"/ walk : "+walk);
-        imgAd.setBackgroundResource(imgs[(numPoint/10)%imgs.length]);
-        Log.d("pointy", "Get:"+ imgs[(numPoint/10)%imgs.length]);
+        HttpUtil_P_UPDATE hu = new HttpUtil_P_UPDATE(Point.this);;
+        String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+10, "userid:"+1} ;
+        Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
+        hu.execute(params);
 
-        imgGetPro.setVisibility(ImageView.VISIBLE);
+
+        imgAd.setBackgroundResource(imgs[(numPoint / 10) % imgs.length]);
+
         imgGetPro.setTranslationX(imgPro.getTranslationX());
-        Log.d("pointy", Float.toString(imgPro.getTranslationX()));
+        Log.d("pointy getX", Float.toString(imgPro.getTranslationX()));
+        Log.d("pointy getXGet", Float.toString(imgGetPro.getTranslationX()));
 
         imgGetPro.setTranslationY(imgPro.getTranslationY());
-        Log.d("pointy", Float.toString(imgPro.getTranslationY()));
+        Log.d("pointy getY", Float.toString(imgPro.getTranslationY()));
+        Log.d("pointy getYGet", Float.toString(imgGetPro.getTranslationY()));
 
         imgGetPro.setRotation(imgPro.getRotation());
-        Log.d("pointy", Float.toString(imgPro.getRotation()));
+        Log.d("pointy getZ", Float.toString(imgPro.getRotation()));
+        Log.d("pointy getGetZ", Float.toString(imgGetPro.getRotation()));
+        imgGetPro.setVisibility(View.VISIBLE);
 
+        imgCart.bringToFront();
+        setViewInvalidate(imgCart, imgGetPro);
 
-        getPoint.setText(Integer.toString(numPoint));
         imgPro.setTranslationX(resetX);
         imgPro.setTranslationY(resetY);
         imgPro.setRotation(resetR);
 
-
-        /*imgGetPro.setTranslationX(imgPro.getTranslationX());
-
-
-        imgGetPro.setTranslationY(imgPro.getTranslationY());
-
-
-        imgGetPro.setRotation(imgPro.getRotation());
-
-
-        imgPro.setTranslationX(resetX);
-        Log.d("pointy", Float.toString(resetX));
-
-        imgPro.setTranslationY(resetY);
-        Log.d("pointy", Float.toString(resetX));
-
-        imgPro.setRotation(resetR);*/
-        imgCart.bringToFront();
-        setViewInvalidate(imgCart,imgGetPro);
-        if(walk <= 0) {
+        Log.d("pointy getX0", Float.toString(imgPro.getX()));
+        Log.d("pointy getX0", Float.toString(imgPro.getTranslationX()));
+        Log.d("pointy getY0", Float.toString(imgPro.getY()));
+        Log.d("pointy getY0", Float.toString(imgPro.getTranslationY()));
+        Log.d("pointy getZ0", Float.toString(imgPro.getRotation()));
+        if (walk <= 0) {
             imgPro.setVisibility(View.GONE);
         }
-
-        /*HttpUtil_P_UPDATE hu = new HttpUtil_P_UPDATE(Point.this);;
-        String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+numPoint, "userid:"+1} ;
-        Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
-        hu.execute(params);*/
     }
-    private void setViewInvalidate(View... views) {
 
+    private void setViewInvalidate(View... views) {
         for (View v : views) {
             v.invalidate();
         }
-
-    }
-    public class MessageList{
-        public static final int MSG_REFRESH = 1;
     }
 
-    public void toFit(View view){
-
+    public void toFit(View view) {
         finish();
     }
-
 
     public void getPoints(String point) {
         Log.d("pointy", "inside get point" + point);
         this.walk = Integer.parseInt(point);
         totalwalk = walk;
+        if(walk == 0){
+            imgPro.setVisibility(View.GONE);
+            none = true;
+        }
     }
 
     public int getPoint() {
