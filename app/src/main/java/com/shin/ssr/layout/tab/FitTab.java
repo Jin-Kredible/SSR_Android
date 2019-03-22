@@ -90,7 +90,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.178.200:8088/";
+    public static final String SERVER_URL="http://15.164.49.52:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -227,7 +227,9 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+            mPopupWindow.setOutsideTouchable(true);
+
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
@@ -239,7 +241,7 @@ public class FitTab extends AppCompatActivity  {
 
     public void stepgoal2(View v){
             HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
-            String[] params = {SERVER_URL+"todayGoal.do", "steps:"+1, "userno:"+ 1} ;
+            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ 0, "user_id:"+ 2} ;
             hu.execute(params);
 
 
@@ -248,7 +250,7 @@ public class FitTab extends AppCompatActivity  {
     public void stepgoal1(View v){
         HttpUtil_Todo1 hu = new HttpUtil_Todo1(FitTab.this);
 
-        String[] params = {SERVER_URL+"visit.do", "steps:"+1, "userno:"+ 1} ;
+        String[] params = {SERVER_URL+"visitmall.do", "wk_am:"+ 0, "user_id:"+ 1} ;
         hu.execute(params);
 
 
@@ -270,6 +272,16 @@ public class FitTab extends AppCompatActivity  {
         mBackground.setVisibility(View.VISIBLE);
         mCircleView = popupView.findViewById(R.id.circleView);
         mCircleView.setFocusable(true);
+        //mPopupWindow.setOutsideTouchable(true);
+        mBackground.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    mBackground.setVisibility(View.GONE);
+                }
+                return false;
+            }
+        });
 
 
         mCircleView.setValueAnimated(1);
@@ -277,7 +289,8 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
@@ -303,7 +316,8 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
@@ -611,16 +625,34 @@ public class FitTab extends AppCompatActivity  {
     }
 
 
+    public void abc(){
+
+    }
+    View popupView;
+    PopupWindow helpPopup;
+
     class helpListener implements View.OnClickListener {
 
         @Override
         public void onClick(View helpicon) {
             Toast.makeText(getApplicationContext(),"are you clicked?",Toast.LENGTH_LONG).show();
-            View popupView = getLayoutInflater().inflate(R.layout.help_popup_activity,null);
-            PopupWindow helpPopup = new PopupWindow(popupView, 1000, 1000,true);
+            popupView = getLayoutInflater().inflate(R.layout.help_popup_activity,null);
+            helpPopup= new PopupWindow(popupView, 1000, 1000,true);
             helpPopup.setAnimationStyle(-1);
             helpPopup.showAtLocation(popupView, Gravity.CENTER, 0,0);
+
+            popupView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN){
+                        popupView.setVisibility(View.GONE);
+                    }
+                    return false;
+                }
+            });
         }
+
+
     }
 
     public void getPastSteps(ArrayList<StepVO> arry) {
