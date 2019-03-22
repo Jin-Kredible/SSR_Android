@@ -10,8 +10,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-feature android:name="android.hardware.bluetoothle" android:required="true"/>
-    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTHADMIN" />
 
     <uses-feature
@@ -45,8 +43,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"/>
         <activity android:name="com.shin.ssr.layout.notification.PushNotification"/>
-        <activity android:name="com.shin.ssr.layout.point.Point"/>
-        
+
         <activity
             android:name="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
             android:label="@string/title_activity_big_picture_main">
@@ -56,6 +53,8 @@
              />
         </activity>
 
+        <activity android:name="com.shin.ssr.layout.point.Point"/>
+        <activity android:name="com.shin.ssr.get.PointGet"/>
 
         <meta-data android:name="com.google.android.gms.version" android:value="12451000" tools:replace="android:value" />
         <activity

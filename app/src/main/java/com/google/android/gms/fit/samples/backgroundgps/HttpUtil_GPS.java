@@ -3,8 +3,6 @@ package com.google.android.gms.fit.samples.backgroundgps;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.shin.ssr.layout.point.Point;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
