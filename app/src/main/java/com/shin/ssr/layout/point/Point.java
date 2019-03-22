@@ -213,8 +213,17 @@ public class Point extends AppCompatActivity {
                     thread2.stopThread();
 
                     if(done && !none) {
+
                         Get();
+
+
                         done = false;
+
+                        HttpUtil_P_UPDATE hu = new HttpUtil_P_UPDATE(Point.this);;
+                        String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+10, "userid:"+1} ;
+                        Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
+                        hu.execute(params);
+
                     }
 
                     Log.d("pointy", "run: stop thread2");
@@ -320,7 +329,8 @@ public class Point extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (imgPro.getTranslationX() >=  900 && imgPro.getTranslationX() <920) {
+                            if(imgPro.getTranslationX() == 900){
+                            //if (imgPro.getTranslationX() >=  900 && imgPro.getTranslationX() <920) {
                                 Log.d("pointy", "before rotation get translation x" + imgPro.getTranslationX());
                                 Log.d("pointy", "before rotation");
                                 done = true;
@@ -348,7 +358,7 @@ public class Point extends AppCompatActivity {
         }
     }
 
-    public void Get() {
+    public synchronized  void Get() {
         Log.d("pointy", "Get: numPoint : " + numPoint + "/ walk : " + walk +"totlal walk : " + totalwalk);
         numPoint += 10;
         if (numPoint > totalwalk * 10) {
@@ -358,11 +368,6 @@ public class Point extends AppCompatActivity {
         if(walk==0) none=true;
         getPoint.setText(Integer.toString(numPoint));
         Log.d("pointy", "Get: numPoint2nd : " + numPoint + "/ walk : " + walk +"totlal walk : " + totalwalk);
-
-        HttpUtil_P_UPDATE hu = new HttpUtil_P_UPDATE(Point.this);;
-        String[] params = {SERVER_URL+"goodsToSavings.do", "numPoint:"+10, "userid:"+1} ;
-        Log.d("NUM", "toFit: NUMPOINT  "+numPoint);
-        hu.execute(params);
 
 
         imgAd.setBackgroundResource(imgs[(numPoint / 10) % imgs.length]);
@@ -383,9 +388,9 @@ public class Point extends AppCompatActivity {
         imgCart.bringToFront();
         setViewInvalidate(imgCart, imgGetPro);
 
-        imgPro.setTranslationX(resetX);
-        imgPro.setTranslationY(resetY);
-        imgPro.setRotation(resetR);
+        imgPro.setTranslationX(0);
+        imgPro.setTranslationY(0);
+        imgPro.setRotation(0);
 
         Log.d("pointy getX0", Float.toString(imgPro.getX()));
         Log.d("pointy getX0", Float.toString(imgPro.getTranslationX()));
@@ -395,6 +400,11 @@ public class Point extends AppCompatActivity {
         if (walk <= 0) {
             imgPro.setVisibility(View.GONE);
         }
+        /*try{
+            Thread.sleep(500);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }*/
     }
 
     private void setViewInvalidate(View... views) {
