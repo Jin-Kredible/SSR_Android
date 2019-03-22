@@ -2,13 +2,16 @@ package com.shin.ssr.layout.tab;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.DisplayMetrics;
@@ -26,7 +29,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -50,7 +55,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
-import com.shin.ssr.layout.notification.PushNotification;
 import com.shin.ssr.layout.point.Point;
 import com.shin.ssr.vo.StepVO;
 
@@ -64,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -196,6 +201,7 @@ public class FitTab extends AppCompatActivity  {
 
 
 
+        @SuppressLint("ClickableViewAccessibility")
         public void getTodoList(double result){
 
             this.step_percentage = result;
@@ -208,7 +214,16 @@ public class FitTab extends AppCompatActivity  {
 
             mBackground.setVisibility(View.VISIBLE);
             mCircleView = popupView.findViewById(R.id.circleView);
-
+            mCircleView.setFocusable(true);
+            mBackground.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_DOWN){
+                        mBackground.setVisibility(View.GONE);
+                    }
+                    return false;
+                }
+            });
 
 
             mCircleView.setValueAnimated((float)step_percentage);
@@ -216,7 +231,8 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
@@ -228,7 +244,7 @@ public class FitTab extends AppCompatActivity  {
 
     public void stepgoal2(View v){
             HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
-            String[] params = {SERVER_URL+"todayGoal.do", "steps:"+1, "userno:"+ 1} ;
+            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ 0, "user_id:"+ 1} ;
             hu.execute(params);
 
 
@@ -237,7 +253,7 @@ public class FitTab extends AppCompatActivity  {
     public void stepgoal1(View v){
         HttpUtil_Todo1 hu = new HttpUtil_Todo1(FitTab.this);
 
-        String[] params = {SERVER_URL+"visit.do", "steps:"+1, "userno:"+ 1} ;
+        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ 0, "user_id:"+ 1} ;
         hu.execute(params);
 
 
@@ -258,7 +274,7 @@ public class FitTab extends AppCompatActivity  {
 
         mBackground.setVisibility(View.VISIBLE);
         mCircleView = popupView.findViewById(R.id.circleView);
-
+        mCircleView.setFocusable(true);
 
 
         mCircleView.setValueAnimated(1);
@@ -266,7 +282,8 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
@@ -292,7 +309,8 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
@@ -607,6 +625,7 @@ public class FitTab extends AppCompatActivity  {
     View popupView;
 
     class helpListener implements View.OnClickListener {
+
         @Override
         public void onClick(View helpicon) {
 
@@ -673,6 +692,7 @@ public class FitTab extends AppCompatActivity  {
 
 
     private void updateData() {
+        Log.d("fit","in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -685,6 +705,9 @@ public class FitTab extends AppCompatActivity  {
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
+
+
+
                             }
                         })
                 .addOnFailureListener(
@@ -694,7 +717,7 @@ public class FitTab extends AppCompatActivity  {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
+    }
 
     }
-}
 
