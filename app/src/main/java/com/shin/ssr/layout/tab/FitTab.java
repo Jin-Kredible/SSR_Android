@@ -86,7 +86,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.178.149:8088/";
+    public static final String SERVER_URL="http://52.79.208.198:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -225,7 +225,7 @@ public class FitTab extends AppCompatActivity  {
 
     public void stepgoal2(View v){
             HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
-            String[] params = {SERVER_URL+"todayGoal.do", "steps:"+1, "userno:"+ 1} ;
+            String[] params = {SERVER_URL+"todayGoal.do", "steps:"+1, "user_id:"+ 1} ;
             hu.execute(params);
 
 
@@ -234,7 +234,7 @@ public class FitTab extends AppCompatActivity  {
     public void stepgoal1(View v){
         HttpUtil_Todo1 hu = new HttpUtil_Todo1(FitTab.this);
 
-        String[] params = {SERVER_URL+"visit.do", "steps:"+1, "userno:"+ 1} ;
+        String[] params = {SERVER_URL+"visit.do", "steps:"+1, "user_id:"+ 1} ;
         hu.execute(params);
 
 
