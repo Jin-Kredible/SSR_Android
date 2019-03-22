@@ -111,12 +111,12 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
 
     }
 
-//    public void closePage(){
-//        Intent intent = new Intent(BigPictureSocialMainActivity.this, com.shin.ssr.layout.tab.FitTab.class);
-//        startActivity(intent);
-//
+    public void closePage(View v){
+        Intent intent = new Intent(BigPictureSocialMainActivity.this, com.shin.ssr.layout.tab.FitTab.class);
+        startActivity(intent);
+
 //        finish();
-//    }
+    }
 
     class ButtonActivity extends AppCompatActivity implements View.OnClickListener{
         @Override
