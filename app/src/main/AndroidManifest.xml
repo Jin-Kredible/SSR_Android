@@ -43,8 +43,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"/>
         <activity android:name="com.shin.ssr.layout.notification.PushNotification"/>
-        <activity android:name="com.shin.ssr.layout.point.Point"/>
-        
+
         <activity
             android:name="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
             android:label="@string/title_activity_big_picture_main">
@@ -54,6 +53,7 @@
              />
         </activity>
 
+        <activity android:name="com.shin.ssr.layout.point.Point"/>
 
         <meta-data android:name="com.google.android.gms.version" android:value="12451000" tools:replace="android:value" />
         <activity
@@ -79,6 +79,12 @@
             android:name="com.google.android.gms.fit.samples.backgroundgps.RealService"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name="com.google.android.gms.fit.samples.stepcounter.NotificationService"
+            android:enabled="true"
+            android:exported="true" />
+
 
         <service
             android:name="com.google.android.gms.fit.samples.backgroundgps.RestartService"
@@ -112,6 +118,7 @@
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
             </intent-filter>
         </receiver>
+
 
     </application>
 

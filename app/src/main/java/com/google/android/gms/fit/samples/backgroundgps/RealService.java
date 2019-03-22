@@ -139,7 +139,7 @@ public class RealService  extends Service {
                             pushyn = hu.get();
 
                             Log.d("real","pushyn : " + Integer.parseInt(pushyn) + "result2" + Integer.toString(result2));
-                            if(Integer.parseInt(pushyn)==0) {
+
 
                                 locationVO = locationManage.getVoData();
                                 showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
@@ -151,7 +151,7 @@ public class RealService  extends Service {
                                 location.setLongitude(locationVO.getLongitude());
 
                                 Location locationPoint = new Location("Mall");
-
+                                if(Integer.parseInt(pushyn)==0) {
                                 for (int i = 0; i < mTemp.size(); i++) {
                                     locationPoint.setLatitude(mTemp.get(i).getMall_la());
                                     locationPoint.setLongitude(mTemp.get(i).getMall_long());
@@ -167,6 +167,8 @@ public class RealService  extends Service {
                                         vo.setGender(1);
                                         vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                                         generateBigPictureStyleNotification(vo);
+                                        isBeaconOn = true; // 비콘 켜준다.
+                                        Log.d("beacon1", ">>>>>>>>>>> 100m 진입 비콘 검색을 실행합니다.");
                                     }
 
                                     Log.d("mall", mTemp.get(i).getMall_nm());
