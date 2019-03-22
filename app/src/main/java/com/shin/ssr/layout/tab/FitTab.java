@@ -696,6 +696,7 @@ public void printToast(String rtn) {
     }
 
     private void updateData() {
+        Log.d("fit","in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -709,6 +710,8 @@ public void printToast(String rtn) {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
 
+
+
                             }
                         })
                 .addOnFailureListener(
@@ -718,8 +721,7 @@ public void printToast(String rtn) {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
-
     }
-}
 
+}
 
