@@ -84,6 +84,7 @@ public class FitTab extends AppCompatActivity  {
     private static double step_percentage;
     private static double mall_percentage;
     private static double ssgpaycon_percentage;
+    private static  boolean lorddata = false;
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
@@ -91,10 +92,12 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.178.200:8088/";
+    public static final String SERVER_URL="http://10.149.178.247:8081/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
+
+    public int read_counter = 0;
 
 
 
@@ -606,6 +609,8 @@ public class FitTab extends AppCompatActivity  {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
+
+
     }
 
     public void httpWeb(){
