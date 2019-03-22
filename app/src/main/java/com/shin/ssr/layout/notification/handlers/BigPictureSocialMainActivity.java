@@ -24,8 +24,11 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -108,12 +111,25 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
 
     }
 
-    public void closePage(){
-        Intent intent = new Intent(BigPictureSocialMainActivity.this, com.shin.ssr.layout.tab.FitTab.class);
-        startActivity(intent);
-        finish();
-    }
+//    public void closePage(){
+//        Intent intent = new Intent(BigPictureSocialMainActivity.this, com.shin.ssr.layout.tab.FitTab.class);
+//        startActivity(intent);
+//
+//        finish();
+//    }
 
+    class ButtonActivity extends AppCompatActivity implements View.OnClickListener{
+        @Override
+        public void onClick(View recommend) {
+            Button btn1 = (Button) findViewById(R.id.btnClose);
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+    }
 
 
 
@@ -241,4 +257,5 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
             e.printStackTrace();
         }
     }
+
 }

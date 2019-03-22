@@ -15,19 +15,11 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnClose"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right|center_vertical|center_horizontal|center|clip_horizontal"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/close_icon2"
-            android:onClick="closePage"
-            tools:ignore="OnClick" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -48,17 +40,32 @@
             <!--android:fontFamily="@font/nanumbarunpenr"/>-->
 
     </FrameLayout>
-        <TextView
-        android:id="@+id/custom_recom"
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:textSize="20dp"
-        android:text=""
-        android:gravity="center"
-        android:fontFamily="@font/bmhannapro"
-        android:background="@color/recom"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/custom_recom"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/recom"
+            android:fontFamily="@font/bmhannapro"
+            android:gravity="center"
+            android:text=""
             android:textColor="@color/chartbg"
-        />
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center_vertical|center_horizontal|center|clip_horizontal"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/close_icon2"
+            tools:ignore="OnClick" />
+
+    </FrameLayout>
 
     <TableLayout
         android:layout_width="match_parent"
