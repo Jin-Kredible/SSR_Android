@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
     /*
     /** 기존의 위치 받아오는 로직 **/
-<<<<<<< HEAD
+
     /////////////////////////////////////////////////////////////
     if (RealService.serviceIntent == null) {
       serviceIntent = new Intent(this, RealService.class);
@@ -151,51 +151,6 @@ public class MainActivity extends AppCompatActivity {
     locationVO =locationManage.getVoData(); //gps 위치 받아오기
     Log.d("geo", "Long" + locationManage.getVoData().getLongitude() + " " + locationManage.getVoData().getLatitude());*/
     /////////////////////////////////////////////////////////////////
-
-
-  btnFinance = findViewById(R.id.finance);
-  btnPayment = findViewById(R.id.payment);
-  btnLife = findViewById(R.id.lifestyle);
-  imgMain = findViewById(R.id.imgMain);
-
-  int getButtonNum = getIntent().getIntExtra("buttonNum",2);
-  switch (getButtonNum){
-    case 1: btnFinance.callOnClick();  break;
-    case 2: btnPayment.callOnClick();  break;
-    case 3: btnLife.callOnClick();     break;
-  }
-
-    FitnessOptions fitnessOptions =
-            FitnessOptions.builder()
-                    .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                    .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
-                    .build();
-    if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
-      GoogleSignIn.requestPermissions(
-              this,
-              REQUEST_OAUTH_REQUEST_CODE,
-              GoogleSignIn.getLastSignedInAccount(this),
-              fitnessOptions);
-      android.util.Log.d("fit","in Fitness regist1");
-    } else {
-      android.util.Log.d("fit","in Fitness regist2");
-      subscribe();
-=======
-        /////////////////////////////////////////////////////////////
-        if (RealService.serviceIntent == null) {
-            serviceIntent = new Intent(this, RealService.class);
-            startService(serviceIntent);
-        } else {
-            serviceIntent = RealService.serviceIntent;//getInstance().getApplication();
-            Toast.makeText(getApplicationContext(), "already", Toast.LENGTH_LONG).show();
-        }//백그라운드 실행
-        ////////////////////////////////////////////////////////////////
-        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        locationManage.onLocation(lm);
-        locationVO = locationManage.getVoData(); //gps 위치 받아오기
-        Log.d("geo", "Long" + locationManage.getVoData().getLongitude() + " " + locationManage.getVoData().getLatitude());
-        /////////////////////////////////////////////////////////////////
 
 
         btnFinance = findViewById(R.id.finance);
@@ -240,7 +195,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
->>>>>>> 4d21a501fd67bb13bc879cab4364f76ed818c97c
 
     }
 
