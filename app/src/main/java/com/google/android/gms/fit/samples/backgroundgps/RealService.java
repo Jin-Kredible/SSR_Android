@@ -167,6 +167,8 @@ public class RealService  extends Service {
                                         vo.setGender(1);
                                         vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                                         generateBigPictureStyleNotification(vo);
+                                        isBeaconOn = true; // 비콘 켜준다.
+                                        Log.d("beacon1", ">>>>>>>>>>> 100m 진입 비콘 검색을 실행합니다.");
                                     }
 
                                     Log.d("mall", mTemp.get(i).getMall_nm());

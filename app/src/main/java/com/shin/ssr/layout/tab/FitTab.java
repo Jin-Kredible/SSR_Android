@@ -79,6 +79,7 @@ public class FitTab extends AppCompatActivity  {
     private static double step_percentage;
     private static double mall_percentage;
     private static double ssgpaycon_percentage;
+    private static  boolean lorddata = false;
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
@@ -86,10 +87,12 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.179.69:8081/";
+    public static final String SERVER_URL="http://10.149.178.247:8081/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
+
+    public int read_counter = 0;
 
 
 
@@ -509,6 +512,8 @@ public class FitTab extends AppCompatActivity  {
     }*/
 
     private void readData() {
+        read_counter++;
+        Log.d("fit_err", "read data 들어온 횟수 : " + Integer.toString(read_counter));
         Log.d("fit","in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
@@ -517,65 +522,79 @@ public class FitTab extends AppCompatActivity  {
 
                             @Override
                             public void onSuccess(DataSet dataSet) {
-                                ArrayList<StepVO> stepAry = new ArrayList<>();
-                                HttpUtil hu = new HttpUtil(FitTab.this);
+                                Log.d("fit_err", "OnSuccess 진입 : lorddata = " + lorddata );
 
-                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
+                                if (lorddata == false) {
+                                    lorddata = true;
+                                    Log.d("fit_err", "lorddata 상태변경 " + lorddata );
+                                    ArrayList<StepVO> stepAry = new ArrayList<>();
+                                    HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                hu.execute(params);
-                                total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                    String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + 1};
 
-                                JSONArray object = null;
-                                String result;
-                                try {
-                                    result = hu.get();
-                                    object =  new JSONArray(result);
+                                    hu.execute(params);
+                                    total =
+                                            dataSet.isEmpty()
+                                                    ? 0
+                                                    : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                    android.util.Log.d("log","result from spring" + result);
+                                    JSONArray object = null;
+                                    String result;
+                                    try {
 
-                                    for(int i =0; i < object.length(); i++) {
-                                        JSONObject obj = (JSONObject)object.get(i);
-                                        android.util.Log.d("log",obj.getString("wk_am"));
-                                        android.util.Log.d("log",obj.getString("user_id"));
-                                        stepAry.add(new StepVO(obj.optInt("user_id"),obj.optInt("wk_am"),obj.optString("wk_dt")));
+                                        result = hu.get();
+                                        object = new JSONArray(result);
+
+                                        android.util.Log.d("log", "result from spring" + result);
+
+                                        for (int i = 0; i < object.length(); i++) {
+                                            JSONObject obj = (JSONObject) object.get(i);
+                                            android.util.Log.d("log", obj.getString("wk_am"));
+                                            android.util.Log.d("log", obj.getString("user_id"));
+                                            stepAry.add(new StepVO(obj.optInt("user_id"), obj.optInt("wk_am"), obj.optString("wk_dt")));
+                                        }
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    } catch (ExecutionException e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                } catch (ExecutionException e) {
-                                    e.printStackTrace();
+
+                                    Log.d("fit_err", "lorddata 파일 불러오기 종료 : lorddata 상태 = " + lorddata );
+                                    lorddata = false;
+                                    Log.d("fit", "todays walk");
+                                    Log.d("fit", "stepvO" + stepAry);
+
+                                    LineData data1 = getData(7, 10000, total, stepAry);
+
+                                    Log.d("fit", "getdata" + data1.getDataSets().toString());
+
+                                    // add some transparency to the color with "& 0x90FFFFFF"
+                                    setupChart(charts[0], data1, colors[0 % colors.length]);
+
+                                    TextView txtView = findViewById(R.id.steps_taken);
+                                    TextView txtView2 = findViewById(R.id.todo1_step);
+                                    txtView.setText(" " + total + " / 7000  ");
+
+                                    String text = "<font color='#333743'> <b> " + total + "</b> / 7000 </font>";
+                                    txtView2.setText(" " + total + " / 7000  ");
+                                    txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+
+                                    //////////////http connection
+                                    // 서버 주소
+
+
+                                    if (total >= 7000) {
+                                        Log.d("fit", "inside checkbox");
+                                        CheckBox step_checkbox = findViewById(R.id.steps_check);
+                                        step_checkbox.setChecked(true);
+                                    }
                                 }
+                                else {
 
-                                Log.d("fit", "todays walk");
-                                Log.d("fit", "stepvO" + stepAry);
-
-                                LineData data1 = getData(7, 10000, total, stepAry);
-
-                                Log.d("fit","getdata" + data1.getDataSets().toString());
-
-                                // add some transparency to the color with "& 0x90FFFFFF"
-                                setupChart(charts[0], data1, colors[0 % colors.length]);
-
-                                TextView txtView = findViewById(R.id.steps_taken);
-                                TextView txtView2 = findViewById(R.id.todo1_step);
-                                txtView.setText(" " + total + " / 7000  ");
-
-                                String text = "<font color='#333743'> <b> "+total+ "</b> / 7000 </font>";
-                                txtView2.setText(" " + total + " / 7000  ");
-                                txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-
-                                //////////////http connection
-                                 // 서버 주소
-
-
-                                if(total>=7000) {
-                                    Log.d("fit", "inside checkbox");
-                                    CheckBox step_checkbox = findViewById(R.id.steps_check);
-                                    step_checkbox.setChecked(true);
                                 }
                             }
                         })
@@ -586,6 +605,8 @@ public class FitTab extends AppCompatActivity  {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
+
+
     }
 
     public void httpWeb(){
