@@ -43,8 +43,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imgCoverB"
@@ -100,7 +99,7 @@
             android:layout_height="71dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="100dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/peacock_01" />
 
         <ImageView
@@ -113,9 +112,9 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="358dp"
-            android:layout_height="269dp"
+            android:layout_height="268dp"
             android:layout_gravity="center_horizontal|top"
-            android:background="@drawable/ad_board" />
+            app:srcCompat="@drawable/ad_board" />
 
         <ImageView
             android:id="@+id/imgAd"
