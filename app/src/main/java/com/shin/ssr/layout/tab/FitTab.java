@@ -539,25 +539,25 @@ public class FitTab extends AppCompatActivity  {
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
-                        new OnSuccessListener<DataSet>() {
+                                            new OnSuccessListener<DataSet>() {
 
-                            @Override
-                            public void onSuccess(DataSet dataSet) {
-                                ArrayList<StepVO> stepAry = new ArrayList<>();
+                                                @Override
+                                                public void onSuccess(DataSet dataSet) {
+                                                    ArrayList<StepVO> stepAry = new ArrayList<>();
 
-                                HttpUtil hu = new HttpUtil(FitTab.this);
+                                                    HttpUtil hu = new HttpUtil(FitTab.this);
 
                                 String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
 
-                                hu.execute(params);
-                                total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                                    hu.execute(params);
+                                                    total =
+                                                            dataSet.isEmpty()
+                                                                    ? 0
+                                                                    : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                JSONArray object = null;
-                                String result;
-                                try {
+                                                    JSONArray object = null;
+                                                    String result;
+                                                    try {
                                     result = hu.get();
                                     object =  new JSONArray(result);
 
