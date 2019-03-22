@@ -222,13 +222,13 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
                         }
 
                         if(productArry.get(4).getTime()==1) {
-                            time = "아침";
+                            time = "화이팅 아침";
                         } else if(productArry.get(4).getTime()==2) {
-                            time = "나른한 점심";
+                            time = "배고픈 점심";
                         } else if(productArry.get(4).getTime()==3) {
-                            time = "오후";
+                            time = "나른한 오후";
                         } else if (productArry.get(4).getTime()==4) {
-                            time = "저녁";
+                            time = "불타는 저녁";
                         } else if (productArry.get(4).getTime()==5) {
                             time = "야심한 밤";
                         }
