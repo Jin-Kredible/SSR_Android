@@ -721,8 +721,7 @@ public void printToast(String rtn) {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
-
     }
-}
 
+}
 
