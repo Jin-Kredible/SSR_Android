@@ -52,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -84,7 +85,13 @@ public class RealService  extends Service {
     private boolean isBeaconOn = true;     // 비콘 검색 기능 활성화
     private int mall_ID = 1000;
     private boolean isBeaconSerUpdate = false; //서버에 mall_id를 전송해 비콘 정보를 받아옴 체크
+    Date date = new Date();
+    SimpleDateFormat get_Day = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private String vi_Start;
+    private String vi_End;
     ArrayList<MallsVO> bCon_List = new ArrayList<MallsVO>();
+    private boolean isGpsOn = false;
+
     //비콘 관련 변수
     //////////////////////////////////////////////////////////////////
 
@@ -115,7 +122,7 @@ public class RealService  extends Service {
                         break;
                     }
                     try {
-                        Thread.sleep(2000 * 10); // 1 minute
+                        Thread.sleep(1000 * 5); // 1 minute
                         HttpUtil_GPS hu = new HttpUtil_GPS(RealService.this);
 
                         String[] params = {SERVER_URL+"checkPush.do", "dummy1:" + 1, "dummy2:" + 1} ;
@@ -134,53 +141,82 @@ public class RealService  extends Service {
                             }
                         }
 
+
+
                         try {
 
                             pushyn = hu.get();
 
                             Log.d("real","pushyn : " + Integer.parseInt(pushyn) + "result2" + Integer.toString(result2));
-                            if(Integer.parseInt(pushyn)==0) {
 
-                                locationVO = locationManage.getVoData();
-                                showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
-                                Location location = new Location(locationVO.getProvider());
-                                Log.d("geo", "loc vo long" + locationVO.getLongitude());
-                                Log.d("geo", "loc vo lat" + locationVO.getLatitude());
 
-                                location.setLatitude(locationVO.getLatitude());
-                                location.setLongitude(locationVO.getLongitude());
+                            locationVO = locationManage.getVoData();
 
-                                Location locationPoint = new Location("Mall");
+                            showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
+                            Location location = new Location(locationVO.getProvider());
 
+                            Log.d("geo", "loc vo long" + locationVO.getLongitude());
+                            Log.d("geo", "loc vo lat" + locationVO.getLatitude());
+
+                            location.setLatitude(locationVO.getLatitude());
+                            location.setLongitude(locationVO.getLongitude());
+
+                            Location locationPoint = new Location("Mall");
+
+                            if(isGpsOn == true && location.getProvider() != null){
+                                Log.d("gps2", ">>>>>>>> GpsOn 입장");
+                                Log.d("gps2", "if문 들어가기전 이름 : " +  location.getProvider());
+                                if(location.getProvider().equals("gps")){
+                                    Log.d("gps2", "if문 진입 : " +  location.getProvider());
+                                    isGpsOn = false;
+                                    vi_End = get_Day.format(date); //매장 방문 시간
+                                    /*HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
+                                    String[] params3 = {SERVER_URL+"visit.do", "mall_id:" + mall_ID, "user_id:" + 1, "vi_start:" + 1, "vi_end:" + 1} ;
+                                    becon_update.execute(params3);*/ // 지우면 안됨!! 매장퇴장시 유저 정보 넘겨주는 부분
+                                    showToast(getApplication(), "감사합니다 다음에 또 방문해주세요!");
+                                }
+                                else {
+                                    Log.d("gps2", "gps 이름" +  location.getProvider());
+                                    showToast(getApplication(), "네트워크 접속완료");
+                                }
+                            }//매장 퇴장 체크
+
+                            if(!isScanning && !isBeaconOn ) { // 사용자가 매장에 방문하지 않았을때 사용
+                                Log.d("gps2", ">>>>>> 점포 스캐닝 입장");
+                                showToast(getApplication(), "점포 스캐닝 입장");
                                 for (int i = 0; i < mTemp.size(); i++) {
                                     locationPoint.setLatitude(mTemp.get(i).getMall_la());
                                     locationPoint.setLongitude(mTemp.get(i).getMall_long());
                                     distance = locationPoint.distanceTo(location);
                                     Log.d("geo", Double.toString(distance));
 
-                                    // 지점과 지금 거리가 100m 이내일떄
-                                    if (distance < 100) {
-                                        Log.d("geo", "inside distance for loop");
-                                        mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-                                        StepVO vo = new StepVO();
-                                        vo.setAge(20);
-                                        vo.setGender(1);
-                                        vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-                                        generateBigPictureStyleNotification(vo);
-                                        isBeaconOn = true; // 비콘 켜준다.
-                                        Log.d("beacon1", ">>>>>>>>>>> 100m 진입 비콘 검색을 실행합니다.");
+                                    if (Integer.parseInt(pushyn) >= 0) {
+                                        // 지점과 지금 거리가 100m 이내일떄
+                                        if (distance < 100) {
+                                            showToast(getApplication(), "100미터 이내 입장!");
+                                                Log.d("geo", "inside distance for loop");
+                                                mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+                                                StepVO vo = new StepVO();
+                                                vo.setAge(20);
+                                                vo.setGender(1);
+                                                vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+                                                generateBigPictureStyleNotification(vo);
+                                            isBeaconOn = true; // 비콘 켜준다.
+
+
+                                            Log.d("beacon1", ">>>>>>>>>>> 100m 진입 비콘 검색을 실행합니다.");
+                                        }
+
+                                        Log.d("mall", mTemp.get(i).getMall_nm());
+                                        Log.d("mall", "현재 위도 " + location.getLatitude());
+                                        Log.d("mall", "현재 경도 " + location.getLongitude());
+                                        Log.d("mall", "성수점 위도 " + mTemp.get(i).getMall_la());
+                                        Log.d("mall", "성수점 경도 " + mTemp.get(i).getMall_long());
+                                        Log.d("mall", "위치 : " + distance);
                                     }
-
-                                    Log.d("mall", mTemp.get(i).getMall_nm());
-                                    Log.d("mall", "현재 위도 " + location.getLatitude());
-                                    Log.d("mall", "현재 경도 " + location.getLongitude());
-                                    Log.d("mall", "성수점 위도 " + mTemp.get(i).getMall_la());
-                                    Log.d("mall", "성수점 경도 " + mTemp.get(i).getMall_long());
-                                    Log.d("mall", "위치 : " + distance);
                                 }
+
                             }
-
-
 
 
                         } catch (ExecutionException e) {
@@ -457,6 +493,9 @@ public class RealService  extends Service {
     private void initManager() {
         Log.d("beacon1", "이닛 매니저 입장!!");
         mMinewBeaconManager = MinewBeaconManager.getInstance(this);
+
+
+
     } // 비콘사용 초기화
 
     private void initListener() {
@@ -501,6 +540,7 @@ public class RealService  extends Service {
                 if(!isScanning){
                     Log.d("beacon1", "onAppearBeacons 입장!" );
                     Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>onRangeBeacons for문 입장!" );
+                    Log.d("beacon1","비콘 리스트 사이즈 : " + bCon_List.size());
                     for(int i = 0; i < bCon_List.size() ; i++) {
                         Log.d("beacon1"," ");
                         Log.d("beacon1",">>>>>>>>>>>>>>>>>>>> "+ i + "번째 for문");
@@ -518,6 +558,7 @@ public class RealService  extends Service {
                             if( deviceUUID != null && deviceMajor != null && deviceMinor != null && serverUUID != null && serverMajor != null && serverMinor != null &&
                                     deviceUUID.equals(serverUUID) && deviceMajor.equals(serverMajor) && deviceMinor.equals(serverMinor)){
                                 Log.d("beacon1", "MINOR 통과");
+                                showToast(getApplication(), "매장방문을 환영합니다!");
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Name : " + deviceUUID);
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>UUID : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue());
@@ -528,6 +569,11 @@ public class RealService  extends Service {
                                 isScanning = true; // 매장 방문 체크
                                 isBeaconOn = false; // 비콘 off
                                 i = bCon_List.size(); // for문 종료
+                                vi_Start = get_Day.format(date); //매장 방문 시간
+                                HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
+                                String[] params = {SERVER_URL+"visit.do", "mall_id:" + mall_ID, "user_id:" + 1, "vi_start:" + 1, "vi_end:" + 1} ;
+                                becon_update.execute(params);
+                                isGpsOn = true; //매장 방문시 Gps를 잡아 매장을 나간것을 체크해주기 위함
                                 break;
                             }
                         }

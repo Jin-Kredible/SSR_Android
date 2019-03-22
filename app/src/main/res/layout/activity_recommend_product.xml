@@ -15,6 +15,47 @@
         android:layout_gravity="center"
         android:orientation="horizontal">
 
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="132dp"
+                android:background="@drawable/recommend" />
+
+        </LinearLayout>
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:text="상품 추천"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="#000000"-->
+            <!--android:textSize="40dp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:fontFamily="@font/nanumbarunpenr"/>-->
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/custom_recom"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fontFamily="@font/bmhannapro"
+            android:background="@drawable/recom"
+            android:gravity="center"
+            android:text="null"
+            android:textColor="@color/chartbg"
+            android:textSize="20dp" />
+
         <Button
             android:id="@+id/btnClose"
             android:layout_width="30dp"
@@ -25,42 +66,7 @@
             android:onClick="closePage"
             tools:ignore="OnClick" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="132dp"
-                android:background="@drawable/recommend" />
-
-            <TextView
-                android:id="@+id/custom_recom"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="#761a36"
-                android:fontFamily="@font/bmhannapro"
-                android:gravity="center"
-                android:text=""
-                android:textSize="20dp" />
-
-        </LinearLayout>
-
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:text="상품 추천"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="#000000"-->
-        <!--android:textSize="40dp"-->
-        <!--android:textStyle="bold"-->
-        <!--android:fontFamily="@font/nanumbarunpenr"/>-->
-
     </FrameLayout>
-
-
 
     <TableLayout
         android:layout_width="match_parent"
@@ -75,7 +81,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
-
             android:elevation="3dp"
             android:orientation="horizontal">
 
@@ -88,7 +93,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/recommendedProduct1_name"
@@ -98,7 +104,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text=""
+                    android:text="NULL"
                     android:textAlignment="center"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -111,7 +117,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text=""
+                    android:text="NULL"
                     android:textAlignment="center" />
 
                 <TextView
@@ -122,7 +128,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text=""
+                    android:text="NULL"
                     android:textAlignment="center" />
             </LinearLayout>
         </TableRow>
@@ -132,7 +138,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:background="@color/lightred"
             android:elevation="3dp"
             android:orientation="horizontal">
 
@@ -145,7 +150,8 @@
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp" >
 
 
                 <TextView
@@ -199,7 +205,8 @@
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp" >
 
                 <TextView
                     android:id="@+id/recommendedProduct3_name"
@@ -240,7 +247,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:background="@color/lightred"
             android:elevation="3dp"
             android:orientation="horizontal">
 
@@ -252,7 +258,8 @@
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp" >
 
                 <TextView
                     android:id="@+id/recommendedProduct4_name"
