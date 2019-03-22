@@ -39,6 +39,15 @@ public class MallsVO {
         this.mall_nm = mall_nm;
     }
 
+    public MallsVO( int user_id, int mall_id, String uuid, int major, int minor) {
+        super();
+        this.user_id = user_id;
+        this.mall_id = mall_id;
+        this.uuid = uuid;
+        this.major = major;
+        this.minor = minor;
+    }
+
     public double getMall_la() {
         return mall_la;
     }

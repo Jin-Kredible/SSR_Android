@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-
     android:orientation="vertical"
-    tools:context="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity">
+
+    tools:context="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
+    android:background="#ffffff">
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -159,8 +159,6 @@ public final class MockDatabase {
             mBigContentTitle = "SSR 이 추천해주는 제품!";
             mSummaryText = "당신만을 위한 추천 제품 놓치지 마세요";
 
-            // This would be possible responses based on the contents of the post.
-            mPossiblePostResponses = new CharSequence[] {"Yes", "No", "Maybe?"};
 
             mParticipants = new ArrayList<>();
             mParticipants.add("Bob Smith");
@@ -463,6 +461,7 @@ public final class MockDatabase {
         public String getContentTitle() {
             return mContentTitle;
         }
+
 
         public String getContentText() {
             return mContentText;
