@@ -2,7 +2,11 @@ package com.shin.ssr.layout.tab;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +48,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.stepcounter.MainActivity;
+import com.google.android.gms.fit.samples.stepcounter.NotificationService;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
@@ -73,6 +79,7 @@ import java.util.concurrent.ExecutionException;
 
 import at.grabner.circleprogress.CircleProgressView;
 
+import static android.app.PendingIntent.getActivity;
 import static android.graphics.Color.rgb;
 
 
@@ -92,10 +99,11 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.178.149:8088/";
+    public static final String SERVER_URL="http://52.79.208.198:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
+    private static final int NOTIF_ID = 1234;
 
     public int read_counter = 0;
 
@@ -542,7 +550,7 @@ public class FitTab extends AppCompatActivity  {
 
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
+                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 2} ;
 
                                 hu.execute(params);
                                 total =
@@ -571,6 +579,12 @@ public class FitTab extends AppCompatActivity  {
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
                                 }
+
+                               /* Intent intent = new Intent(getApplicationContext(), NotificationService.class);
+                                getApplicationContext().startService(intent);*/
+
+                                updateNotification(total);
+
 
                                 Log.d("fit", "todays walk");
                                 Log.d("fit", "stepvO" + stepAry);
@@ -660,36 +674,29 @@ public class FitTab extends AppCompatActivity  {
     }
 
 
- /*   protected void updateSteps() {
+    private Notification getMyActivityNotification(int total){
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_service);
 
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
-                .addOnSuccessListener(
-                        new OnSuccessListener<DataSet>() {
+        Log.d("noti", "inside get my activity");
+        // The PendingIntent to launch our activity if the user selects
+        // this notification
+        Intent notificationIntent = new Intent(this, FitTab.class);
+        PendingIntent pendingIntent = getActivity(this, 0, notificationIntent, 0);
 
-                            @Override
-                            public void onSuccess(DataSet dataSet) {
+        remoteViews.setTextViewText(R.id.notif_content2, Integer.toString(total));
+        return new Notification.Builder(this)
+                .setSmallIcon(R.mipmap.ic_ssgpay_launch)
+                .setContent(remoteViews)
+                .setContentIntent(pendingIntent).getNotification();
+    }
 
-                                total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+    private void updateNotification(int total) {
 
+        Notification notification = getMyActivityNotification(total);
 
-
-
-                            }
-                        })
-                .addOnFailureListener(
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the step count.", e);
-                            }
-                        });
-
-    }*/
-
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(NOTIF_ID, notification);
+    }
 
     private void updateData() {
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
@@ -703,6 +710,7 @@ public class FitTab extends AppCompatActivity  {
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+
 
                             }
                         })
