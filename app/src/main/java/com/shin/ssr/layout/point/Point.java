@@ -146,7 +146,7 @@ public class Point extends AppCompatActivity {
                             thread = new Thread();
                             thread.start();
                         }else{
-                            imgPro.setVisibility(View.GONE);
+                            imgGetPro.setVisibility(View.GONE);
                         }
                         break;
                     case MotionEvent.ACTION_UP :
@@ -226,9 +226,9 @@ public class Point extends AppCompatActivity {
                     Log.d("pointy", "run: stop thread1");
                     break;
                 case SEND_STOP_ROTATION:    //Product get Stop
-                    if(done) {
+                   /* if(done) {
                         Get();
-                    }
+                    }*/
                     thread2.stopThread();
 
                     Log.d("pointy", "run: stop thread2");

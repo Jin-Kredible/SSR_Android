@@ -115,7 +115,7 @@ public class RealService  extends Service {
                         break;
                     }
                     try {
-                        Thread.sleep(1000 * 10); // 1 minute
+                        Thread.sleep(2000 * 10); // 1 minute
                         HttpUtil_GPS hu = new HttpUtil_GPS(RealService.this);
 
                         String[] params = {SERVER_URL+"checkPush.do", "dummy1:" + 1, "dummy2:" + 1} ;
