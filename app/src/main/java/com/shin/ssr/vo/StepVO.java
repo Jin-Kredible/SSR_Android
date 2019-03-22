@@ -3,10 +3,17 @@ package com.shin.ssr.vo;
 public class StepVO {
 
 
-    int user_id, gender, age, wk_am, wk_sa;
+    int user_id, gender, age, wk_am, wk_sa, time;
     String name, wk_dt;
 
 
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
 
     public int getUser_id() {
         return user_id;

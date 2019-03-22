@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -22,9 +23,15 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.estimote.coresdk.recognition.packets.Beacon;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.gms.fit.samples.stepcounter.MainActivity;
 import com.google.android.gms.fit.samples.stepcounter.R;
+import com.minew.beacon.BeaconValueIndex;
+import com.minew.beacon.BluetoothState;
+import com.minew.beacon.MinewBeacon;
+import com.minew.beacon.MinewBeaconManager;
+import com.minew.beacon.MinewBeaconManagerListener;
 import com.shin.ssr.layout.notification.GlobalNotificationBuilder;
 import com.shin.ssr.layout.notification.handlers.BigPictureSocialIntentService;
 import com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity;
@@ -42,8 +49,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import com.shin.ssr.vo.LocationVO;
@@ -55,7 +65,7 @@ import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
 
 
 public class RealService  extends Service {
-    private Thread mainThread;
+    public static Thread mainThread;
     public static Intent serviceIntent = null;
     LocationManage locationManage = new LocationManage();
     private LocationVO locationVO = new LocationVO();
@@ -65,6 +75,18 @@ public class RealService  extends Service {
     private ArrayList<MallsVO> mTemp = new ArrayList<>();
     private double distance;
     private int result2;
+
+
+    ///////////////////////////////////////////////////////////////////
+    private boolean isScanning = false; // 방문 완료
+    private MinewBeaconManager mMinewBeaconManager;
+    private static final int REQUEST_ENABLE_BT = 2;
+    private boolean isBeaconOn = true;     // 비콘 검색 기능 활성화
+    private int mall_ID = 1000;
+    private boolean isBeaconSerUpdate = false; //서버에 mall_id를 전송해 비콘 정보를 받아옴 체크
+    ArrayList<MallsVO> bCon_List = new ArrayList<MallsVO>();
+    //비콘 관련 변수
+    //////////////////////////////////////////////////////////////////
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -79,13 +101,19 @@ public class RealService  extends Service {
         Log.d("real", Integer.toString(result2));
 
         mainThread = new Thread(new Runnable() {
+
+
             @SuppressLint("MissingPermission")
             @Override
             public void run() {
                // SimpleDateFormat sdf = new SimpleDateFormat("aa hh:mm");
-
                 boolean run = true;
+
                 while (run) {
+
+                    if (Thread.interrupted())  {
+                        break;
+                    }
                     try {
                         Thread.sleep(1000 * 10); // 1 minute
                         HttpUtil_GPS hu = new HttpUtil_GPS(RealService.this);
@@ -94,6 +122,17 @@ public class RealService  extends Service {
 
                         hu.execute(params);
                         String pushyn;
+
+                        if(isBeaconOn == true){
+                            initListener();
+                            HttpUtil_Beacon be = new HttpUtil_Beacon(RealService.this);
+                            if(!isBeaconSerUpdate){
+                                mMinewBeaconManager.startScan();
+                                String[] params2 = {SERVER_URL+"beaconInfo.do", "mall_id:" + mall_ID, "uuid:" + 1} ; // visit.do에 mall_ID를 전송시켜준다.
+                                be.execute(params2);
+                                isBeaconSerUpdate = true;
+                            }
+                        }
 
                         try {
 
@@ -123,7 +162,11 @@ public class RealService  extends Service {
                                     if (distance < 100) {
                                         Log.d("geo", "inside distance for loop");
                                         mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-                                        generateBigPictureStyleNotification();
+                                        StepVO vo = new StepVO();
+                                        vo.setAge(20);
+                                        vo.setGender(1);
+                                        vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+                                        generateBigPictureStyleNotification(vo);
                                     }
 
                                     Log.d("mall", mTemp.get(i).getMall_nm());
@@ -141,6 +184,7 @@ public class RealService  extends Service {
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
+                            Log.d("pointy", "inside interrupted Exception of real service");
                             e.printStackTrace();
                         }
 
@@ -148,6 +192,7 @@ public class RealService  extends Service {
                          /*  String SERVER_URL="http://192.168.219.108:8088/product.do"; // 서버 주소*/
 
                     } catch (InterruptedException e) {
+                        Log.d("pointy", "inside interrupted Exception of real service");
                         run = false;
                         e.printStackTrace();
                     }
@@ -184,6 +229,8 @@ public class RealService  extends Service {
         super.onCreate();
         final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //백그라운드에서 gps 실행
         locationManage.onLocation(lm); // gps 실행
+        initManager(); // 비콘 매니저 초기화
+        initListener(); //비콘 매니저 실행
     }
 
     @Override
@@ -217,7 +264,31 @@ public class RealService  extends Service {
         mAlarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), sender);
     }
 
-    public void generateBigPictureStyleNotification() {
+    public void generateBigPictureStyleNotification(StepVO vo) {
+
+        String gender= null;
+        String time =null;
+        if(vo.getGender()==1) {
+            gender = "남성";
+        } else {
+            gender="여성";
+        }
+
+        if(vo.getTime()> 7 && vo.getTime() <=10) {
+
+            time = "아침";
+        } else if (vo.getTime() > 10 && vo.getTime() <= 13) {
+            time = "나른한 점심";
+        } else if (vo.getTime() > 13 && vo.getTime() <= 17) {
+            time = "오후";
+        } else if (vo.getTime() > 17 && vo.getTime() <= 20) {
+            time = "저녁";
+        } else {
+            time = "야심한 밤";
+        }
+
+
+
 
         android.util.Log.d("geo", "generateBigPictureStyleNotification()");
 
@@ -246,9 +317,9 @@ public class RealService  extends Service {
                                 getResources(),
                                 bigPictureStyleSocialAppData.getBigImage()))
                 // Overrides ContentTitle in the big form of the template.
-                .setBigContentTitle(bigPictureStyleSocialAppData.getBigContentTitle())
+                .setBigContentTitle("100M 내에 위치한 EMART에서 지금 GET")
                 // Summary line after the detail section in the big form of the template.
-                .setSummaryText(bigPictureStyleSocialAppData.getSummaryText());
+                .setSummaryText(time +"에 " + vo.getAge() + "대 " + gender + "에게 추천하는 이마트 제품");
 
         // 3. Set up main Intent for notification.
         Intent mainIntent = new Intent(this, BigPictureSocialMainActivity.class);
@@ -317,13 +388,6 @@ public class RealService  extends Service {
             replyActionPendingIntent = mainPendingIntent;
         }
 
-        NotificationCompat.Action replyAction =
-                new NotificationCompat.Action.Builder(
-                        R.drawable.ic_reply_white_18dp,
-                        replyLabel,
-                        replyActionPendingIntent)
-                        .addRemoteInput(remoteInput)
-                        .build();
 
         // 5. Build and issue the notification.
 
@@ -340,9 +404,9 @@ public class RealService  extends Service {
                 // BIG_PICTURE_STYLE sets title and content for API 16 (4.1 and after).
                 .setStyle(bigPictureStyle)
                 // Title for API <16 (4.0 and below) devices.
-                .setContentTitle(bigPictureStyleSocialAppData.getContentTitle())
+                .setContentTitle("↓↓↓↓ 근처 EMART 추천 제품" )
                 // Content for API <24 (7.0 and below) devices.
-                .setContentText(bigPictureStyleSocialAppData.getContentText())
+                .setContentText(time +"에 " + vo.getAge() + "대 " + gender + "에게 추천하는 이마트 제품")
                 .setSmallIcon(R.drawable.ssgpaylogo2)
                 .setLargeIcon(BitmapFactory.decodeResource(
                         getResources(),
@@ -360,7 +424,6 @@ public class RealService  extends Service {
                 // .setGroup(GROUP_KEY_YOUR_NAME_HERE)
 
                 .setSubText(Integer.toString(1))
-                .addAction(replyAction)
                 .setCategory(Notification.CATEGORY_SOCIAL)
 
                 // Sets priority for 25 and below. For 26 and above, 'priority' is deprecated for
@@ -388,4 +451,177 @@ public class RealService  extends Service {
         result2 = pushYN;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+    private void initManager() {
+        Log.d("beacon1", "이닛 매니저 입장!!");
+        mMinewBeaconManager = MinewBeaconManager.getInstance(this);
+    } // 비콘사용 초기화
+
+    private void initListener() {
+        Log.d("beacon1", "이닛 리스너 입장!!");
+        if (mMinewBeaconManager != null) {
+            BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
+            switch (bluetoothState) {
+                case BluetoothStateNotSupported:
+
+                    break;
+                case BluetoothStatePowerOff:
+                    showBLEDialog();
+                    return;
+                case BluetoothStatePowerOn:
+                    break;
+            }
+        }
+
+
+       /* if (isScanning) {
+          isScanning = false;
+          if (mMinewBeaconManager != null) {
+            mMinewBeaconManager.stopScan();
+          }
+        } else {
+          isScanning = true;
+          try {
+            mMinewBeaconManager.startScan();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }//수정 요망블투 버튼으로 끄고 켰을때 사용되는 부분*/
+
+        mMinewBeaconManager.setDeviceManagerDelegateListener(new MinewBeaconManagerListener() {
+            /**
+             *   새로운 비컨을 발견하면 메소드를 다시 호출
+             *
+             *  관리자가 스캔 한 @param minewBeacons 새로운 비컨
+             */
+            @Override
+            public void onAppearBeacons(List<MinewBeacon> minewBeacons) {
+                if(!isScanning){
+                    Log.d("beacon1", "onAppearBeacons 입장!" );
+                    Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>onRangeBeacons for문 입장!" );
+                    for(int i = 0; i < bCon_List.size() ; i++) {
+                        Log.d("beacon1"," ");
+                        Log.d("beacon1",">>>>>>>>>>>>>>>>>>>> "+ i + "번째 for문");
+                        Log.d("beacon1", "서버정보 : " + "UUID - " + bCon_List.get(i).getUuid() + " Major - " + Integer.toString(bCon_List.get(i).getMajor()) + " minor - " + Integer.toString(bCon_List.get(i).getMinor()));
+                        Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                        for (MinewBeacon minewBeacon : minewBeacons) {
+                            String deviceUUID = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue();
+                            String deviceMajor = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Major).getStringValue();
+                            String deviceMinor = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Minor).getStringValue();
+                            String serverUUID = bCon_List.get(i).getUuid();
+                            String serverMajor = Integer.toString(bCon_List.get(i).getMajor());
+                            String serverMinor = Integer.toString(bCon_List.get(i).getMinor());
+
+                            Log.d("beacon1", "검색정보 : " + "UUID - " + deviceUUID + " Major - " + deviceMajor + " minor - " + deviceMinor);
+                            if( deviceUUID != null && deviceMajor != null && deviceMinor != null && serverUUID != null && serverMajor != null && serverMinor != null &&
+                                    deviceUUID.equals(serverUUID) && deviceMajor.equals(serverMajor) && deviceMinor.equals(serverMinor)){
+                                Log.d("beacon1", "MINOR 통과");
+                                com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
+                                com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Name : " + deviceUUID);
+                                com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>UUID : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue());
+                                com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Major : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Major).getStringValue());
+                                com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Minor : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Minor).getStringValue());
+                                com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
+                                mMinewBeaconManager.stopScan();
+                                isScanning = true; // 매장 방문 체크
+                                isBeaconOn = false; // 비콘 off
+                                i = bCon_List.size(); // for문 종료
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            /**
+             *   * 신호가 10 초 이내에 데이터를 업데이트하지 않으면이 신호가 울리지 않았다고 관리자가이 방법을 다시 호출합니다.
+             *     * @param minewBeacons 비컨 범위를 벗어났습니다.
+             */
+            @Override
+            public void onDisappearBeacons(List<MinewBeacon> minewBeacons) {
+                /*for (MinewBeacon minewBeacon : minewBeacons) {
+                    String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+                    Toast.makeText(getApplicationContext(), deviceName + "  out range", Toast.LENGTH_SHORT).show();
+                }*/
+            }
+
+            /**
+             *    * 관리자가 1 초마다이 방법을 호출하면 모든 스캔 된 신호를 얻을 수 있습니다.
+             * @param minewBeacons 모든 스캔 된 비컨
+             */
+            @Override
+            public void onRangeBeacons(final List<MinewBeacon> minewBeacons) {
+               /* for (MinewBeacon minewBeacon : minewBeacons) {
+                    String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+
+
+                    if(deviceName.equals("MiniBeacon_21907")) {
+                        com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
+                        com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Name : " + deviceName);
+                        com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>UUID : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue());
+                        com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Major : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Major).getStringValue());
+                        com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Minor : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Minor).getStringValue());
+                        com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
+                        //  mMinewBeaconManager.stopScan();
+                    }
+                    com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", "굿" + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue());
+                }*/
+            }
+
+            /**
+             *   * 관리자가 BluetoothStateChanged를 호출 할 때이 메소드를 다시 호출합니다.
+             *              *
+             *
+             *  @param state BluetoothState
+             */
+            @Override
+            public void onUpdateState(BluetoothState state) {
+                switch (state) {
+                    case BluetoothStatePowerOn:
+                        Toast.makeText(getApplicationContext(), "BluetoothStatePowerOn", Toast.LENGTH_SHORT).show();
+                        break;
+                    case BluetoothStatePowerOff:
+                        Toast.makeText(getApplicationContext(), "BluetoothStatePowerOff", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 블루투스 상태 확인
+     */
+    private void checkBluetooth() {
+        BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
+        switch (bluetoothState) {
+            case BluetoothStateNotSupported:
+                Toast.makeText(this, "Not Support BLE", Toast.LENGTH_SHORT).show();
+                //  finish();
+                break;
+            case BluetoothStatePowerOff:
+                showBLEDialog();
+                break;
+            case BluetoothStatePowerOn:
+                break;
+        }
+    }
+
+    private void showBLEDialog() {
+        Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        // startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+    }
+    // 비콘 제어 부
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    public void get_BaeconList(ArrayList<MallsVO> result ){
+
+        for(int i=0; i<result.size();i++)
+        {
+            bCon_List.add(result.get(i));
+
+        }
+
+    }// beacon을 수신 받는 부분
 }

@@ -1,5 +1,6 @@
 package com.shin.ssr.layout.tab;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -84,11 +85,13 @@ public class FitTab extends AppCompatActivity  {
     private Timer mTimer = new Timer();
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
-    ArrayList<StepVO> stepAry = new ArrayList<>();
-    public static final String SERVER_URL="http://192.168.43.220:8088/";
+
+    public static final String SERVER_URL="http://10.149.179.69:8081/";
     public ImageView help;
     private int total;
-    Handler handler=new Handler();
+    private Handler handler=new Handler();
+
+
 
     /*Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -109,6 +112,7 @@ public class FitTab extends AppCompatActivity  {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
+
 
         /*FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
@@ -141,8 +145,19 @@ public class FitTab extends AppCompatActivity  {
 
 
 
-
-
+            handler.post(new Runnable(){
+                @Override
+                public void run() {
+                    updateData();
+                    TextView txtView = findViewById(R.id.steps_taken);
+                    TextView txtView2 = findViewById(R.id.todo1_step);
+                    txtView.setText(" " + total + " / 7000  ");
+                    txtView2.setText(" " + total + " / 7000  ");
+                    String text = "<font color='#333743'> <b> "+total+ "</b> / 7000 </font>";
+                    txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                    handler.postDelayed(this,5000); // set time here to refresh textView
+                }
+            });
     }
 
 
@@ -392,7 +407,7 @@ public class FitTab extends AppCompatActivity  {
 
 
 
-    private LineData getData(int count, float range, int total) {
+    private LineData getData(int count, float range, int total, ArrayList<StepVO> stepAry) {
 
 
         Log.d("fit", "in getdata");
@@ -469,7 +484,7 @@ public class FitTab extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-
+        readData();
     }
 
     /*public void subscribe() {
@@ -502,6 +517,7 @@ public class FitTab extends AppCompatActivity  {
 
                             @Override
                             public void onSuccess(DataSet dataSet) {
+                                ArrayList<StepVO> stepAry = new ArrayList<>();
 
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
@@ -538,13 +554,14 @@ public class FitTab extends AppCompatActivity  {
                                 Log.d("fit", "todays walk");
                                 Log.d("fit", "stepvO" + stepAry);
 
-                                LineData data1 = getData(7, 10000, total);
+                                if(stepAry.size()!=0) {
+                                    LineData data1 = getData(7, 10000, total, stepAry);
 
-                                Log.d("fit","getdata" + data1.getDataSets().toString());
+                                    Log.d("fit", "getdata" + data1.getDataSets().toString());
 
-                                // add some transparency to the color with "& 0x90FFFFFF"
-                                setupChart(charts[0], data1, colors[0 % colors.length]);
-
+                                    // add some transparency to the color with "& 0x90FFFFFF"
+                                    setupChart(charts[0], data1, colors[0 % colors.length]);
+                                }
                                 TextView txtView = findViewById(R.id.steps_taken);
                                 TextView txtView2 = findViewById(R.id.todo1_step);
                                 txtView.setText(" " + total + " / 7000  ");
@@ -557,7 +574,7 @@ public class FitTab extends AppCompatActivity  {
                                  // 서버 주소
 
 
-                                if(total>=100) {
+                                if(total>=7000) {
                                     Log.d("fit", "inside checkbox");
                                     CheckBox step_checkbox = findViewById(R.id.steps_check);
                                     step_checkbox.setChecked(true);
@@ -616,10 +633,6 @@ public class FitTab extends AppCompatActivity  {
 
     public void getPastSteps(ArrayList<StepVO> arry) {
 
-        Log.d("fit", "in get past steps");
-
-        this.stepAry=arry;
-
     }
 
 
@@ -652,5 +665,31 @@ public class FitTab extends AppCompatActivity  {
                         });
 
     }*/
+
+
+    private void updateData() {
+        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
+                .addOnSuccessListener(
+                        new OnSuccessListener<DataSet>() {
+
+                            @Override
+                            public void onSuccess(DataSet dataSet) {
+                                total =
+                                        dataSet.isEmpty()
+                                                ? 0
+                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+
+                            }
+                        })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "There was a problem getting the step count.", e);
+                            }
+                        });
+
+    }
 }
 

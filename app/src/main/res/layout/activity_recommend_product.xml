@@ -48,14 +48,16 @@
             <!--android:fontFamily="@font/nanumbarunpenr"/>-->
 
     </FrameLayout>
-    <TextView
+        <TextView
         android:id="@+id/custom_recom"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:textSize="20dp"
         android:text=""
         android:gravity="center"
         android:fontFamily="@font/bmhannapro"
+        android:background="@color/recom"
+            android:textColor="@color/chartbg"
         />
 
     <TableLayout
