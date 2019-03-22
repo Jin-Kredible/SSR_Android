@@ -134,7 +134,7 @@ public class HttpUtil_P extends AsyncTask<String, String, String>  {
         //    e.printStackTrace();
        // }
 
-        ((Point)context).setPoints(Integer.parseInt(result));
+       // ((Point)context).setPoints(Integer.parseInt(result));
 
 
     }
