@@ -138,7 +138,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:background="@color/lightred"
             android:elevation="3dp"
             android:orientation="horizontal">
 
@@ -248,7 +247,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:background="@color/lightred"
             android:elevation="3dp"
             android:orientation="horizontal">
 
