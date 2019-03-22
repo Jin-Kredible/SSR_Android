@@ -97,21 +97,22 @@ class HttpUtil_Beacon extends AsyncTask<String, String, String> {
         Log.d("serverB","result from spring" + result);
         ArrayList<MallsVO> mallAry = new ArrayList<MallsVO>();
         try {
-            if(result == "[]" || result == null || result == ""  ) {
-                object = new JSONArray(result);
+            Log.d("beacon1", "서버 호출 이후 : " + result);
 
-                for (int i = 0; i < object.length(); i++) {
-                    JSONObject obj = (JSONObject) object.get(i);
-                    Log.d("serverB", obj.getString("user_id"));
-                    Log.d("serverB", obj.getString("mall_id"));
-                    Log.d("serverB", obj.getString("uuid"));
-                    mallAry.add(new MallsVO(obj.optInt("user_id"), obj.optInt("mall_id"), obj.optString("uuid"), obj.optInt("major"), obj.optInt("minor")));
-                }
+            object = new JSONArray(result);
 
-                for (int j = 0; j < 3; j++) {
-                    Log.d("serverB", j + "번째 : " + mallAry.get(j).toString());
-                }
+            for (int i = 0; i < object.length(); i++) {
+                JSONObject obj = (JSONObject) object.get(i);
+                Log.d("serverB", obj.getString("user_id"));
+                Log.d("serverB", obj.getString("mall_id"));
+                Log.d("serverB", obj.getString("uuid"));
+                mallAry.add(new MallsVO(obj.optInt("user_id"), obj.optInt("mall_id"), obj.optString("uuid"), obj.optInt("major"), obj.optInt("minor")));
             }
+
+            for (int j = 0; j < 3; j++) {
+                Log.d("serverB", j + "번째 : " + mallAry.get(j).toString());
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
