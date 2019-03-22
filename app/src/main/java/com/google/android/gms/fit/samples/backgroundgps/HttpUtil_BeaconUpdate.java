@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.shin.ssr.layout.tab.FitTab;
 import com.shin.ssr.vo.MallsVO;
 
 import org.json.JSONArray;
@@ -19,11 +18,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-class HttpUtil_Beacon extends AsyncTask<String, String, String> {
+public class HttpUtil_BeaconUpdate extends AsyncTask<String, String, String> {
 
     private Context context;
 
-    public HttpUtil_Beacon(Context context) {
+    public HttpUtil_BeaconUpdate(Context context) {
         this.context = context;
     }
 
@@ -42,11 +41,17 @@ class HttpUtil_Beacon extends AsyncTask<String, String, String> {
         String param1Key = params[1].split(":")[0];
         String param1Value = params[1].split(":")[1];
         String param2Key = params[2].split(":")[0];
-        String param2Value = params[2].split(":")[1]; //보내는거
+        String param2Value = params[2].split(":")[1];
+        String param3Key = params[3].split(":")[0];
+        String param3Value = params[3].split(":")[1];
+        String param4Key = params[4].split(":")[0];
+        String param4Value = params[4].split(":")[1];
         System.out.println("************************************************* 서버 호출 url : (Beacon)" + url);
 
         //paramString = param1Key  + "=" + param1Value + "&" + param2Key  + "=" + param2Value ;
-        paramString = param1Key  + "=" + param1Value + "&" + param2Key + "=" + param2Value + "&" ;
+        paramString = param1Key  + "=" + param1Value + "&" + param2Key + "=" + param2Value + "&"
+                        + param3Key + "=" + param3Value + "&" + param4Key + "=" + param4Value + "&" ;
+
         try {
             URL obj = new URL(url + "?" + paramString);
             HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
@@ -93,7 +98,7 @@ class HttpUtil_Beacon extends AsyncTask<String, String, String> {
     // 호출이 끝난
     @Override
     protected void onPostExecute(String result) {
-        JSONArray object = null;
+       /* JSONArray object = null;
         Log.d("serverB","result from spring" + result);
         ArrayList<MallsVO> mallAry = new ArrayList<MallsVO>();
         try {
@@ -118,7 +123,7 @@ class HttpUtil_Beacon extends AsyncTask<String, String, String> {
         }
 
 
-        Log.d("result", mallAry.toString());
+        Log.d("result", mallAry.toString());*/
 
         /*JSONArray array = null;
         for(int i =0; i < array.length(); i++) {
@@ -150,7 +155,7 @@ class HttpUtil_Beacon extends AsyncTask<String, String, String> {
         //    e.printStackTrace();
         // }
 
-        ((RealService)context).get_BaeconList(mallAry);
+       // ((RealService)context).get_BaeconList(mallAry);
 
 
     }

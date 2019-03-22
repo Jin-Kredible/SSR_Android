@@ -252,19 +252,16 @@ public class FitTab extends AppCompatActivity  {
 
     public void stepgoal2(View v){
             HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
-            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ 0, "user_id:"+ 1} ;
+            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ total, "user_id:"+ 2} ;
             hu.execute(params);
-
-
     }
+
 
     public void stepgoal1(View v){
         HttpUtil_Todo1 hu = new HttpUtil_Todo1(FitTab.this);
 
-        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ 0, "user_id:"+ 1} ;
+        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ total, "user_id:"+ 2} ;
         hu.execute(params);
-
-
 
     }
 
@@ -550,7 +547,7 @@ public class FitTab extends AppCompatActivity  {
 
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 2} ;
+                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
 
                                 hu.execute(params);
                                 total =
@@ -620,20 +617,20 @@ public class FitTab extends AppCompatActivity  {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the step count.", e);
-                            }
-                        });
-
-
+        Log.w(TAG, "There was a problem getting the step count.", e);
     }
+});
 
-    public void httpWeb(){
 
-    }
+        }
 
-    public void printToast(String rtn) {
+public void httpWeb(){
+
+        }
+
+public void printToast(String rtn) {
         Toast.makeText(FitTab.this, rtn, Toast.LENGTH_SHORT).show();
-    }
+        }
 
     PopupWindow helpPopup;
     View popupView;
@@ -724,4 +721,5 @@ public class FitTab extends AppCompatActivity  {
 
     }
 }
+
 

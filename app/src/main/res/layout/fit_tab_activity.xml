@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -100,12 +102,12 @@
             android:orientation="vertical">
 
             <ImageView
-            android:id="@+id/helppop"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="right"
-            android:layout_margin="7dp"
-            android:src="@drawable/info" />
+                android:id="@+id/helppop"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="right"
+                android:layout_margin="7dp"
+                android:src="@drawable/info" />
 
 
             <com.github.mikephil.charting.charts.LineChart
@@ -208,6 +210,8 @@
                         android:paddingLeft="10dp"
                         android:text="일일 미션"
                         android:textSize="20sp" />
+
+
 
                     <CheckBox
                         android:id="@+id/steps_check"
