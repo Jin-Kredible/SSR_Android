@@ -147,8 +147,6 @@ public class RealService  extends Service {
 
                             pushyn = hu.get();
 
-                            Log.d("real","pushyn : " + Integer.parseInt(pushyn) + "result2" + Integer.toString(result2));
-
 
                             locationVO = locationManage.getVoData();
 
