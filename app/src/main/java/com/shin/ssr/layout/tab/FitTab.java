@@ -92,7 +92,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.178.200:8088/";
+    public static final String SERVER_URL="http://52.79.208.198:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -244,19 +244,16 @@ public class FitTab extends AppCompatActivity  {
 
     public void stepgoal2(View v){
             HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
-            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ 0, "user_id:"+ 1} ;
+            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ total, "user_id:"+ 2} ;
             hu.execute(params);
-
-
     }
+
 
     public void stepgoal1(View v){
         HttpUtil_Todo1 hu = new HttpUtil_Todo1(FitTab.this);
 
-        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ 0, "user_id:"+ 1} ;
+        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ total, "user_id:"+ 2} ;
         hu.execute(params);
-
-
 
     }
 
@@ -534,25 +531,25 @@ public class FitTab extends AppCompatActivity  {
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
-                        new OnSuccessListener<DataSet>() {
+                                            new OnSuccessListener<DataSet>() {
 
-                            @Override
-                            public void onSuccess(DataSet dataSet) {
-                                ArrayList<StepVO> stepAry = new ArrayList<>();
+                                                @Override
+                                                public void onSuccess(DataSet dataSet) {
+                                                    ArrayList<StepVO> stepAry = new ArrayList<>();
 
-                                HttpUtil hu = new HttpUtil(FitTab.this);
+                                                    HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
+                                                    String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 2} ;
 
-                                hu.execute(params);
-                                total =
-                                        dataSet.isEmpty()
-                                                ? 0
-                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                                    hu.execute(params);
+                                                    total =
+                                                            dataSet.isEmpty()
+                                                                    ? 0
+                                                                    : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                JSONArray object = null;
-                                String result;
-                                try {
+                                                    JSONArray object = null;
+                                                    String result;
+                                                    try {
                                     result = hu.get();
                                     object =  new JSONArray(result);
 
@@ -606,20 +603,20 @@ public class FitTab extends AppCompatActivity  {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the step count.", e);
-                            }
-                        });
-
-
+        Log.w(TAG, "There was a problem getting the step count.", e);
     }
+});
 
-    public void httpWeb(){
 
-    }
+        }
 
-    public void printToast(String rtn) {
+public void httpWeb(){
+
+        }
+
+public void printToast(String rtn) {
         Toast.makeText(FitTab.this, rtn, Toast.LENGTH_SHORT).show();
-    }
+        }
 
     PopupWindow helpPopup;
     View popupView;
