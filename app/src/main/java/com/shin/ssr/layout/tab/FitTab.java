@@ -212,7 +212,8 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
@@ -224,7 +225,7 @@ public class FitTab extends AppCompatActivity  {
 
     public void stepgoal2(View v){
             HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
-            String[] params = {SERVER_URL+"todayGoal.do", "steps:"+1, "userno:"+ 1} ;
+            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ 0, "user_id:"+ 1} ;
             hu.execute(params);
 
 
@@ -233,7 +234,7 @@ public class FitTab extends AppCompatActivity  {
     public void stepgoal1(View v){
         HttpUtil_Todo1 hu = new HttpUtil_Todo1(FitTab.this);
 
-        String[] params = {SERVER_URL+"visit.do", "steps:"+1, "userno:"+ 1} ;
+        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ 0, "user_id:"+ 1} ;
         hu.execute(params);
 
 
@@ -262,7 +263,8 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
@@ -288,7 +290,8 @@ public class FitTab extends AppCompatActivity  {
 
         mPopupWindow = new PopupWindow(popupView,
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
