@@ -54,7 +54,6 @@
         </activity>
 
         <activity android:name="com.shin.ssr.layout.point.Point"/>
-        <activity android:name="com.shin.ssr.get.PointGet"/>
 
         <meta-data android:name="com.google.android.gms.version" android:value="12451000" tools:replace="android:value" />
         <activity
@@ -80,6 +79,12 @@
             android:name="com.google.android.gms.fit.samples.backgroundgps.RealService"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name="com.google.android.gms.fit.samples.stepcounter.NotificationService"
+            android:enabled="true"
+            android:exported="true" />
+
 
         <service
             android:name="com.google.android.gms.fit.samples.backgroundgps.RestartService"
@@ -113,6 +118,7 @@
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
             </intent-filter>
         </receiver>
+
 
     </application>
 
