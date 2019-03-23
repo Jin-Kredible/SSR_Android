@@ -153,7 +153,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/buttonshape"
-                android:drawableEnd="@drawable/cart_icon_white"
+                android:drawableEnd="@drawable/cart_normal"
                 android:fontFamily="@font/bmhannapro"
                 android:onClick="sendToPoint"
                 android:paddingLeft="35dp"
@@ -197,6 +197,7 @@
 
                     <ImageView
                         android:background="@drawable/mission_day"
+                        android:id="@+id/mission_day"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="center"

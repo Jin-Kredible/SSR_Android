@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         int permssionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (ContextCompat.checkSelfPermission(this,
@@ -189,14 +190,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
-
-
-
-
-
-
     }
+
 
 
     @Override

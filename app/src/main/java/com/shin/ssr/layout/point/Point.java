@@ -385,8 +385,8 @@ public class Point extends AppCompatActivity {
 
 
         getPoint.setText(Integer.toString(numPoint));
-        imgPro.setTranslationX(resetX);
-        imgPro.setTranslationY(resetY);
+        imgPro.setX(resetX);
+        imgPro.setY(resetY);
         imgPro.setRotation(resetR);
 
 

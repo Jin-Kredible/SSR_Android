@@ -6,10 +6,11 @@
     android:layout_height="85dp"
     android:orientation="horizontal"
     android:gravity="center">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ssg_noti_back_01"/>
+        android:background="@drawable/ssg_noti_back_01" />
 
     <ImageView
         android:id="@+id/notif_icon"
@@ -39,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/notif_title"
+        android:layout_marginLeft="10dp"
         android:singleLine="true"
         android:text="걸음수"
         android:textColor="#FFFF"
@@ -65,10 +67,35 @@
         android:layout_below="@+id/notif_title"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="7dp"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/notif_content"
         android:singleLine="true"
         android:text=""
         android:textColor="#ffff"
         android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/payicon"
+        android:layout_width="77dp"
+        android:layout_height="31dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ssgpaylogo2" />
+
+    <TextView
+        android:id="@+id/notif_content3"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/notif_title"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="10dp"
+        android:singleLine="true"
+        android:text="쓱-결제 >"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
 
 </RelativeLayout>

@@ -1,27 +1,19 @@
 package com.shin.ssr.layout.tab;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -34,9 +26,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -46,19 +36,16 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.fit.samples.backgroundgps.RealService;
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.stepcounter.MainActivity;
-import com.google.android.gms.fit.samples.stepcounter.NotificationService;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
 import com.shin.ssr.layout.point.Point;
@@ -68,19 +55,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import at.grabner.circleprogress.CircleProgressView;
 
 import static android.app.PendingIntent.getActivity;
 import static android.graphics.Color.rgb;
+import static com.google.android.gms.fit.samples.backgroundgps.RealService.insideMall;
 
 
 public class FitTab extends AppCompatActivity  {
@@ -99,13 +84,14 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.179.93:8088/";
+    public static final String SERVER_URL="http://192.168.0.128:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
     private static final int NOTIF_ID = 1234;
-
+    private Context context;
     public int read_counter = 0;
+    private RealService real = new RealService();
 
 
 
@@ -129,6 +115,15 @@ public class FitTab extends AppCompatActivity  {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
 
+            Button cartimg =  (Button)findViewById(R.id.button3);
+
+            if(insideMall==true) {
+
+                cartimg.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.cart_2_times,0);
+               /* cartimg.setBackgroundResource(R.drawable.cart_y);*/
+            } else {
+                cartimg.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.cart_normal,0);
+            }
 
         /*FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
@@ -177,6 +172,15 @@ public class FitTab extends AppCompatActivity  {
     }
 
 
+
+
+        public FitTab(Context context) {
+            this.context = context;
+        }
+
+    public FitTab() {
+    }
+
     public void sendToFinance(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
         intent.putExtra("buttonNum",1);
@@ -211,6 +215,7 @@ public class FitTab extends AppCompatActivity  {
 
         @SuppressLint("ClickableViewAccessibility")
         public void getTodoList(double result){
+
 
             this.step_percentage = result;
             System.out.println("getTodoList" + result);
