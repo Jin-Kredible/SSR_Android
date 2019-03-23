@@ -132,7 +132,7 @@ public class HttpUtil_GPS extends AsyncTask<String, String, String>  {
         //    e.printStackTrace();
        // }
 
-        ((RealService)context).checkPush(Integer.parseInt(result));
+       /* ((RealService)context).checkPush(Integer.parseInt(result));*/
 
 
     }

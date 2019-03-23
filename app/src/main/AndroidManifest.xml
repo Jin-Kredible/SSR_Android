@@ -81,6 +81,12 @@
             android:exported="true" />
 
         <service
+            android:name="com.google.android.gms.fit.samples.stepcounter.NotificationService"
+            android:enabled="true"
+            android:exported="true" />
+
+
+        <service
             android:name="com.google.android.gms.fit.samples.backgroundgps.RestartService"
             android:enabled="true"
             android:exported="true" />
@@ -112,6 +118,7 @@
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
             </intent-filter>
         </receiver>
+
 
     </application>
 

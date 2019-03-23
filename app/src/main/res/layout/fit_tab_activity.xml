@@ -4,6 +4,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -103,10 +104,11 @@
 
             <ImageView
                 android:id="@+id/helppop"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="right"
-                android:layout_margin="7dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
                 android:src="@drawable/info" />
 
 
@@ -135,17 +137,18 @@
                 android:background="@drawable/bottom_line"
                 android:fontFamily="@font/applesgothic_regular"
                 android:gravity="center"
-                android:text=""
+                android:text="null"
                 android:textColor="@color/ssgpaydark"
                 android:textSize="20dp" />
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/chart_layout"
             android:background="@color/icons"
-            android:orientation="vertical">
+            android:orientation="vertical" >
+
 
             <Button
                 android:id="@+id/button3"
@@ -153,7 +156,8 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/buttonshape"
-                android:drawableEnd="@drawable/cart_icon_white"
+                android:drawableRight="@drawable/cart_empty"
+                android:drawablePadding="5dp"
                 android:fontFamily="@font/bmhannapro"
                 android:onClick="sendToPoint"
                 android:paddingLeft="35dp"
@@ -164,7 +168,10 @@
                 android:shadowRadius="5"
                 android:text="@string/point_convert"
                 android:textColor="#FFFF"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:orientation="horizontal"
+                 />
+
 
 
             <LinearLayout
@@ -238,9 +245,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
                         android:gravity="center"
                         android:onClick="stepgoal2"
-                        android:text=""
+                        android:text="null"
                         android:textSize="15sp" />
 
                     <ImageView

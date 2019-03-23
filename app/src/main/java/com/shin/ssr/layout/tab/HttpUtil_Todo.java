@@ -15,7 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class HttpUtil_Todo extends AsyncTask<String, String, String>  {
+public class    HttpUtil_Todo extends AsyncTask<String, String, String>  {
     private Context context;
     private float stepgoal_data;
 
