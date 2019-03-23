@@ -45,6 +45,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/txtTotalPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:text="TextView"
+            android:textSize="30sp" />
+
         <ImageView
             android:id="@+id/imgCoverB"
             android:layout_width="70dp"
@@ -78,29 +87,29 @@
 
         <ImageView
             android:id="@+id/imgProduct"
-            android:layout_width="69dp"
+            android:layout_width="43dp"
             android:layout_height="71dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="110dp"
-            app:srcCompat="@drawable/peacock_01" />
+            android:background="@drawable/peacock_01" />
 
         <TextView
             android:id="@+id/Point"
             android:layout_width="98dp"
             android:layout_height="41dp"
             android:layout_gravity="center_vertical"
-            android:text="TextView"
+            android:text="00"
             android:textSize="30dp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/imgGetProduct"
-            android:layout_width="69dp"
+            android:layout_width="43dp"
             android:layout_height="71dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="100dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/peacock_01" />
+            android:background="@drawable/peacock_01" />
 
         <ImageView
             android:id="@+id/imgCoverF"
