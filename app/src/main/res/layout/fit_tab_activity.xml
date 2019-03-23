@@ -142,12 +142,12 @@
                 android:textSize="20dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/chart_layout"
             android:background="@color/icons"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
 
             <Button
@@ -156,8 +156,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:background="@drawable/buttonshape"
-                android:drawableRight="@drawable/cart_empty"
-                android:drawablePadding="5dp"
+                android:drawableEnd="@drawable/cart_normal"
                 android:fontFamily="@font/bmhannapro"
                 android:onClick="sendToPoint"
                 android:paddingLeft="35dp"
@@ -168,10 +167,7 @@
                 android:shadowRadius="5"
                 android:text="@string/point_convert"
                 android:textColor="#FFFF"
-                android:textSize="20sp"
-                android:orientation="horizontal"
-                 />
-
+                android:textSize="20sp" />
 
 
             <LinearLayout
@@ -204,6 +200,7 @@
 
                     <ImageView
                         android:background="@drawable/mission_day"
+                        android:id="@+id/mission_day"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="center"
@@ -245,10 +242,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill"
                         android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
                         android:gravity="center"
                         android:onClick="stepgoal2"
-                        android:text="null"
+                        android:text=""
                         android:textSize="15sp" />
 
                     <ImageView

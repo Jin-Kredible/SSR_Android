@@ -34,7 +34,6 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -46,6 +45,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.fit.samples.backgroundgps.RealService;
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.stepcounter.MainActivity;
 import com.google.android.gms.fit.samples.stepcounter.NotificationService;
@@ -81,6 +81,7 @@ import at.grabner.circleprogress.CircleProgressView;
 
 import static android.app.PendingIntent.getActivity;
 import static android.graphics.Color.rgb;
+import static com.google.android.gms.fit.samples.backgroundgps.RealService.insideMall;
 
 
 public class FitTab extends AppCompatActivity  {
@@ -104,8 +105,9 @@ public class FitTab extends AppCompatActivity  {
     private int total;
     private Handler handler=new Handler();
     private static final int NOTIF_ID = 1234;
-
+    private Context context;
     public int read_counter = 0;
+    private RealService real = new RealService();
 
 
 
@@ -129,6 +131,15 @@ public class FitTab extends AppCompatActivity  {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
 
+            Button cartimg =  (Button)findViewById(R.id.button3);
+
+            if(insideMall==true) {
+
+                cartimg.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.cart_2_times,0);
+               /* cartimg.setBackgroundResource(R.drawable.cart_y);*/
+            } else {
+                cartimg.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.cart_normal,0);
+            }
 
         /*FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
@@ -176,6 +187,15 @@ public class FitTab extends AppCompatActivity  {
             });
     }
 
+
+
+
+        public FitTab(Context context) {
+            this.context = context;
+        }
+
+    public FitTab() {
+    }
 
     public void sendToFinance(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
@@ -724,5 +744,4 @@ public void printToast(String rtn) {
     }
 
 }
-
 
