@@ -43,10 +43,6 @@ public class Point extends AppCompatActivity {
     boolean none = true;       //DB에서 가져오는 걸음 수 여부(true = 걸음 수 0)
     int total = 0;
 
-    //DB 값 가져오기 보내기
-//    String SERVER_URL="http://172.20.10.9:8088/walkToGoods.do"; // 서버 주소
-//    HttpUtil hu = new HttpUtil(Point.this);
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -99,18 +95,21 @@ public class Point extends AppCompatActivity {
 
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (!none) {
-                            if (hx < 700) {
-                                move();
-                            } else if (hx >= 700 && hx < 880) {
-                                rotate();
-                            } else if (hx >= 880 && hx <= 940) {
-                                Get();
-                            }
-                        }else{
+                        if(motionEvent.getX()>=0 && motionEvent.getX()<=700 &&
+                            motionEvent.getY()>=0 && motionEvent.getY()<= 250) {
+                            if (!none) {
+                                if (hx < 700) {
+                                    move();
+                                } else if (hx >= 700 && hx < 880) {
+                                    rotate();
+                                } else if (hx >= 880 && hx <= 940) {
+                                    Get();
+                                }
+                            } else {
 
-                            imgCon.setBackgroundResource(imgsCon[(i / 6) % 6]);
-                            i++;
+                                imgCon.setBackgroundResource(imgsCon[(i / 6) % 6]);
+                                i++;
+                            }
                         }
                         break;
                     case MotionEvent.ACTION_UP:
