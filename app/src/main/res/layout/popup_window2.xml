@@ -13,6 +13,13 @@
     tools:context="com.shin.ssr.layout.tab.FitTab">
 
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/store"/>
+
     <at.grabner.circleprogress.CircleProgressView
         android:id="@+id/circleView"
         android:layout_width="200dp"
@@ -41,5 +48,16 @@
         CircleProgressView:cpv_unitPosition="right_top"
         CircleProgressView:cpv_unitSize="5dp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="매장 방문률"
+        android:fontFamily="@font/bmhannapro"
+        android:textSize="30dp"
+        android:textColor="#FFFFFF"
+        android:gravity="top|center"
+        android:layout_marginBottom="50dp"
+        />
 
 </LinearLayout>
