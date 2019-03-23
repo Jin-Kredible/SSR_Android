@@ -6,18 +6,12 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,9 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.budiyev.android.circularprogressbar.CircularProgressBar;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -42,14 +34,11 @@ import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.stepcounter.MainActivity;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
 import com.shin.ssr.layout.point.Point;
@@ -59,13 +48,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -89,7 +75,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://10.149.178.247:8081/";
+    public static final String SERVER_URL="http://192.168.0.155:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -188,7 +174,7 @@ public class FitTab extends AppCompatActivity  {
     }
 
     public void sendToPoint(View view) {
-        Intent intent = new Intent(FitTab.this, Point.class);
+        Intent intent = new Intent(FitTab.this,Point.class);
         android.util.Log.d("CHECK", "sendToPoint: OK");
         startActivity(intent);
     }
@@ -433,6 +419,7 @@ public class FitTab extends AppCompatActivity  {
         ArrayList<Entry> values = new ArrayList<>();
         ArrayList<Entry> values2 = new ArrayList<>();
 
+
         for (int i = 0; i  <7; i++) {
             Log.d("result", "are you here");
             float val = (float) stepAry.get(i).getWk_am();
@@ -536,7 +523,7 @@ public class FitTab extends AppCompatActivity  {
 
                                                     HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                                    String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 2} ;
+                                                    String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
 
                                                     hu.execute(params);
                                                     total =

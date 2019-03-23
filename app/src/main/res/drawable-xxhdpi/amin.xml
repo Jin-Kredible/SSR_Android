@@ -3,17 +3,17 @@
     android:oneshot="false">
 
     <item android:drawable="@drawable/belt6"
-        android:duration="80"/>
+        android:duration="120"/>
     <item android:drawable="@drawable/belt5"
-        android:duration="80"/>
+        android:duration="120"/>
     <item android:drawable="@drawable/belt4"
-        android:duration="80"/>
+        android:duration="120"/>
     <item android:drawable="@drawable/belt3"
-        android:duration="80"/>
+        android:duration="120"/>
     <item android:drawable="@drawable/belt2"
-        android:duration="80"/>
+        android:duration="120"/>
     <item android:drawable="@drawable/belt1"
-        android:duration="80"/>
+        android:duration="120"/>
 
 
 </animation-list>
