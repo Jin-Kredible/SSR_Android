@@ -102,7 +102,7 @@ public class RealService  extends Service {
     private boolean isScanning = false; // 방문 완료
     private MinewBeaconManager mMinewBeaconManager;
     private static final int REQUEST_ENABLE_BT = 2;
-    private boolean isBeaconOn = true;     // 비콘 검색 기능 활성화
+    private boolean isBeaconOn = false;     // 비콘 검색 기능 활성화
     private int mall_ID = 1000;
     private boolean isBeaconSerUpdate = false; //서버에 mall_id를 전송해 비콘 정보를 받아옴 체크
     Date date = new Date();
@@ -599,9 +599,9 @@ public class RealService  extends Service {
                                 isBeaconOn = false; // 비콘 off
                                 i = bCon_List.size(); // for문 종료
                                 vi_Start = get_Day.format(date); //매장 방문 시간
-                                HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
+                               /* HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
                                 String[] params = {SERVER_URL + "visit.do", "mall_id:" + mall_ID, "user_id:" + 1, "vi_start:" + 1, "vi_end:" + 1};
-                                becon_update.execute(params);
+                                becon_update.execute(params);*/
                                 isGpsOn = true; //매장 방문시 Gps를 잡아 매장을 나간것을 체크해주기 위함
                                 vi_WalkStart = getWalkCheck(); //매장 방문했을때 걸음 수
 
