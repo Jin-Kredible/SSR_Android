@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.estimote:sdk:1.0.12'
     implementation files('lib/minewBeaconScan.jar')
-
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 
     implementation 'com.budiyev.android:circular-progress-bar:1.2.2'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'

@@ -176,7 +176,7 @@ public class RealService  extends Service {
 
                             locationVO = locationManage.getVoData();
 
-                            showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
+                          /*  showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());*/
                             Location location = new Location(locationVO.getProvider());
 
                             Log.d("geo", "loc vo long" + locationVO.getLongitude());
@@ -209,7 +209,7 @@ public class RealService  extends Service {
 
                             if (!isScanning && !isBeaconOn) { // 사용자가 매장에 방문하지 않았을때 사용
                                 Log.d("gps2", ">>>>>> 점포 스캐닝 입장");
-                                showToast(getApplication(), "점포 스캐닝 입장");
+                               /* showToast(getApplication(), "점포 스캐닝 입장");*/
                                 for (int i = 0; i < mTemp.size(); i++) {
                                     locationPoint.setLatitude(mTemp.get(i).getMall_la());
                                     locationPoint.setLongitude(mTemp.get(i).getMall_long());

@@ -155,7 +155,7 @@ public final class MockDatabase {
             mPriority = NotificationCompat.PRIORITY_HIGH;
 
             // Style notification values:
-            mBigImage = R.drawable.emart_recom;
+            mBigImage = R.drawable.emart_recom_new2;
             mBigContentTitle = "SSR 이 추천해주는 제품!";
             mSummaryText = "당신만을 위한 추천 제품 놓치지 마세요";
 

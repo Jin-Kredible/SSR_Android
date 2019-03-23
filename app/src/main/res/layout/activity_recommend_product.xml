@@ -107,7 +107,8 @@
                     android:text="NULL"
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:maxWidth="160dp"/>
 
                 <TextView
                     android:id="@+id/recommendedProduct1_weight"
@@ -118,7 +119,8 @@
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
                     android:text="NULL"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:maxWidth="160dp"/>
 
                 <TextView
                     android:id="@+id/recommendedProduct1_price"
@@ -129,7 +131,8 @@
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
                     android:text="NULL"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:maxWidth="160dp"/>
             </LinearLayout>
         </TableRow>
 
@@ -164,7 +167,8 @@
                     android:text="NULL"
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:maxWidth="160dp"/>
 
                 <TextView
                     android:id="@+id/recommendedProduct2_weight"
@@ -174,7 +178,8 @@
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
                     android:text="NULL"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:maxWidth="160dp"/>
 
                 <TextView
                     android:id="@+id/recommendedProduct2_price"
@@ -184,7 +189,8 @@
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
                     android:text="NULL"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:maxWidth="160dp"/>
             </LinearLayout>
         </TableRow>
 
@@ -218,7 +224,8 @@
                     android:text="NULL"
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:maxWidth="160dp"/>
 
                 <TextView
                     android:id="@+id/recommendedProduct3_weight"
@@ -228,7 +235,8 @@
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
                     android:text="NULL"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:maxWidth="160dp"/>
 
                 <TextView
                     android:id="@+id/recommendedProduct3_price"
@@ -238,7 +246,8 @@
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
                     android:text="NULL"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:maxWidth="160dp"/>
             </LinearLayout>
         </TableRow>
 
@@ -271,7 +280,8 @@
                     android:text="NULL"
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:maxWidth="160dp"/>
 
                 <TextView
                     android:id="@+id/recommendedProduct4_weight"
@@ -281,7 +291,8 @@
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
                     android:text="NULL"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:maxWidth="160dp"/>
 
                 <TextView
                     android:id="@+id/recommendedProduct4_price"
@@ -291,7 +302,8 @@
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
                     android:text="NULL"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:maxWidth="160dp"/>
             </LinearLayout>
         </TableRow>
 
