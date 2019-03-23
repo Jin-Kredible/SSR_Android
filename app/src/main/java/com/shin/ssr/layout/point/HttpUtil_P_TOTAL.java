@@ -1,11 +1,9 @@
-package com.shin.ssr.layout.tab;
+package com.shin.ssr.layout.point;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.fit.samples.common.logger.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -15,11 +13,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class    HttpUtil_Todo extends AsyncTask<String, String, String>  {
+public class HttpUtil_P_TOTAL extends AsyncTask<String, String, String>  {
     private Context context;
-    private float stepgoal_data;
 
-    public HttpUtil_Todo(Context context) {
+    public HttpUtil_P_TOTAL(Context context) {
         this.context = context;
     }
 
@@ -90,15 +87,7 @@ public class    HttpUtil_Todo extends AsyncTask<String, String, String>  {
     @Override
     protected void onPostExecute(String result) {
 
-        JSONObject object = null;
-        try {
-            object =  new JSONObject(result);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("httputil_todo : " + result);
 
         /*JSONArray object = null;
         Log.d("log","result from spring" + result);
@@ -138,15 +127,22 @@ public class    HttpUtil_Todo extends AsyncTask<String, String, String>  {
         }*/
 
         System.out.println("************************************************* 서버 호출 후행");
+        String rtn = "msg" ;
+        //try {
+            // return 받은 Json 데이터
+            //rtn = URLDecoder.decode(object.getString("DATA"), "UTF-8");
+        //} catch (JSONException e) {
+        //    e.printStackTrace();
+        //} catch (UnsupportedEncodingException e) {
+        //    e.printStackTrace();
+       // }
 
-        this.stepgoal_data = Float.parseFloat(result);
-        ((FitTab)context).getTodoList(Float.parseFloat(result));
+        Log.d("pointy",result);
 
 
-    }
+        ((Point)context).getTotalPoints(result);
 
-    public float getdata(){
-        return this.stepgoal_data;
+
     }
 
 }
