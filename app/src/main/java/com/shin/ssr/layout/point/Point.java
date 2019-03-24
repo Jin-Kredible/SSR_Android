@@ -17,14 +17,12 @@ import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
 public class Point extends AppCompatActivity {
 
     private ImageView imgCon, imgPro, imgGetPro;
-    private TextView getPoint, txtTotalPoint;
+    private TextView txtTodayPoint, txtTotalPoint;
     private ImageView imgCart, imgAd;
 
 
     //광고 이미지 배열
     int[] imgs = {R.drawable.ad_1, R.drawable.ad_2, R.drawable.ad_3, R.drawable.ad_4, R.drawable.ad_5};
-    //int[] imgsCon = {R.drawable.belt7, R.drawable.belt8, R.drawable.belt9, R.drawable.belt10, R.drawable.belt11, R.drawable.belt12,
-      //                  R.drawable.belt6, R.drawable.belt5, R.drawable.belt4, R.drawable.belt3, R.drawable.belt2, R.drawable.belt1};
     int[] imgsCon = {R.drawable.belt6, R.drawable.belt5, R.drawable.belt4, R.drawable.belt3, R.drawable.belt2, R.drawable.belt1};
 
 
@@ -57,8 +55,10 @@ public class Point extends AppCompatActivity {
         imgGetPro = findViewById(R.id.imgGetProduct);
         imgCart = findViewById(R.id.imgCartF);
         imgAd = findViewById(R.id.imgAd);
-        getPoint = findViewById(R.id.Point);
+        txtTodayPoint = findViewById(R.id.Point);
         txtTotalPoint = findViewById(R.id.txtTotalPoint);
+
+
         HttpUtil_P hu = new HttpUtil_P(Point.this);
         String[] params = {SERVER_URL + "walkToGoods.do", "steps:" + 1, "userno:" + 1};
         Log.d("pointy", Boolean.toString(Thread.currentThread().isInterrupted()));
@@ -130,7 +130,6 @@ public class Point extends AppCompatActivity {
     public void move() {
         imgPro.setTranslationX(hx + dx);
         hx = imgPro.getTranslationX();
-        //imgCon.setBackgroundResource(imgsCon[(i / 6) % 6]);
         imgCon.setBackgroundResource(imgsCon[i % 6]);
         i++;
     }
@@ -159,7 +158,7 @@ public class Point extends AppCompatActivity {
             none = true;
         }
         Log.d("pointy", "Get: none" + none);
-        getPoint.setText(Integer.toString(numPoint));
+        txtTodayPoint.setText(Integer.toString(walk*10));
         txtTotalPoint.setText(Integer.toString(total));
         Log.d("pointy", "Get: numPoint2nd : " + numPoint + "/ walk : " + walk + "totlal walk : " + totalwalk);
 
@@ -213,6 +212,7 @@ public class Point extends AppCompatActivity {
             none = false;
         }
         Log.d("pointy", "getPoints: " + none);
+        txtTodayPoint.setText(Integer.toString(walk*10));
     }
     public void getTotalPoints(String totalPoint){
         Log.d("pointy", "getTotalPoints: "+totalPoint);

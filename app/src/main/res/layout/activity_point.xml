@@ -48,7 +48,7 @@
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="247dp"
-            android:layout_height="324dp"
+            android:layout_height="310dp"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="55dp"
@@ -56,11 +56,11 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="98dp"
+            android:layout_width="80dp"
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="100dp"
-            android:layout_marginBottom="240dp"
+            android:layout_marginRight="117dp"
+            android:layout_marginBottom="235dp"
             android:rotation="5"
             android:text="TOTAL"
             android:textSize="12sp"
@@ -68,11 +68,11 @@
 
         <TextView
             android:id="@+id/txtTotalPoint"
-            android:layout_width="98dp"
+            android:layout_width="80dp"
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="100dp"
-            android:layout_marginBottom="225dp"
+            android:layout_marginRight="117dp"
+            android:layout_marginBottom="220dp"
             android:rotation="5"
             android:text="00"
             android:textSize="25sp"
@@ -80,11 +80,11 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="98dp"
+            android:layout_width="80dp"
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="105dp"
-            android:layout_marginBottom="175dp"
+            android:layout_marginRight="120dp"
+            android:layout_marginBottom="170dp"
             android:rotation="5"
             android:text="TODAY"
             android:textSize="12sp"
@@ -92,11 +92,11 @@
 
         <TextView
             android:id="@+id/Point"
-            android:layout_width="98dp"
+            android:layout_width="80dp"
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="105dp"
-            android:layout_marginBottom="160dp"
+            android:layout_marginRight="120dp"
+            android:layout_marginBottom="155dp"
             android:rotation="5"
             android:text="00"
             android:textSize="25sp"
