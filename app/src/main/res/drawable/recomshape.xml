@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/recomBack"/>
-    <stroke android:width="9dp" android:color="#B1BCBE" />
+    <stroke android:width="8dp" android:color="@color/ssgpaydark" />
     <corners android:radius="10dp"/>
     <padding  android:left="8dp" android:top="8dp" android:right="8dp" android:bottom="8dp" />
 </shape>
