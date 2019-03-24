@@ -84,7 +84,7 @@ public class FitTab extends AppCompatActivity {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL = "http://192.168.43.43:8088/";
+    public static final String SERVER_URL = "http://192.168.35.100:8088/";
     public ImageView help;
     private int total;
     private Handler handler = new Handler();
