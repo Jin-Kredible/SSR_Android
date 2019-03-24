@@ -102,7 +102,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://192.168.0.155:8088/";
+    public static final String SERVER_URL="http://172.30.1.9:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -133,9 +133,9 @@ public class FitTab extends AppCompatActivity  {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
 
-            /*ImageView img = findViewById(R.id.mission_day);
-            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(img);
-            Glide.with(this).load(R.drawable.cat).into(gifImage);*/
+//            ImageView img = findViewById(R.id.mission_day);
+//            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(img);
+//            Glide.with(this).load(R.drawable.cart_stack).into(gifImage);
 
 
             Button cartimg =  (Button)findViewById(R.id.button3);

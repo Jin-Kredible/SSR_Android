@@ -23,23 +23,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.fit.samples.backgroundgps.HttpUtil_GPS;
-import com.google.android.gms.fit.samples.stepcounter.GeofenceTransitionsJobIntentService;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.shin.ssr.layout.notification.PushNotification;
-import com.shin.ssr.layout.tab.FitTab;
-import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.vo.ProductVO;
-import com.shin.ssr.vo.StepVO;
 
 import org.json.JSONArray;
 import org.json.JSONException;

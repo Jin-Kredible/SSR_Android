@@ -115,6 +115,7 @@ public class RealService  extends Service {
     private int vi_WalkStart; // 매장방문, 걸음 체크
     private int vi_WalkEnd; // 매장방문 걸음 종료 체크
     private int mWalk_check; // 걸음수 체크
+    private String currentLoc; // 현재 점포 이름
     //비콘 관련 변수
     //////////////////////////////////////////////////////////////////
 
@@ -127,6 +128,7 @@ public class RealService  extends Service {
         mTemp.add(new MallsVO("이마트 용산점", 37.529456, 126.965545));
         mTemp.add(new MallsVO("이마트 아이앤씨점", 37.559805, 126.983122));
         mTemp.add(new MallsVO("이마트 SD아카데미점", 37.502366, 127.023680));
+        mTemp.add(new MallsVO("이마트 JINS 집", 37.270565, 127.126918));
 
         Log.d("real", "RealService start");
         Log.d("real", Integer.toString(result2));
@@ -203,7 +205,7 @@ public class RealService  extends Service {
                                     Log.d("beacon1", "방문 끝 워크 체크 " + vi_WalkStart + " / " + vi_WalkEnd);
                                 } else {
                                     Log.d("gps2", "gps 이름" + location.getProvider());
-                                    showToast(getApplication(), "네트워크 접속완료");
+                                    /*showToast(getApplication(), "네트워크 접속완료");*/
                                 }
                             }//매장 퇴장 체크
 
@@ -219,7 +221,7 @@ public class RealService  extends Service {
                                     if (Integer.parseInt(pushyn) == 1) {
                                         // 지점과 지금 거리가 100m 이내일떄
                                         if (distance < 100) {
-
+                                            currentLoc =  mTemp.get(i).getMall_nm();
                                             showToast(getApplication(), "100미터 이내 입장!");
                                             Log.d("geo", "inside distance for loop");
                                             mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
@@ -383,9 +385,9 @@ public class RealService  extends Service {
                                 getResources(),
                                 bigPictureStyleSocialAppData.getBigImage()))
                 // Overrides ContentTitle in the big form of the template.
-                .setBigContentTitle("100M 내에 위치한 EMART에서 지금 GET")
+                .setBigContentTitle("오직 당신만을 위한 맞춤 추천 상품")
                 // Summary line after the detail section in the big form of the template.
-                .setSummaryText(time + "에 " + vo.getAge() + "대 " + gender + "에게 추천하는 이마트 제품");
+                .setSummaryText(currentLoc + "에서 걸으면 워킹 포인트가 2배!");
 
         // 3. Set up main Intent for notification.
         Intent mainIntent = new Intent(this, BigPictureSocialMainActivity.class);
@@ -470,7 +472,7 @@ public class RealService  extends Service {
                 // BIG_PICTURE_STYLE sets title and content for API 16 (4.1 and after).
                 .setStyle(bigPictureStyle)
                 // Title for API <16 (4.0 and below) devices.
-                .setContentTitle("↓↓↓↓ 근처 EMART 추천 제품")
+                .setContentTitle("↓↓↓↓ "+currentLoc+"에서 추천하는 제품")
                 // Content for API <24 (7.0 and below) devices.
                 .setContentText(time + "에 " + vo.getAge() + "대 " + gender + "에게 추천하는 이마트 제품")
                 .setSmallIcon(R.drawable.ssgpaylogo2)
