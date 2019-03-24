@@ -21,9 +21,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -225,7 +227,11 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable {
                         }
 
                         //customTxt.setText(time + " " + productArry.get(4).getAge() + " 대 " + gender + "을 위한 추천");
+                        String customstyle = time + " " + productArry.get(4).getAge() + "대 " + gender + "을 위한 추천";
+                        /*"<font color='#333743'> <b> " + total + "</b> / 7000 </font>";*/
+                        customTxt.setText(Html.fromHtml(customstyle), TextView.BufferType.SPANNABLE);
                         customTxt.setText(time + " " + productArry.get(4).getAge() + " 대 " + gender + "을 위한 추천");
+                        customTxt.setTypeface(Typeface.createFromAsset(getAssets(), "font/bmhannapro.ttf"));
 
                     }
                 });
