@@ -23,8 +23,9 @@ public class Point extends AppCompatActivity {
 
     //광고 이미지 배열
     int[] imgs = {R.drawable.ad_1, R.drawable.ad_2, R.drawable.ad_3, R.drawable.ad_4, R.drawable.ad_5};
-    int[] imgsCon = {R.drawable.belt7, R.drawable.belt8, R.drawable.belt9, R.drawable.belt10, R.drawable.belt11, R.drawable.belt12,
-                        R.drawable.belt6, R.drawable.belt5, R.drawable.belt4, R.drawable.belt3, R.drawable.belt2, R.drawable.belt1};
+    //int[] imgsCon = {R.drawable.belt7, R.drawable.belt8, R.drawable.belt9, R.drawable.belt10, R.drawable.belt11, R.drawable.belt12,
+      //                  R.drawable.belt6, R.drawable.belt5, R.drawable.belt4, R.drawable.belt3, R.drawable.belt2, R.drawable.belt1};
+    int[] imgsCon = {R.drawable.belt6, R.drawable.belt5, R.drawable.belt4, R.drawable.belt3, R.drawable.belt2, R.drawable.belt1};
 
 
     private float dx = 50;          //Product 이동 정도
@@ -108,7 +109,8 @@ public class Point extends AppCompatActivity {
                                 }
                             } else {
 
-                                imgCon.setBackgroundResource(imgsCon[(i / 12) % 12]);
+                                //imgCon.setBackgroundResource(imgsCon[(i / 6) % 6]);
+                                imgCon.setBackgroundResource(imgsCon[i % 6]);
                                 i++;
                             }
                         }
@@ -128,7 +130,8 @@ public class Point extends AppCompatActivity {
     public void move() {
         imgPro.setTranslationX(hx + dx);
         hx = imgPro.getTranslationX();
-        imgCon.setBackgroundResource(imgsCon[(i / 12) % 12]);
+        //imgCon.setBackgroundResource(imgsCon[(i / 6) % 6]);
+        imgCon.setBackgroundResource(imgsCon[i % 6]);
         i++;
     }
 

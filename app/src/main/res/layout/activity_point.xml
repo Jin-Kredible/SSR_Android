@@ -112,7 +112,7 @@
 
         <ImageView
             android:id="@+id/imgCartB"
-            android:layout_width="149dp"
+            android:layout_width="129dp"
             android:layout_height="158dp"
             android:layout_gravity="bottom|right"
             app:srcCompat="@drawable/cart_back" />
@@ -128,7 +128,7 @@
 
         <ImageView
             android:id="@+id/imgCartF"
-            android:layout_width="152dp"
+            android:layout_width="131dp"
             android:layout_height="66dp"
             android:layout_gravity="bottom|right"
             app:srcCompat="@drawable/cart_front" />
@@ -166,10 +166,11 @@
 
         <ImageView
             android:id="@+id/imgAd"
-            android:layout_width="325dp"
+            android:layout_width="320dp"
             android:layout_height="170dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="74dp"
+            android:layout_marginRight="2dp"
             android:background="@drawable/ad_1"
             android:visibility="visible" />
 
