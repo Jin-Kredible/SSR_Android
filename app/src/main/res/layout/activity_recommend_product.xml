@@ -60,18 +60,19 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/ssgpaydark">
+            android:background="@color/emart_yellow"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/custom_recom"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/bmhannapro"
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/chartbg"
-                android:textSize="20sp"
+                android:textSize="19sp"
 
                 />
 
@@ -79,15 +80,16 @@
                 android:id="@+id/btnClose"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="13dp"
                 android:onClick="closePage"
-                android:src="@drawable/close_icon2"
-                tools:ignore="OnClick"
 
-                />
+                android:paddingBottom="6dp"
+                android:src="@drawable/close_emart_color"
+                tools:ignore="OnClick" />
         </RelativeLayout>
 
 
