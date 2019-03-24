@@ -99,7 +99,7 @@ public class RealService extends Service {
         mTemp.add(new MallsVO("이마트 용산점", 37.529456, 126.965545));
         mTemp.add(new MallsVO("이마트 아이앤씨점", 37.559805, 126.983122));
         mTemp.add(new MallsVO("이마트 SD아카데미점", 37.502366, 127.023680));
-        mTemp.add(new MallsVO("이마트 JINS 집", 37.270565, 127.126918));
+        mTemp.add(new MallsVO("이마트 JINS 집", 37.268570, 127.136574));
 
         Log.d("real", "RealService start");
         Log.d("real", Integer.toString(result2));
