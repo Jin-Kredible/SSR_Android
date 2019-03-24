@@ -52,7 +52,7 @@
             android:fontFamily="@font/bmhannapro"
             android:background="@drawable/recom"
             android:gravity="center"
-            android:text="null"
+            android:text=""
             android:textColor="@color/chartbg"
             android:textSize="20dp" />
 
@@ -104,7 +104,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -118,7 +118,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:maxWidth="160dp"/>
 
@@ -130,7 +130,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:maxWidth="160dp"/>
             </LinearLayout>
@@ -164,7 +164,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -177,7 +177,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:maxWidth="160dp"/>
 
@@ -188,7 +188,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:maxWidth="160dp"/>
             </LinearLayout>
@@ -221,7 +221,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -234,7 +234,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:maxWidth="160dp"/>
 
@@ -245,7 +245,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:maxWidth="160dp"/>
             </LinearLayout>
@@ -277,7 +277,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -290,7 +290,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:maxWidth="160dp"/>
 
@@ -301,7 +301,7 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:text=""
                     android:textAlignment="center"
                     android:maxWidth="160dp"/>
             </LinearLayout>

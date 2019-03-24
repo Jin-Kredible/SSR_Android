@@ -52,13 +52,13 @@ import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
  * Template class meant to include functionality for your Social App. (This project's main focus
  * is on Notification Styles.)
  */
-public class BigPictureSocialMainActivity extends Activity implements Runnable{
+public class BigPictureSocialMainActivity extends Activity implements Runnable {
 
 
     ArrayList<Bitmap> bitmap = new ArrayList<>();
     ArrayList<ProductVO> productArry = new ArrayList<>();
-    ImageView img1,img2,img3,img4;
-    TextView name1,name2,name3,name4,weight1,weight2,weight3,weight4,price1,price2,price3,price4,customTxt;
+    ImageView img1, img2, img3, img4;
+    TextView name1, name2, name3, name4, weight1, weight2, weight3, weight4, price1, price2, price3, price4, customTxt;
 
 
     final Handler handler = new Handler();
@@ -101,17 +101,16 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
         th.start();
 
 
-
     }
 
-    public void closePage(View v){
+    public void closePage(View v) {
         Intent intent = new Intent(BigPictureSocialMainActivity.this, com.shin.ssr.layout.tab.FitTab.class);
         startActivity(intent);
 
 //        finish();
     }
 
-    class ButtonActivity extends AppCompatActivity implements View.OnClickListener{
+    class ButtonActivity extends AppCompatActivity implements View.OnClickListener {
         @Override
         public void onClick(View recommend) {
             Button btn1 = (Button) findViewById(R.id.btnClose);
@@ -125,11 +124,10 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
     }
 
 
-
     @Override
     public void run() {
         HttpUtil_Push hu = new HttpUtil_Push(BigPictureSocialMainActivity.this);
-        String[] params = {SERVER_URL+"/product.do", "dummy1:"+1, "dummy2:"+ 1} ;
+        String[] params = {SERVER_URL + "/product.do", "dummy1:" + 1, "dummy2:" + 1};
 
 
         hu.execute(params);
@@ -139,37 +137,37 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
         try {
             result = hu.get();
             JSONArray object = null;
-            Log.d("geo","result from spring" + result);
+            Log.d("geo", "result from spring" + result);
 
             try {
-                object =  new JSONArray(result);
+                object = new JSONArray(result);
 
-                for(int i =0; i < 4; i++) {
-                    JSONObject obj = (JSONObject)object.get(i);
-                    android.util.Log.d("geo",obj.getString("item_price"));
-                    android.util.Log.d("geo",obj.getString("item_name"));
-                    android.util.Log.d("geo",obj.getString("item_img_path"));
-                    productArry.add(new ProductVO(obj.optString("item_name"),obj.optString("item_price"),obj.optString("item_weight"),obj.optString("item_img_path")));
+                for (int i = 0; i < 4; i++) {
+                    JSONObject obj = (JSONObject) object.get(i);
+                    android.util.Log.d("geo", obj.getString("item_price"));
+                    android.util.Log.d("geo", obj.getString("item_name"));
+                    android.util.Log.d("geo", obj.getString("item_img_path"));
+                    productArry.add(new ProductVO(obj.optString("item_name"), obj.optString("item_price"), obj.optString("item_weight"), obj.optString("item_img_path")));
                 }
-                JSONObject obj2 = (JSONObject)object.get(4) ;
-                productArry.add(new ProductVO(obj2.optInt("age"),obj2.optInt("gender"),obj2.optInt("time")));
+                JSONObject obj2 = (JSONObject) object.get(4);
+                productArry.add(new ProductVO(obj2.optInt("age"), obj2.optInt("gender"), obj2.optInt("time")));
 
-                HttpURLConnection conn=null;
-                InputStream is=null;
+                HttpURLConnection conn = null;
+                InputStream is = null;
 
-                for(int i=0; i < 4; i++ ) {
+                for (int i = 0; i < 4; i++) {
                     url = new URL(SERVER_URL + "resources/img" + productArry.get(i).getItem_img_path());
                     conn = (HttpURLConnection) url.openConnection();
                     conn.connect();
 
-                    Log.d("geo",url.toString());
+                    Log.d("geo", url.toString());
 
                     is = conn.getInputStream();
                     // 스트림에서 받은 데이터를 비트맵 변환
                     // 인터넷에서 이미지 가져올 때는 Bitmap을 사용해야함
                     bitmap.add(BitmapFactory.decodeStream(is));
 
-                    Log.d("geo", "inside thread" +bitmap.get(i).toString());
+                    Log.d("geo", "inside thread" + bitmap.get(i).toString());
 
 
                 }
@@ -180,49 +178,49 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable{
                     }
                 }.start();*/
 
-                handler.post(new Runnable(){
+                handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        ImageView[] productImg = {img1,img2,img3,img4};
-                        TextView[] productName = {name1,name2,name3,name4};
-                        TextView[] productWeight = {weight1,weight2,weight3,weight4};
-                        TextView[] productPrice = {price1,price2,price3,price4};
+                        ImageView[] productImg = {img1, img2, img3, img4};
+                        TextView[] productName = {name1, name2, name3, name4};
+                        TextView[] productWeight = {weight1, weight2, weight3, weight4};
+                        TextView[] productPrice = {price1, price2, price3, price4};
 
-                        for(int z =0; z<bitmap.size(); z++) {
-                            Log.d("geo",bitmap.get(z).toString());
+                        for (int z = 0; z < bitmap.size(); z++) {
+                            Log.d("geo", bitmap.get(z).toString());
                         }
 
                         // 서버에서 받아온 이미지를 핸들러를 경유해 이미지뷰에 비트맵 리소스 연결
-                        for(int i =0; i< bitmap.size(); i++) {
-                            Log.d("geo",productImg[i].toString());
+                        for (int i = 0; i < bitmap.size(); i++) {
+                            Log.d("geo", productImg[i].toString());
                             Log.d("geo", "inside for loop for image?");
                             Bitmap bitmap1 = bitmap.get(i);
                             productImg[i].setImageBitmap(bitmap1);
                         }
 
-                        for(int i =0; i< 4; i++) {
-                            productName[i].setText(productArry.get(i).getItem_name() );
+                        for (int i = 0; i < 4; i++) {
+                            productName[i].setText(productArry.get(i).getItem_name());
                             productWeight[i].setText(productArry.get(i).getItem_weight());
                             productPrice[i].setText(productArry.get(i).getItem_price());
                         }
 
-                        String gender=null;
-                        String time=null;
-                        if(productArry.get(4).getGender()==1) {
+                        String gender = null;
+                        String time = null;
+                        if (productArry.get(4).getGender() == 1) {
                             gender = "남성";
-                        } else if (productArry.get(4).getGender()==2) {
+                        } else if (productArry.get(4).getGender() == 2) {
                             gender = "여성";
                         }
 
-                        if(productArry.get(4).getTime()==1) {
+                        if (productArry.get(4).getTime() == 1) {
                             time = "화이팅 아침";
-                        } else if(productArry.get(4).getTime()==2) {
+                        } else if (productArry.get(4).getTime() == 2) {
                             time = "배고픈 점심";
-                        } else if(productArry.get(4).getTime()==3) {
+                        } else if (productArry.get(4).getTime() == 3) {
                             time = "나른한 오후";
-                        } else if (productArry.get(4).getTime()==4) {
+                        } else if (productArry.get(4).getTime() == 4) {
                             time = "불타는 저녁";
-                        } else if (productArry.get(4).getTime()==5) {
+                        } else if (productArry.get(4).getTime() == 5) {
                             time = "야심한 밤";
                         }
 

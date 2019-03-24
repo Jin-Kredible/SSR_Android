@@ -5,34 +5,20 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fit.samples.common.logger.Log;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.tab.FitTab;
 
 import androidx.annotation.Nullable;
 
 import static android.app.PendingIntent.getActivity;
-import static android.content.Intent.getIntent;
 
 
 public class NotificationService extends Service {
@@ -80,8 +66,7 @@ public class NotificationService extends Service {
         super.onCreate();
 
 
-
-        Log.d("noti","Total:" + Integer.toString(total));
+        Log.d("noti", "Total:" + Integer.toString(total));
 
         remoteViews = new RemoteViews(getPackageName(), R.layout.notification_service);
 
@@ -99,18 +84,18 @@ public class NotificationService extends Service {
         } else {
             builder = new NotificationCompat.Builder(this);
         }
-        Log.d("noti","after (oncreate) read data total : " + total);
+        Log.d("noti", "after (oncreate) read data total : " + total);
 
 
-                total = MainActivity.getData();
+        total = MainActivity.getData();
 
-                startForegroundService();
-
-
+        startForegroundService();
 
 
 
-   /*     mNotificationManager.notify(1,builder.build());*/
+
+
+        /*     mNotificationManager.notify(1,builder.build());*/
         /*myHandler.post(runnable);*/
 
 
@@ -130,16 +115,14 @@ public class NotificationService extends Service {
     void startForegroundService() {
 
 
-
-        Log.d("noti","inside foreground" );
+        Log.d("noti", "inside foreground");
         Intent notificationIntent = new Intent(this, FitTab.class);
         PendingIntent pendingIntent = getActivity(this, 0, notificationIntent, 0);
 
-        builder.setSmallIcon(R.mipmap.ic_launcher)
+        builder.setSmallIcon(R.mipmap.ic_ssgpay_launch)
                 .setContent(remoteViews)
                 .setContentIntent(pendingIntent);
-        Log.d("noti","inside foreground + total " + Integer.toString(total));
-
+        Log.d("noti", "inside foreground + total " + Integer.toString(total));
 
 
         remoteViews.setTextViewText(R.id.notif_content2, Integer.toString(total));
@@ -148,7 +131,7 @@ public class NotificationService extends Service {
 
     }
 
-    private Notification getMyActivityNotification(String text){
+    private Notification getMyActivityNotification(String text) {
 
         Log.d("noti", "inside get my activity");
         // The PendingIntent to launch our activity if the user selects

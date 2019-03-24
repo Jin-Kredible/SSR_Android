@@ -1,27 +1,19 @@
 package com.shin.ssr.layout.tab;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -34,10 +26,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LimitLine;
@@ -50,17 +39,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fit.samples.backgroundgps.RealService;
 import com.google.android.gms.fit.samples.common.logger.Log;
 import com.google.android.gms.fit.samples.stepcounter.MainActivity;
-import com.google.android.gms.fit.samples.stepcounter.NotificationService;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
 import com.shin.ssr.layout.point.Point;
@@ -70,13 +55,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import at.grabner.circleprogress.CircleProgressView;
@@ -86,7 +68,7 @@ import static android.graphics.Color.rgb;
 import static com.google.android.gms.fit.samples.backgroundgps.RealService.insideMall;
 
 
-public class FitTab extends AppCompatActivity  {
+public class FitTab extends AppCompatActivity {
 
     private PopupWindow mPopupWindow;
 
@@ -94,7 +76,7 @@ public class FitTab extends AppCompatActivity  {
     private static double step_percentage;
     private static double mall_percentage;
     private static double ssgpaycon_percentage;
-    private static  boolean lorddata = false;
+    private static boolean lorddata = false;
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
@@ -102,10 +84,10 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://172.30.1.9:8088/";
+    public static final String SERVER_URL = "http://13.125.183.32:8088/";
     public ImageView help;
     private int total;
-    private Handler handler=new Handler();
+    private Handler handler = new Handler();
     private static final int NOTIF_ID = 1234;
     private Context context;
     public int read_counter = 0;
@@ -128,25 +110,25 @@ public class FitTab extends AppCompatActivity  {
 
     private FrameLayout mBackground;
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.fit_tab_activity);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fit_tab_activity);
 
 //            ImageView img = findViewById(R.id.mission_day);
 //            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(img);
 //            Glide.with(this).load(R.drawable.cart_stack).into(gifImage);
 
 
-            Button cartimg =  (Button)findViewById(R.id.button3);
+        Button cartimg = (Button) findViewById(R.id.button3);
 
-            if(insideMall==true) {
+        if (insideMall == true) {
 
-                cartimg.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.cart_2_times,0);
-               /* cartimg.setBackgroundResource(R.drawable.cart_y);*/
-            } else {
-                cartimg.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.cart_normal,0);
-            }
+            cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_2_times, 0);
+            /* cartimg.setBackgroundResource(R.drawable.cart_y);*/
+        } else {
+            cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);
+        }
 
         /*FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
@@ -166,7 +148,7 @@ public class FitTab extends AppCompatActivity  {
 
         }*/
 
-        Log.d("fit","after readdata"+Integer.toString(total));
+        Log.d("fit", "after readdata" + Integer.toString(total));
 
         setTitle("LineChartActivityColored");
         charts[0] = findViewById(R.id.chart1);
@@ -178,49 +160,46 @@ public class FitTab extends AppCompatActivity  {
         readData();
 
 
-
-            handler.post(new Runnable(){
-                @Override
-                public void run() {
-                    updateData();
-                    TextView txtView = findViewById(R.id.steps_taken);
-                    TextView txtView2 = findViewById(R.id.todo1_step);
-                    txtView.setText(" " + total + " / 7000  ");
-                    txtView2.setText(" " + total + " / 7000  ");
-                    String text = "<font color='#333743'> <b> "+total+ "</b> / 7000 </font>";
-                    txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-                    handler.postDelayed(this,5000); // set time here to refresh textView
-                }
-            });
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                updateData();
+                TextView txtView = findViewById(R.id.steps_taken);
+                TextView txtView2 = findViewById(R.id.todo1_step);
+                txtView.setText(" " + total + " / 7000  ");
+                txtView2.setText(" " + total + " / 7000  ");
+                String text = "<font color='#333743'> <b> " + total + "</b> / 7000 </font>";
+                txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                handler.postDelayed(this, 5000); // set time here to refresh textView
+            }
+        });
     }
 
 
-
-
-        public FitTab(Context context) {
-            this.context = context;
-        }
+    public FitTab(Context context) {
+        this.context = context;
+    }
 
     public FitTab() {
     }
 
     public void sendToFinance(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
-        intent.putExtra("buttonNum",1);
+        intent.putExtra("buttonNum", 1);
         startActivity(intent);
         finish();
     }
 
     public void sendToPay(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
-        intent.putExtra("buttonNum",2);
+        intent.putExtra("buttonNum", 2);
         startActivity(intent);
         finish();
     }
 
     public void sendToLife(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
-        intent.putExtra("buttonNum",3);
+        intent.putExtra("buttonNum", 3);
         startActivity(intent);
         finish();
     }
@@ -235,33 +214,32 @@ public class FitTab extends AppCompatActivity  {
     CircleProgressView mCircleView;
 
 
+    @SuppressLint("ClickableViewAccessibility")
+    public void getTodoList(double result) {
 
-        @SuppressLint("ClickableViewAccessibility")
-        public void getTodoList(double result){
+        this.step_percentage = result;
+        System.out.println("getTodoList" + result);
 
-            this.step_percentage = result;
-            System.out.println("getTodoList" + result);
-
-            System.out.println("getTodoList" + this.step_percentage);
+        System.out.println("getTodoList" + this.step_percentage);
 
 
-            View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
+        View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
 
-            mBackground.setVisibility(View.VISIBLE);
-            mCircleView = popupView.findViewById(R.id.circleView);
-            mCircleView.setFocusable(true);
-            mBackground.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_DOWN){
-                        mBackground.setVisibility(View.GONE);
-                    }
-                    return false;
+        mBackground.setVisibility(View.VISIBLE);
+        mCircleView = popupView.findViewById(R.id.circleView);
+        mCircleView.setFocusable(true);
+        mBackground.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mBackground.setVisibility(View.GONE);
                 }
-            });
+                return false;
+            }
+        });
 
 
-            mCircleView.setValueAnimated((float)step_percentage);
+        mCircleView.setValueAnimated((float) step_percentage);
 
 
         mPopupWindow = new PopupWindow(popupView,
@@ -276,25 +254,23 @@ public class FitTab extends AppCompatActivity  {
     }
 
 
-
-    public void stepgoal2(View v){
-            HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
-            String[] params = {SERVER_URL+"todayGoal.do", "wk_am:"+ total, "user_id:"+ 2} ;
-            hu.execute(params);
+    public void stepgoal2(View v) {
+        HttpUtil_Todo hu = new HttpUtil_Todo(FitTab.this);
+        String[] params = {SERVER_URL + "todayGoal.do", "wk_am:" + total, "user_id:" + 2};
+        hu.execute(params);
     }
 
 
-    public void stepgoal1(View v){
+    public void stepgoal1(View v) {
         HttpUtil_Todo1 hu = new HttpUtil_Todo1(FitTab.this);
 
-        String[] params = {SERVER_URL+"visitmall.do","wk_am:"+ total, "user_id:"+ 2} ;
+        String[] params = {SERVER_URL + "visitmall.do", "wk_am:" + total, "user_id:" + 2};
         hu.execute(params);
 
     }
 
 
-
-    public void getTodoList2(double result){
+    public void getTodoList2(double result) {
 
         this.mall_percentage = result;
         System.out.println("getTodoList" + result);
@@ -324,16 +300,13 @@ public class FitTab extends AppCompatActivity  {
     }
 
 
-
-
-    public void stepgoal3(View v){
+    public void stepgoal3(View v) {
 
 
         View popupView = getLayoutInflater().inflate(R.layout.popup_window3, null);
 
         mBackground.setVisibility(View.VISIBLE);
         mCircleView = popupView.findViewById(R.id.circleView);
-
 
 
         mCircleView.setValueAnimated(1);
@@ -348,7 +321,7 @@ public class FitTab extends AppCompatActivity  {
         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, -100);
     }
 
-    private final int[] colors = new int[] {
+    private final int[] colors = new int[]{
             /*Color.rgb(217, 77, 50)*/
             rgb(250, 250, 250)
     };
@@ -379,7 +352,6 @@ public class FitTab extends AppCompatActivity  {
         chart.setBackgroundColor(color);
 
 
-
         // add data
         chart.setData(data);
 
@@ -391,28 +363,27 @@ public class FitTab extends AppCompatActivity  {
         l.setXEntrySpace(20f);
         l.setMaxSizePercent(0.5f);
         l.setForm(Legend.LegendForm.CIRCLE);
-        l.setTypeface(Typeface.createFromAsset(getAssets(),"font/applesgothic_regular.ttf"));
+        l.setTypeface(Typeface.createFromAsset(getAssets(), "font/applesgothic_regular.ttf"));
         l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
 
         chart.getAxisLeft().setEnabled(false);
         chart.getAxisLeft().setSpaceTop(40);
         chart.getAxisLeft().setSpaceBottom(40);
         chart.getAxisRight().setEnabled(false);
-   /*     chart.getXAxis().setEnabled(false);*/
+        /*     chart.getXAxis().setEnabled(false);*/
 
 
         // set custom chart offsets (automatic offset calculation is hereby disabled)
         chart.setViewPortOffsets(50, 30, 50, 90);
 
-        Log.d("log","inside chart creation");
-
+        Log.d("log", "inside chart creation");
 
 
         XAxis xAxis = chart.getXAxis();
 
         xAxis.setYOffset(-10f);
         xAxis.setTextSize(10f);
-        xAxis.setTypeface(Typeface.createFromAsset(getAssets(),"font/applesgothic_regular.ttf"));
+        xAxis.setTypeface(Typeface.createFromAsset(getAssets(), "font/applesgothic_regular.ttf"));
         xAxis.setEnabled(true);
         xAxis.setDrawLabels(true);
         xAxis.setDrawGridLines(false);
@@ -426,10 +397,10 @@ public class FitTab extends AppCompatActivity  {
 
         String[] today = new String[7];
 
-        for(int i=0; i< today.length; i++) {
+        for (int i = 0; i < today.length; i++) {
             Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE,-i);
-            today[today.length-i-1] = new SimpleDateFormat("EE").format(cal.getTime());
+            cal.add(Calendar.DATE, -i);
+            today[today.length - i - 1] = new SimpleDateFormat("EE").format(cal.getTime());
         }
 
 
@@ -437,11 +408,11 @@ public class FitTab extends AppCompatActivity  {
 
 
         // animate calls invalidate()...
-    /*    chart.animateX(700);*/
-        chart.animateY(1200,Easing.EasingOption.EaseInOutCirc);
-       /* chart.animateX(1200, Easing.EasingOption.EaseInCubic);*/
+        /*    chart.animateX(700);*/
+        chart.animateY(1200, Easing.EasingOption.EaseInOutCirc);
+        /* chart.animateX(1200, Easing.EasingOption.EaseInCubic);*/
 
-        MyMarkerView marker = new MyMarkerView(this,R.layout.markerviewtext);
+        MyMarkerView marker = new MyMarkerView(this, R.layout.markerviewtext);
         marker.setChartView(charts[0]);
         charts[0].setMarker(marker);
 
@@ -458,33 +429,30 @@ public class FitTab extends AppCompatActivity  {
     }
 
 
-
-
     private LineData getData(int count, float range, int total, ArrayList<StepVO> stepAry) {
 
 
         Log.d("fit", "in getdata");
-        for(int i =0; i < stepAry.size(); i++ ) {
+        for (int i = 0; i < stepAry.size(); i++) {
             Log.d("values", Integer.toString(stepAry.get(i).getWk_am()));
         }
 
         ArrayList<Entry> values = new ArrayList<>();
         ArrayList<Entry> values2 = new ArrayList<>();
 
-        for (int i = 0; i  <7; i++) {
+        for (int i = 0; i < 7; i++) {
             Log.d("result", "are you here");
             float val = (float) stepAry.get(i).getWk_am();
             values2.add(new Entry(i, val));
         }
 
         for (int i = 7; i < stepAry.size(); i++) {
-                Log.d("result", "are you here");
-                float val = (float) stepAry.get(i).getWk_am();
-                values.add(new Entry(i-7, val));
+            Log.d("result", "are you here");
+            float val = (float) stepAry.get(i).getWk_am();
+            values.add(new Entry(i - 7, val));
 
-            }
+        }
         values.add(new Entry(6, total));
-
 
 
         // create a dataset and give it a type
@@ -514,8 +482,6 @@ public class FitTab extends AppCompatActivity  {
         set1.setValueTextColor(Color.rgb(51, 55, 68));
         set1.setValueTextSize(12f);
         set1.setDrawValues(false);
-
-
 
 
         // create a data object with the data sets
@@ -562,39 +528,39 @@ public class FitTab extends AppCompatActivity  {
     }*/
 
     private void readData() {
-        Log.d("fit","in readdata");
+        Log.d("fit", "in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
-                                            new OnSuccessListener<DataSet>() {
+                        new OnSuccessListener<DataSet>() {
 
-                                                @Override
-                                                public void onSuccess(DataSet dataSet) {
-                                                    ArrayList<StepVO> stepAry = new ArrayList<>();
+                            @Override
+                            public void onSuccess(DataSet dataSet) {
+                                ArrayList<StepVO> stepAry = new ArrayList<>();
 
-                                                    HttpUtil hu = new HttpUtil(FitTab.this);
+                                HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL+"step.do", "wk_am:"+ total, "user_id:"+ 1} ;
+                                String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + 1};
 
-                                                    hu.execute(params);
-                                                    total =
-                                                            dataSet.isEmpty()
-                                                                    ? 0
-                                                                    : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                hu.execute(params);
+                                total =
+                                        dataSet.isEmpty()
+                                                ? 0
+                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                                    JSONArray object = null;
-                                                    String result;
-                                                    try {
+                                JSONArray object = null;
+                                String result;
+                                try {
                                     result = hu.get();
-                                    object =  new JSONArray(result);
+                                    object = new JSONArray(result);
 
-                                    android.util.Log.d("log","result from spring" + result);
+                                    android.util.Log.d("log", "result from spring" + result);
 
-                                    for(int i =0; i < object.length(); i++) {
-                                        JSONObject obj = (JSONObject)object.get(i);
-                                        android.util.Log.d("log",obj.getString("wk_am"));
-                                        android.util.Log.d("log",obj.getString("user_id"));
-                                        stepAry.add(new StepVO(obj.optInt("user_id"),obj.optInt("wk_am"),obj.optString("wk_dt")));
+                                    for (int i = 0; i < object.length(); i++) {
+                                        JSONObject obj = (JSONObject) object.get(i);
+                                        android.util.Log.d("log", obj.getString("wk_am"));
+                                        android.util.Log.d("log", obj.getString("user_id"));
+                                        stepAry.add(new StepVO(obj.optInt("user_id"), obj.optInt("wk_am"), obj.optString("wk_dt")));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -613,7 +579,7 @@ public class FitTab extends AppCompatActivity  {
                                 Log.d("fit", "todays walk");
                                 Log.d("fit", "stepvO" + stepAry);
 
-                                if(stepAry.size()!=0) {
+                                if (stepAry.size() != 0) {
                                     LineData data1 = getData(7, 10000, total, stepAry);
 
                                     Log.d("fit", "getdata" + data1.getDataSets().toString());
@@ -625,15 +591,15 @@ public class FitTab extends AppCompatActivity  {
                                 TextView txtView2 = findViewById(R.id.todo1_step);
                                 txtView.setText(" " + total + " / 7000  ");
 
-                                String text = "<font color='#333743'> <b> "+total+ "</b> / 7000 </font>";
+                                String text = "<font color='#333743'> <b> " + total + "</b> / 7000 </font>";
                                 txtView2.setText(" " + total + " / 7000  ");
                                 txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
 
                                 //////////////http connection
-                                 // 서버 주소
+                                // 서버 주소
 
 
-                                if(total>=7000) {
+                                if (total >= 7000) {
                                     Log.d("fit", "inside checkbox");
                                     CheckBox step_checkbox = findViewById(R.id.steps_check);
                                     step_checkbox.setChecked(true);
@@ -644,20 +610,20 @@ public class FitTab extends AppCompatActivity  {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-        Log.w(TAG, "There was a problem getting the step count.", e);
+                                Log.w(TAG, "There was a problem getting the step count.", e);
+                            }
+                        });
+
+
     }
-});
 
+    public void httpWeb() {
 
-        }
+    }
 
-public void httpWeb(){
-
-        }
-
-public void printToast(String rtn) {
+    public void printToast(String rtn) {
         Toast.makeText(FitTab.this, rtn, Toast.LENGTH_SHORT).show();
-        }
+    }
 
     PopupWindow helpPopup;
     View popupView;
@@ -677,10 +643,10 @@ public void printToast(String rtn) {
                     helpPopup.setAnimationStyle(-1);
                     helpPopup.showAtLocation(popupView, Gravity.CENTER, 0, 0);
 
-                    popupView.setOnTouchListener(new View.OnTouchListener(){
+                    popupView.setOnTouchListener(new View.OnTouchListener() {
                         @Override
-                        public boolean onTouch(View v, MotionEvent event){
-                            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
                                 popupView.setVisibility(View.GONE);
                             }
                             return false;
@@ -698,7 +664,7 @@ public void printToast(String rtn) {
     }
 
 
-    private Notification getMyActivityNotification(int total){
+    private Notification getMyActivityNotification(int total) {
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_service);
 
         Log.d("noti", "inside get my activity");
@@ -723,7 +689,7 @@ public void printToast(String rtn) {
     }
 
     private void updateData() {
-        Log.d("fit","in readdata");
+        Log.d("fit", "in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -735,8 +701,6 @@ public void printToast(String rtn) {
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-
-
 
 
                             }

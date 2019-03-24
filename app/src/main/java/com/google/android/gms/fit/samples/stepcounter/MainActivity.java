@@ -5,13 +5,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.bluetooth.BluetoothAdapter;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
-import android.location.LocationManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,19 +22,15 @@ import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
-import com.github.mikephil.charting.data.LineData;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fit.samples.backgroundgps.LocationManage;
 import com.google.android.gms.fit.samples.backgroundgps.RealService;
@@ -50,39 +42,17 @@ import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingClient;
-import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.minew.beacon.BeaconValueIndex;
-import com.minew.beacon.BluetoothState;
-import com.minew.beacon.MinewBeacon;
-import com.minew.beacon.MinewBeaconManager;
-import com.minew.beacon.MinewBeaconManagerListener;
 import com.shin.ssr.layout.notification.GlobalNotificationBuilder;
 import com.shin.ssr.layout.notification.handlers.BigPictureSocialIntentService;
 import com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity;
 import com.shin.ssr.layout.notification.handlers.MockDatabase;
 import com.shin.ssr.layout.notification.handlers.NotificationUtil;
 import com.shin.ssr.layout.tab.FitTab;
-import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.vo.LocationVO;
-import com.shin.ssr.vo.StepVO;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -110,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
-
         int permssionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
         if (ContextCompat.checkSelfPermission(this,
@@ -137,21 +105,21 @@ public class MainActivity extends AppCompatActivity {
     /*
     /** 기존의 위치 받아오는 로직 **/
 
-    /////////////////////////////////////////////////////////////
-    if (RealService.serviceIntent == null) {
-      serviceIntent = new Intent(this, RealService.class);
-      startService(serviceIntent);
-    } else {
-      serviceIntent = RealService.serviceIntent;//getInstance().getApplication();
-      Toast.makeText(getApplicationContext(), "already", Toast.LENGTH_LONG).show();
-    }//백그라운드 실행
-    ////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////
+        if (RealService.serviceIntent == null) {
+            serviceIntent = new Intent(this, RealService.class);
+            startService(serviceIntent);
+        } else {
+            serviceIntent = RealService.serviceIntent;//getInstance().getApplication();
+            Toast.makeText(getApplicationContext(), "already", Toast.LENGTH_LONG).show();
+        }//백그라운드 실행
+        ////////////////////////////////////////////////////////////////
 /*    final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
     locationManage.onLocation(lm);
     locationVO =locationManage.getVoData(); //gps 위치 받아오기
     Log.d("geo", "Long" + locationManage.getVoData().getLongitude() + " " + locationManage.getVoData().getLatitude());*/
-    /////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////
 
 
         btnFinance = findViewById(R.id.finance);
@@ -191,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 
     @Override
@@ -331,52 +298,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-  /*@Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                         @NonNull int[] grantResults) {
-    android.util.Log.i("geo", "onRequestPermissionResult");
-    if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-      if (grantResults.length <= 0) {
-        // If user interaction was interrupted, the permission request is cancelled and you
-        // receive empty arrays.
-        android.util.Log.i("geo", "User interaction was cancelled.");
-      } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        android.util.Log.i("geo", "Permission granted.");
-        performPendingGeofenceTask();
-      } else {
-        // Permission denied.
-
-        // Notify the user via a SnackBar that they have rejected a core permission for the
-        // app, which makes the Activity useless. In a real app, core permissions would
-        // typically be best requested during a welcome-screen flow.
-
-        // Additionally, it is important to remember that a permission might have been
-        // rejected without asking the user for permission (device policy or "Never ask
-        // again" prompts). Therefore, a user interface affordance is typically implemented
-        // when permissions are denied. Otherwise, your app could appear unresponsive to
-        // touches or interactions which have required permissions.
-        showSnackbar(R.string.permission_denied_explanation, R.string.settings,
-                new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                    // Build intent that displays the App settings screen.
-                    Intent intent = new Intent();
-                    intent.setAction(
-                            Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package",
-                            BuildConfig.APPLICATION_ID, null);
-                    intent.setData(uri);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                  }
-                });
-        mPendingGeofenceTask = PendingGeofenceTask.NONE;
-      }
-    }
-  }*/
 
     public void generateBigPictureStyleNotification() {
 
@@ -569,7 +490,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void readData() {
-        Log.d("noti","in readdata");
+        Log.d("noti", "in readdata");
         Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -577,16 +498,15 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onSuccess(DataSet dataSet) {
-                                Log.d("noti","in read data total : " + dataSet.toString());
+                                Log.d("noti", "in read data total : " + dataSet.toString());
                                 total =
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
-                                Log.d("noti","inside main readata " + Integer.toString(total));
-                                Intent intent = new Intent(getApplicationContext(), NotificationService.class).putExtra("total",total);
+                                Log.d("noti", "inside main readata " + Integer.toString(total));
+                                Intent intent = new Intent(getApplicationContext(), NotificationService.class).putExtra("total", total);
                                 getApplicationContext().startService(intent);
-
 
 
                             }
@@ -606,9 +526,6 @@ public class MainActivity extends AppCompatActivity {
 
         return total;
     }
-
-
-
 
 
 }
