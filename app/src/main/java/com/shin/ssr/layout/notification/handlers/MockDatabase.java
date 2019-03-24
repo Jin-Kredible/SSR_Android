@@ -155,7 +155,7 @@ public final class MockDatabase {
             mPriority = NotificationCompat.PRIORITY_HIGH;
 
             // Style notification values:
-            mBigImage = R.drawable.emart_recom;
+            mBigImage = R.drawable.emart_recom_new2;
             mBigContentTitle = "SSR 이 추천해주는 제품!";
             mSummaryText = "당신만을 위한 추천 제품 놓치지 마세요";
 
@@ -351,7 +351,7 @@ public final class MockDatabase {
                             .setKey("9876543210")
                             .setUri("tel:9876543210")
                             .setIcon(
-                                    IconCompat.createWithResource(context, R.drawable.famous_fryer))
+                                    IconCompat.createWithResource(context, R.drawable.ssg_pay_icon))
                             .build();
 
             Person participant2 =
@@ -376,7 +376,7 @@ public final class MockDatabase {
             mMessages.add(
                     // When you are setting an image for a message, text does not display.
                     new NotificationCompat.MessagingStyle.Message("", 1528490641998l, participant1)
-                            .setData("image/png", resourceToUri(context, R.drawable.earth)));
+                            .setData("image/png", resourceToUri(context, R.drawable.ssg_pay_icon)));
 
             mMessages.add(
                     new NotificationCompat.MessagingStyle.Message(

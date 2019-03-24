@@ -9,7 +9,6 @@ import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
@@ -22,22 +21,9 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.estimote.coresdk.recognition.packets.Beacon;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.fit.samples.stepcounter.MainActivity;
 import com.google.android.gms.fit.samples.stepcounter.R;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.data.DataSet;
@@ -55,35 +41,20 @@ import com.shin.ssr.layout.notification.handlers.BigPictureSocialIntentService;
 import com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity;
 import com.shin.ssr.layout.notification.handlers.MockDatabase;
 import com.shin.ssr.layout.notification.handlers.NotificationUtil;
-import com.shin.ssr.layout.tab.FitTab;
-import com.shin.ssr.layout.tab.HttpUtil;
 import com.shin.ssr.vo.LocationVO;
 import com.shin.ssr.vo.MallsVO;
-import com.shin.ssr.vo.ProductVO;
 import com.shin.ssr.vo.StepVO;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
-
-import com.shin.ssr.vo.LocationVO;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
 
 
-public class RealService  extends Service {
+public class RealService extends Service {
     public static Thread mainThread;
     public static Intent serviceIntent = null;
     LocationManage locationManage = new LocationManage();
@@ -115,6 +86,7 @@ public class RealService  extends Service {
     private int vi_WalkStart; // 매장방문, 걸음 체크
     private int vi_WalkEnd; // 매장방문 걸음 종료 체크
     private int mWalk_check; // 걸음수 체크
+    private String currentLoc; // 현재 점포 이름
     //비콘 관련 변수
     //////////////////////////////////////////////////////////////////
 
@@ -127,6 +99,7 @@ public class RealService  extends Service {
         mTemp.add(new MallsVO("이마트 용산점", 37.529456, 126.965545));
         mTemp.add(new MallsVO("이마트 아이앤씨점", 37.559805, 126.983122));
         mTemp.add(new MallsVO("이마트 SD아카데미점", 37.502366, 127.023680));
+        mTemp.add(new MallsVO("이마트 JINS 집", 37.270565, 127.126918));
 
         Log.d("real", "RealService start");
         Log.d("real", Integer.toString(result2));
@@ -176,7 +149,7 @@ public class RealService  extends Service {
 
                             locationVO = locationManage.getVoData();
 
-                            showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());
+                            /*  showToast(getApplication(), Double.toString(locationVO.getLongitude()) + " , " + Double.toString(locationVO.getLatitude()) + " , " + locationVO.getProvider());*/
                             Location location = new Location(locationVO.getProvider());
 
                             Log.d("geo", "loc vo long" + locationVO.getLongitude());
@@ -203,13 +176,13 @@ public class RealService  extends Service {
                                     Log.d("beacon1", "방문 끝 워크 체크 " + vi_WalkStart + " / " + vi_WalkEnd);
                                 } else {
                                     Log.d("gps2", "gps 이름" + location.getProvider());
-                                    showToast(getApplication(), "네트워크 접속완료");
+                                    /*showToast(getApplication(), "네트워크 접속완료");*/
                                 }
                             }//매장 퇴장 체크
 
                             if (!isScanning && !isBeaconOn) { // 사용자가 매장에 방문하지 않았을때 사용
                                 Log.d("gps2", ">>>>>> 점포 스캐닝 입장");
-                                showToast(getApplication(), "점포 스캐닝 입장");
+                                /* showToast(getApplication(), "점포 스캐닝 입장");*/
                                 for (int i = 0; i < mTemp.size(); i++) {
                                     locationPoint.setLatitude(mTemp.get(i).getMall_la());
                                     locationPoint.setLongitude(mTemp.get(i).getMall_long());
@@ -219,7 +192,7 @@ public class RealService  extends Service {
                                     if (Integer.parseInt(pushyn) == 1) {
                                         // 지점과 지금 거리가 100m 이내일떄
                                         if (distance < 100) {
-
+                                            currentLoc = mTemp.get(i).getMall_nm();
                                             showToast(getApplication(), "100미터 이내 입장!");
                                             Log.d("geo", "inside distance for loop");
                                             mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
@@ -383,9 +356,9 @@ public class RealService  extends Service {
                                 getResources(),
                                 bigPictureStyleSocialAppData.getBigImage()))
                 // Overrides ContentTitle in the big form of the template.
-                .setBigContentTitle("100M 내에 위치한 EMART에서 지금 GET")
+                .setBigContentTitle("오직 당신만을 위한 맞춤 추천 상품")
                 // Summary line after the detail section in the big form of the template.
-                .setSummaryText(time + "에 " + vo.getAge() + "대 " + gender + "에게 추천하는 이마트 제품");
+                .setSummaryText(currentLoc + "에서 걸으면 워킹 포인트가 2배!");
 
         // 3. Set up main Intent for notification.
         Intent mainIntent = new Intent(this, BigPictureSocialMainActivity.class);
@@ -470,7 +443,7 @@ public class RealService  extends Service {
                 // BIG_PICTURE_STYLE sets title and content for API 16 (4.1 and after).
                 .setStyle(bigPictureStyle)
                 // Title for API <16 (4.0 and below) devices.
-                .setContentTitle("↓↓↓↓ 근처 EMART 추천 제품")
+                .setContentTitle("↓↓↓↓ " + currentLoc + "에서 추천하는 제품")
                 // Content for API <24 (7.0 and below) devices.
                 .setContentText(time + "에 " + vo.getAge() + "대 " + gender + "에게 추천하는 이마트 제품")
                 .setSmallIcon(R.drawable.ssgpaylogo2)
@@ -572,22 +545,22 @@ public class RealService  extends Service {
                     for (int i = 0; i < bCon_List.size(); i++) {
                         Log.d("beacon1", " ");
                         Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>> " + i + "번째 for문");
-                                    Log.d("beacon1", "서버정보 : " + "UUID - " + bCon_List.get(i).getUuid() + " Major - " + Integer.toString(bCon_List.get(i).getMajor()) + " minor - " + Integer.toString(bCon_List.get(i).getMinor()));
-                            Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                            readData(); // 걸음수 데이터 불러오기
-                            for (MinewBeacon minewBeacon : minewBeacons) {
-                                String deviceUUID = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue();
-                                String deviceMajor = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Major).getStringValue();
-                                String deviceMinor = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Minor).getStringValue();
-                                String serverUUID = bCon_List.get(i).getUuid();
-                                String serverMajor = Integer.toString(bCon_List.get(i).getMajor());
-                                String serverMinor = Integer.toString(bCon_List.get(i).getMinor());
+                        Log.d("beacon1", "서버정보 : " + "UUID - " + bCon_List.get(i).getUuid() + " Major - " + Integer.toString(bCon_List.get(i).getMajor()) + " minor - " + Integer.toString(bCon_List.get(i).getMinor()));
+                        Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                        readData(); // 걸음수 데이터 불러오기
+                        for (MinewBeacon minewBeacon : minewBeacons) {
+                            String deviceUUID = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue();
+                            String deviceMajor = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Major).getStringValue();
+                            String deviceMinor = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Minor).getStringValue();
+                            String serverUUID = bCon_List.get(i).getUuid();
+                            String serverMajor = Integer.toString(bCon_List.get(i).getMajor());
+                            String serverMinor = Integer.toString(bCon_List.get(i).getMinor());
                             vi_WalkStart = getWalkCheck(); // 걸음수 받아오기
                             Log.d("beacon1", "검색정보 : " + "UUID - " + deviceUUID + " Major - " + deviceMajor + " minor - " + deviceMinor);
                             if (deviceUUID != null && deviceMajor != null && deviceMinor != null && serverUUID != null && serverMajor != null && serverMinor != null &&
                                     deviceUUID.equals(serverUUID) && deviceMajor.equals(serverMajor) && deviceMinor.equals(serverMinor)) {
                                 Log.d("beacon1", "MINOR 통과");
-                                showToast(getApplication(),   "매장방문을 환영합니다!");
+                                showToast(getApplication(), "매장방문을 환영합니다!");
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Name : " + deviceUUID);
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>UUID : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue());
@@ -606,7 +579,7 @@ public class RealService  extends Service {
                                 vi_WalkStart = getWalkCheck(); //매장 방문했을때 걸음 수
 
 
-                                insideMall= true;
+                                insideMall = true;
                                /* LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 
                                 View view = inflater.inflate(R.layout.fit_tab_activity,null);
@@ -618,7 +591,6 @@ public class RealService  extends Service {
                                 *//*Button buton = (Button) ((FitTab)context).findViewById(R.id.button3);*//*
                                 button.setBackgroundResource(R.drawable.cart_y);
                                 button.setImageResource(R.drawable.cart_y);*/
-
 
 
                                 break;
