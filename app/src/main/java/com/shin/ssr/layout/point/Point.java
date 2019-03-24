@@ -27,7 +27,7 @@ public class Point extends AppCompatActivity {
     int[] imgsCon = {R.drawable.belt6, R.drawable.belt5, R.drawable.belt4, R.drawable.belt3, R.drawable.belt2, R.drawable.belt1};
 
 
-    private float dx = 50;          //Product 이동 정도
+    private float dx = 25;          //Product 이동 정도
     private float dy = 30;
     private float dr = 20;
     private float hx = 0;           //Product 현재 위치
@@ -143,7 +143,10 @@ public class Point extends AppCompatActivity {
 
         hx = imgPro.getTranslationX();
         hy = imgPro.getTranslationY();
+        hy = imgPro.getTranslationY();
         hr = imgPro.getRotation();
+        dx=25;
+
     }
 
 
