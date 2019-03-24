@@ -86,7 +86,7 @@
             android:layout_marginRight="105dp"
             android:layout_marginBottom="175dp"
             android:rotation="5"
-            android:text="CHANGED"
+            android:text="TODAY"
             android:textSize="12sp"
             android:textStyle="bold" />
 
