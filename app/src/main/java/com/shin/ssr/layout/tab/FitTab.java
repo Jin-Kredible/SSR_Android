@@ -34,8 +34,6 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -102,7 +100,7 @@ public class FitTab extends AppCompatActivity  {
     private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL="http://192.168.0.155:8088/";
+    public static final String SERVER_URL="http://192.168.35.100:8088/";
     public ImageView help;
     private int total;
     private Handler handler=new Handler();
@@ -132,11 +130,6 @@ public class FitTab extends AppCompatActivity  {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fit_tab_activity);
-
-            /*ImageView img = findViewById(R.id.mission_day);
-            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(img);
-            Glide.with(this).load(R.drawable.cat).into(gifImage);*/
-
 
             Button cartimg =  (Button)findViewById(R.id.button3);
 
