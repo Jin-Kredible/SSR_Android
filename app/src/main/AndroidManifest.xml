@@ -103,14 +103,7 @@
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".GeofenceBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true" />
 
-        <service android:name=".GeofenceTransitionsJobIntentService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service android:name="com.minew.beacon.ScanService"/>
         <receiver android:name="com.minew.beacon.BluetoothChangedReceiver">

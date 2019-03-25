@@ -45,14 +45,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="186dp"
+            android:layout_height="310dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="55dp"
+            app:srcCompat="@drawable/robot" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="80dp"
+            android:layout_height="41dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="65dp"
+            android:layout_marginBottom="235dp"
+            android:rotation="5"
+            android:text="TOTAL"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/txtTotalPoint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="20dp"
-            android:text="TextView"
-            android:textSize="30sp" />
+            android:layout_width="80dp"
+            android:layout_height="41dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="65dp"
+            android:layout_marginBottom="220dp"
+            android:rotation="5"
+            android:text="00"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="80dp"
+            android:layout_height="41dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="68dp"
+            android:layout_marginBottom="170dp"
+            android:rotation="5"
+            android:text="TODAY"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Point"
+            android:layout_width="80dp"
+            android:layout_height="41dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="68dp"
+            android:layout_marginBottom="155dp"
+            android:rotation="5"
+            android:text="00"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/imgCoverB"
@@ -64,8 +111,8 @@
 
         <ImageView
             android:id="@+id/imgCartB"
-            android:layout_width="115dp"
-            android:layout_height="140dp"
+            android:layout_width="129dp"
+            android:layout_height="158dp"
             android:layout_gravity="bottom|right"
             app:srcCompat="@drawable/cart_back" />
 
@@ -80,8 +127,8 @@
 
         <ImageView
             android:id="@+id/imgCartF"
-            android:layout_width="116dp"
-            android:layout_height="61dp"
+            android:layout_width="131dp"
+            android:layout_height="66dp"
             android:layout_gravity="bottom|right"
             app:srcCompat="@drawable/cart_front" />
 
@@ -92,15 +139,6 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="110dp"
             android:background="@drawable/peacock_01" />
-
-        <TextView
-            android:id="@+id/Point"
-            android:layout_width="98dp"
-            android:layout_height="41dp"
-            android:layout_gravity="center_vertical"
-            android:text="00"
-            android:textSize="30dp"
-            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/imgGetProduct"
@@ -119,19 +157,21 @@
             app:srcCompat="@drawable/cover_front" />
 
         <ImageView
+            android:id="@+id/imgAd"
+            android:layout_width="324dp"
+            android:layout_height="171dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="73dp"
+            android:layout_marginRight="1dp"
+            android:background="@drawable/ad_1"
+            android:visibility="visible" />
+
+        <ImageView
             android:id="@+id/imageView"
             android:layout_width="358dp"
             android:layout_height="268dp"
             android:layout_gravity="center_horizontal|top"
             app:srcCompat="@drawable/ad_board" />
-
-        <ImageView
-            android:id="@+id/imgAd"
-            android:layout_width="336dp"
-            android:layout_height="182dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="75dp"
-            android:background="@drawable/ad_0" />
 
     </FrameLayout>
 

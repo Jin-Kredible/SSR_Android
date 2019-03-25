@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#c98964"
 
-    tools:context="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity"
-    android:background="#ffffff">
+    android:orientation="vertical"
+    tools:context="com.shin.ssr.layout.notification.handlers.BigPictureSocialMainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal">
-
 
 
         <LinearLayout
@@ -29,72 +28,87 @@
         </LinearLayout>
 
         <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:text="상품 추천"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="#000000"-->
-            <!--android:textSize="40dp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:fontFamily="@font/nanumbarunpenr"/>-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:text="상품 추천"-->
+        <!--android:textAlignment="center"-->
+        <!--android:textColor="#000000"-->
+        <!--android:textSize="40dp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:fontFamily="@font/nanumbarunpenr"/>-->
 
     </FrameLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/custom_recom"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:fontFamily="@font/bmhannapro"
-            android:background="@drawable/recom"
-            android:gravity="center"
-            android:text="null"
-            android:textColor="@color/chartbg"
-            android:textSize="20dp" />
-
-        <Button
-            android:id="@+id/btnClose"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right|center_vertical|center_horizontal|center|clip_horizontal"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/close_icon2"
-            android:onClick="closePage"
-            tools:ignore="OnClick" />
-
-    </FrameLayout>
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/recomshape"
         android:orientation="vertical"
-        android:radius="2dp"
+        android:radius="3dp"
         android:stretchColumns="*"
         android:weightSum="4">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/emart_yellow"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/custom_recom"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/bmhannapro"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/chartbg"
+                android:textSize="19sp"
+
+                />
+
+            <ImageView
+                android:id="@+id/btnClose"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="13dp"
+                android:onClick="closePage"
+
+                android:paddingBottom="6dp"
+                android:src="@drawable/close_emart_color"
+                tools:ignore="OnClick" />
+        </RelativeLayout>
+
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
-            android:elevation="3dp"
+            android:background="@color/icons"
             android:orientation="horizontal">
+
 
             <ImageView
                 android:id="@+id/recommendedProduct1"
-                android:layout_width="match_parent"
+                android:layout_width="160dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="15dp"
+                android:background="@color/icons"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/recommendedProduct1_name"
@@ -104,11 +118,11 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text="NULL"
+                    android:maxWidth="160dp"
+                    android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:maxWidth="160dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/recommendedProduct1_weight"
@@ -118,9 +132,9 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text="NULL"
-                    android:textAlignment="center"
-                    android:maxWidth="160dp"/>
+                    android:maxWidth="160dp"
+                    android:text=""
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/recommendedProduct1_price"
@@ -130,31 +144,33 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/applesgothic_regular"
                     android:gravity="center_horizontal"
-                    android:text="NULL"
-                    android:textAlignment="center"
-                    android:maxWidth="160dp"/>
+                    android:maxWidth="160dp"
+                    android:text=""
+                    android:textAlignment="center" />
             </LinearLayout>
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
-            android:elevation="3dp"
+            android:background="@color/icons"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/recommendedProduct2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1" />
 
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_marginRight="10dp" >
+                android:layout_marginRight="15dp"
+                android:background="@color/icons"
+                android:orientation="vertical">
 
 
                 <TextView
@@ -164,11 +180,11 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:maxWidth="160dp"
+                    android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:maxWidth="160dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/recommendedProduct2_weight"
@@ -177,9 +193,9 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
-                    android:textAlignment="center"
-                    android:maxWidth="160dp"/>
+                    android:maxWidth="160dp"
+                    android:text=""
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/recommendedProduct2_price"
@@ -188,31 +204,33 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
-                    android:textAlignment="center"
-                    android:maxWidth="160dp"/>
+                    android:maxWidth="160dp"
+                    android:text=""
+                    android:textAlignment="center" />
             </LinearLayout>
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
 
-            android:elevation="3dp"
+            android:background="@color/icons"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/recommendedProduct3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_marginRight="10dp" >
+                android:layout_marginRight="15dp"
+                android:background="@color/icons"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/recommendedProduct3_name"
@@ -221,11 +239,11 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:maxWidth="160dp"
+                    android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:maxWidth="160dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/recommendedProduct3_weight"
@@ -234,9 +252,9 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
-                    android:textAlignment="center"
-                    android:maxWidth="160dp"/>
+                    android:maxWidth="160dp"
+                    android:text=""
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/recommendedProduct3_price"
@@ -245,30 +263,32 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
-                    android:textAlignment="center"
-                    android:maxWidth="160dp"/>
+                    android:maxWidth="160dp"
+                    android:text=""
+                    android:textAlignment="center" />
             </LinearLayout>
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+
             android:layout_weight="1"
-            android:elevation="3dp"
+            android:background="@color/icons"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/recommendedProduct4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:layout_marginRight="10dp" >
+                android:layout_marginRight="15dp"
+                android:background="@color/icons"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/recommendedProduct4_name"
@@ -277,11 +297,11 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
+                    android:maxWidth="160dp"
+                    android:text=""
                     android:textAlignment="center"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:maxWidth="160dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/recommendedProduct4_weight"
@@ -290,9 +310,9 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
-                    android:textAlignment="center"
-                    android:maxWidth="160dp"/>
+                    android:maxWidth="160dp"
+                    android:text=""
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/recommendedProduct4_price"
@@ -301,9 +321,9 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:fontFamily="@font/applesgothic_regular"
-                    android:text="NULL"
-                    android:textAlignment="center"
-                    android:maxWidth="160dp"/>
+                    android:maxWidth="160dp"
+                    android:text=""
+                    android:textAlignment="center" />
             </LinearLayout>
         </TableRow>
 
