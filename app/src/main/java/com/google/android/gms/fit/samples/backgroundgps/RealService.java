@@ -51,6 +51,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import static com.google.android.gms.fit.samples.stepcounter.MainActivity.user_id;
 import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
 
 
@@ -122,7 +123,7 @@ public class RealService extends Service {
                         Thread.sleep(1000 * 5); // 1 minute
                         HttpUtil_GPS hu = new HttpUtil_GPS(RealService.this);
 
-                        String[] params = {SERVER_URL + "checkPush.do", "user_id:" + 1, "dummy2:" + 1};
+                        String[] params = {SERVER_URL + "checkPush.do", "user_id:" + user_id, "dummy2:" + 1};
 
                         hu.execute(params);
                         String pushyn;
@@ -206,7 +207,7 @@ public class RealService extends Service {
 
                                             HttpUtil_PUSH hu2 = new HttpUtil_PUSH(RealService.this);
 
-                                            String[] params2 = {SERVER_URL + "updatePush.do", "user_id:" + 1, "dummy2:" + 1};
+                                            String[] params2 = {SERVER_URL + "updatePush.do", "user_id:" + user_id, "dummy2:" + 1};
 
                                             hu2.execute(params2);
                                             Log.d("beacon1", ">>>>>>>>>>> 100m 진입 비콘 검색을 실행합니다.");

@@ -26,6 +26,10 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -66,6 +70,7 @@ import at.grabner.circleprogress.CircleProgressView;
 import static android.app.PendingIntent.getActivity;
 import static android.graphics.Color.rgb;
 import static com.google.android.gms.fit.samples.backgroundgps.RealService.insideMall;
+import static com.google.android.gms.fit.samples.stepcounter.MainActivity.user_id;
 
 
 public class FitTab extends AppCompatActivity {
@@ -80,8 +85,6 @@ public class FitTab extends AppCompatActivity {
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-    private Timer mTimer = new Timer();
-    private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
     public static final String SERVER_URL = "http://13.125.183.32:8088/";
@@ -90,64 +93,56 @@ public class FitTab extends AppCompatActivity {
     private Handler handler = new Handler();
     private static final int NOTIF_ID = 1234;
     private Context context;
-    public int read_counter = 0;
-    private RealService real = new RealService();
+
+    private Button btnTest;
+    private Button cartimg;
 
 
-
-    /*Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            updateSteps();
-            TextView txtView = findViewById(R.id.steps_taken);
-            TextView txtView2 = findViewById(R.id.todo1_step);
-            txtView.setText(" " + total + " / 6000  ");
-            txtView2.setText(" " + total + " / 6000  ");
-            String text = "<font color='#333743'> <b> "+total+ "</b> / 6000 </font>";
-            txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-            mHandler.sendEmptyMessageDelayed(0,2000);
-        }
-    };*/
 
     private FrameLayout mBackground;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fit_tab_activity);
 
-//            ImageView img = findViewById(R.id.mission_day);
-//            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(img);
-//            Glide.with(this).load(R.drawable.cart_stack).into(gifImage);
 
 
-        Button cartimg = (Button) findViewById(R.id.button3);
+        btnTest = findViewById(R.id.button);
+        cartimg = findViewById(R.id.button3);
 
         if (insideMall == true) {
-
-            cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_2_times, 0);
+            cartimg.setBackgroundResource(R.drawable.cart_in_off);
+            //cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_2_times, 0);
             /* cartimg.setBackgroundResource(R.drawable.cart_y);*/
         } else {
-            cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);
+            cartimg.setBackgroundResource(R.drawable.cart_out_off);
+            //cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);
         }
 
-        /*FitnessOptions fitnessOptions =
-                FitnessOptions.builder()
-                        .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
-                        .build();
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this,
-                    REQUEST_OAUTH_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(this),
-                    fitnessOptions);
-            android.util.Log.d("fit","in Fitness regist1");
-        } else {
-            android.util.Log.d("fit","in Fitness regist2");
-            subscribe();
-
-        }*/
-
+        cartimg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (insideMall == true) {
+                            cartimg.setBackgroundResource(R.drawable.cart_in_on);
+                        } else {
+                            cartimg.setBackgroundResource(R.drawable.cart_out_on);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (insideMall == true) {
+                            cartimg.setBackgroundResource(R.drawable.cart_in_off);
+                        } else {
+                            cartimg.setBackgroundResource(R.drawable.cart_out_off);
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
         Log.d("fit", "after readdata" + Integer.toString(total));
 
         setTitle("LineChartActivityColored");
@@ -181,6 +176,7 @@ public class FitTab extends AppCompatActivity {
     }
 
     public FitTab() {
+
     }
 
     public void sendToFinance(View view) {
@@ -208,6 +204,13 @@ public class FitTab extends AppCompatActivity {
         Intent intent = new Intent(FitTab.this, Point.class);
         android.util.Log.d("CHECK", "sendToPoint: OK");
         startActivity(intent);
+    }
+
+
+    public void eventSSGMONEY(View view) {
+        LottieAnimationView animationView = findViewById(R.id.lottie_view);
+        animationView.setAnimation("money.json");
+        animationView.playAnimation();
     }
 
 
@@ -429,6 +432,7 @@ public class FitTab extends AppCompatActivity {
     }
 
 
+
     private LineData getData(int count, float range, int total, ArrayList<StepVO> stepAry) {
 
 
@@ -540,7 +544,7 @@ public class FitTab extends AppCompatActivity {
 
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + 1};
+                                String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + user_id};
 
                                 hu.execute(params);
                                 total =

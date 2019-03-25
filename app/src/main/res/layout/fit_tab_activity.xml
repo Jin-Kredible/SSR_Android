@@ -9,7 +9,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.shin.ssr.layout.tab.FitTab">
+    tools:context="com.shin.ssr.layout.tab.FitTab"
+    android:background="#ffffff">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +73,7 @@
             android:background="@drawable/tap_bg_on"
             android:textColor="#d94d32"
             android:gravity="center"
-            android:text="Fit"
+            android:text="워킹"
             android:textSize="18dp" />
 
     </LinearLayout>
@@ -147,8 +148,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/chart_layout"
-            android:layout_marginBottom="20dp"
-            android:background="@color/icons"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
 
@@ -158,16 +159,14 @@
                 android:layout_height="50dp"
                 android:layout_gravity="left"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/buttonshape"
-                android:drawableEnd="@drawable/cart_normal"
+                android:background="@drawable/cart_out_off"
                 android:fontFamily="@font/bmhannapro"
                 android:onClick="sendToPoint"
+                android:paddingRight="20dp"
                 android:shadowColor="#C2BCBD"
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="5"
-                android:paddingLeft="35dp"
-                android:paddingRight="20dp"
                 android:text="@string/point_convert"
                 android:textColor="#FFFF"
                 android:textSize="20sp" />
@@ -179,16 +178,15 @@
                 android:layout_height="50dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/buttonshape"
+                android:background="@drawable/ssg_money_off"
                 android:fontFamily="@font/bmhannapro"
-                android:onClick="sendToPoint"
-                android:paddingLeft="35dp"
-                android:paddingRight="20dp"
+                android:onClick="eventSSGMONEY"
+                android:paddingRight="22dp"
                 android:shadowColor="#C2BCBD"
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="5"
-                android:text="@string/point_convert"
+                android:text="SSG MONEY"
                 android:textColor="#FFFF"
                 android:textSize="20sp" />
 

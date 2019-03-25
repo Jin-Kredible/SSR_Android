@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int NOTIFICATION_ID = 888;
     private NotificationManagerCompat mNotificationManagerCompat;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+    public static int user_id = 1;
 
 
     private Button btnFinance, btnPayment, btnLife;

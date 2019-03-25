@@ -59,7 +59,8 @@
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="65dp"
-            android:layout_marginBottom="235dp"
+            android:layout_marginBottom="239dp"
+            android:fontFamily="@font/bmhannapro"
             android:rotation="5"
             android:text="TOTAL"
             android:textSize="12sp"
@@ -71,10 +72,11 @@
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="65dp"
-            android:layout_marginBottom="220dp"
+            android:layout_marginBottom="226dp"
+            android:fontFamily="@font/bmhannapro"
             android:rotation="5"
             android:text="00"
-            android:textSize="25sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
@@ -83,7 +85,8 @@
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="68dp"
-            android:layout_marginBottom="170dp"
+            android:layout_marginBottom="174dp"
+            android:fontFamily="@font/bmhannapro"
             android:rotation="5"
             android:text="TODAY"
             android:textSize="12sp"
@@ -95,10 +98,11 @@
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="68dp"
-            android:layout_marginBottom="155dp"
+            android:layout_marginBottom="161dp"
+            android:fontFamily="@font/bmhannapro"
             android:rotation="5"
             android:text="00"
-            android:textSize="25sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <ImageView
