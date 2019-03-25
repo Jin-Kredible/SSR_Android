@@ -237,9 +237,8 @@ public class Point extends AppCompatActivity {
         @Override
         public void onClick(View helpicon) {
             switch (helpicon.getId()) {
-                case R.id.helppop:
-                    popupView = getLayoutInflater().inflate(R.layout.help_popup_activity, null);
-                    //popupView.setBackgroundResource(R.drawable.);
+                case R.id.help:
+                    popupView = getLayoutInflater().inflate(R.layout.help_popup_activity2, null);
                     helpPopup = new PopupWindow(popupView,
                             RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                     helpPopup.setAnimationStyle(-1);

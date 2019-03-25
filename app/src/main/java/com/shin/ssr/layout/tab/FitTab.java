@@ -88,8 +88,8 @@ public class FitTab extends AppCompatActivity {
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL = "http://10.149.178.129:8088/";
-    public ImageView help, imgMoney;
+    public static final String SERVER_URL = "http://13.125.183.32:8088/";
+    public ImageView help;
     private int total;
     private Handler handler = new Handler();
     private static final int NOTIF_ID = 1234;
