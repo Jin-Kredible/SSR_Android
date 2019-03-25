@@ -180,7 +180,6 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/ssg_money_off"
                 android:fontFamily="@font/bmhannapro"
-                android:onClick="eventSSGMONEY"
                 android:paddingRight="22dp"
                 android:shadowColor="#C2BCBD"
                 android:shadowDx="0"
