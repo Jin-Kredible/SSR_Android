@@ -12,8 +12,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.fit.samples.stepcounter.R;
 
+import static com.google.android.gms.fit.samples.stepcounter.MainActivity.user_id;
 import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
-import static com.shin.ssr.layout.tab.FitTab.user_id;
+
 
 public class Point extends AppCompatActivity {
 

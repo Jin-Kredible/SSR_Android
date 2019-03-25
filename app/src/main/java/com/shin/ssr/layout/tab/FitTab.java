@@ -70,6 +70,7 @@ import at.grabner.circleprogress.CircleProgressView;
 import static android.app.PendingIntent.getActivity;
 import static android.graphics.Color.rgb;
 import static com.google.android.gms.fit.samples.backgroundgps.RealService.insideMall;
+import static com.google.android.gms.fit.samples.stepcounter.MainActivity.user_id;
 
 
 public class FitTab extends AppCompatActivity {
@@ -93,7 +94,6 @@ public class FitTab extends AppCompatActivity {
     private static final int NOTIF_ID = 1234;
     private Context context;
 
-    public static int user_id = 1;
     private Button btnTest;
     private Button cartimg;
 
@@ -173,6 +173,10 @@ public class FitTab extends AppCompatActivity {
 
     public FitTab(Context context) {
         this.context = context;
+    }
+
+    public FitTab() {
+
     }
 
     public void sendToFinance(View view) {
@@ -426,6 +430,7 @@ public class FitTab extends AppCompatActivity {
         leftAxis.addLimitLine(ll1);
         leftAxis.setDrawLimitLinesBehindData(false);
     }
+
 
 
     private LineData getData(int count, float range, int total, ArrayList<StepVO> stepAry) {
