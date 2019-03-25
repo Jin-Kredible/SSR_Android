@@ -154,23 +154,6 @@ public class FitTab extends AppCompatActivity {
                 return false;
             }
         });
-        /*FitnessOptions fitnessOptions =
-                FitnessOptions.builder()
-                        .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
-                        .build();
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this,
-                    REQUEST_OAUTH_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(this),
-                    fitnessOptions);
-            android.util.Log.d("fit","in Fitness regist1");
-        } else {
-            android.util.Log.d("fit","in Fitness regist2");
-            subscribe();
-
-
         Log.d("fit", "after readdata" + Integer.toString(total));
 
         setTitle("LineChartActivityColored");
@@ -201,9 +184,6 @@ public class FitTab extends AppCompatActivity {
 
     public FitTab(Context context) {
         this.context = context;
-    }
-
-    public FitTab() {
     }
 
     public void sendToFinance(View view) {
