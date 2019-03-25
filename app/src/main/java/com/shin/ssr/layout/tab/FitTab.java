@@ -26,6 +26,9 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -80,33 +83,15 @@ public class FitTab extends AppCompatActivity {
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-    private Timer mTimer = new Timer();
-    private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL = "http://192.168.43.43:8088/";
+    public static final String SERVER_URL = "http://13.125.183.32:8088/";
     public ImageView help;
     private int total;
     private Handler handler = new Handler();
     private static final int NOTIF_ID = 1234;
     private Context context;
-    public int read_counter = 0;
-    private RealService real = new RealService();
 
-
-
-    /*Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            updateSteps();
-            TextView txtView = findViewById(R.id.steps_taken);
-            TextView txtView2 = findViewById(R.id.todo1_step);
-            txtView.setText(" " + total + " / 6000  ");
-            txtView2.setText(" " + total + " / 6000  ");
-            String text = "<font color='#333743'> <b> "+total+ "</b> / 6000 </font>";
-            txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-            mHandler.sendEmptyMessageDelayed(0,2000);
-        }
-    };*/
 
     private FrameLayout mBackground;
 
@@ -120,33 +105,20 @@ public class FitTab extends AppCompatActivity {
 //            Glide.with(this).load(R.drawable.cart_stack).into(gifImage);
 
 
-        Button cartimg = (Button) findViewById(R.id.button3);
+            /*Button cartimg = (Button) findViewById(R.id.button3);*/
+            ImageView cartView = (ImageView) findViewById(R.id.button_cart);
 
-        if (insideMall == true) {
+            if (insideMall == true) {
+              /* GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(cartView);
+                Glide.with(this).load(R.drawable.location).asGif().into(cartView);*/
+               cartView.setImageResource(R.drawable.cart_2_times);
 
-            cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_2_times, 0);
-            /* cartimg.setBackgroundResource(R.drawable.cart_y);*/
-        } else {
-            cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);
-        }
+            } else {
 
-        /*FitnessOptions fitnessOptions =
-                FitnessOptions.builder()
-                        .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE)
-                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA)
-                        .build();
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this,
-                    REQUEST_OAUTH_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(this),
-                    fitnessOptions);
-            android.util.Log.d("fit","in Fitness regist1");
-        } else {
-            android.util.Log.d("fit","in Fitness regist2");
-            subscribe();
+                cartView.setImageResource(R.drawable.cart_normal);
+                /*cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);*/
+            }
 
-        }*/
 
         Log.d("fit", "after readdata" + Integer.toString(total));
 

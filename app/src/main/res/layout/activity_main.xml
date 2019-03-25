@@ -69,7 +69,7 @@
                     android:background="@drawable/tap_bg_off"
                     android:gravity="center"
                     android:onClick="sendToFit"
-                    android:text="Fit"
+                    android:text="워킹"
                     android:textSize="18dp" />
 
         </LinearLayout>
