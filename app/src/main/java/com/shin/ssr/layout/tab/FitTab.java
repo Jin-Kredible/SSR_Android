@@ -1,6 +1,7 @@
 package com.shin.ssr.layout.tab;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,6 +12,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Gravity;
@@ -26,8 +28,9 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.airbnb.lottie.LottieAnimationView;
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -85,16 +88,15 @@ public class FitTab extends AppCompatActivity {
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL = "http://13.125.183.32:8088/";
-    public ImageView help;
+    public static final String SERVER_URL = "http://10.149.178.129:8088/";
+    public ImageView help, imgMoney;
     private int total;
     private Handler handler = new Handler();
     private static final int NOTIF_ID = 1234;
     private Context context;
 
-    private Button btnTest;
+    private Button btnMoney;
     private Button cartimg;
-
 
 
     private FrameLayout mBackground;
@@ -106,8 +108,7 @@ public class FitTab extends AppCompatActivity {
         setContentView(R.layout.fit_tab_activity);
 
 
-
-        btnTest = findViewById(R.id.button);
+        btnMoney = findViewById(R.id.button);
         cartimg = findViewById(R.id.button3);
 
         if (insideMall == true) {
@@ -141,6 +142,20 @@ public class FitTab extends AppCompatActivity {
                 return false;
             }
         });
+        btnMoney.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        btnMoney.setBackgroundResource(R.drawable.ssg_money_on);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        btnMoney.setBackgroundResource(R.drawable.ssg_money_off);
+                        break;
+                }
+                return false;
+            }
+        });
         Log.d("fit", "after readdata" + Integer.toString(total));
 
         setTitle("LineChartActivityColored");
@@ -148,6 +163,15 @@ public class FitTab extends AppCompatActivity {
 
         help = findViewById(R.id.helppop);
         help.setOnClickListener(new helpListener());
+
+        /*btnMoney.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                ImageView money = findViewById(R.id.imgMoney);
+                GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(money);
+                Glide.with(this).load(R.drawable.grow_money).into(gifImage);
+            }
+        });*/
 
         mBackground = findViewById(R.id.backmain);
         readData();
@@ -166,6 +190,8 @@ public class FitTab extends AppCompatActivity {
                 handler.postDelayed(this, 5000); // set time here to refresh textView
             }
         });
+
+
     }
 
 
@@ -204,12 +230,11 @@ public class FitTab extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-//    public void eventSSGMONEY(View view) {
-//        LottieAnimationView animationView = findViewById(R.id.lottie_view);
-//        animationView.setAnimation("money.json");
-//        animationView.playAnimation();
-//    }
+    public void eventSSGMONEY(){
+        ImageView money = (ImageView)findViewById(R.id.imgMoney);
+        GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(money);
+        Glide.with(this).load(R.drawable.grow_money).into(gifImage);
+    }
 
 
     CircleProgressView mCircleView;
@@ -430,6 +455,7 @@ public class FitTab extends AppCompatActivity {
     }
 
 
+
     private LineData getData(int count, float range, int total, ArrayList<StepVO> stepAry) {
 
 
@@ -634,7 +660,7 @@ public class FitTab extends AppCompatActivity {
         @Override
         public void onClick(View helpicon) {
 
-            Toast.makeText(getApplicationContext(), "are you clicked?", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "are you clicked?", Toast.LENGTH_LONG).show();
 
             switch (helpicon.getId()) {
                 case R.id.helppop:
