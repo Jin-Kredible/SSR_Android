@@ -73,7 +73,7 @@
             android:background="@drawable/tap_bg_on"
             android:textColor="#d94d32"
             android:gravity="center"
-            android:text="Fit"
+            android:text="워킹"
             android:textSize="18dp" />
 
     </LinearLayout>

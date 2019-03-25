@@ -27,6 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -81,19 +84,14 @@ public class FitTab extends AppCompatActivity {
 
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-    private Timer mTimer = new Timer();
-    private LineChart lineChart;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL = "http://10.149.178.129:8088/";
+    public static final String SERVER_URL = "http://192.168.43.43:8088/";
     public ImageView help;
     private int total;
     private Handler handler = new Handler();
     private static final int NOTIF_ID = 1234;
     private Context context;
-    public int read_counter = 0;
-    private RealService real = new RealService();
-
 
     private Button btnTest;
     private Button cartimg;
@@ -172,70 +170,30 @@ public class FitTab extends AppCompatActivity {
             android.util.Log.d("fit","in Fitness regist2");
             subscribe();
 
-        }*/
 
         Log.d("fit", "after readdata" + Integer.toString(total));
 
         setTitle("LineChartActivityColored");
+        charts[0] = findViewById(R.id.chart1);
 
-        charts[0] =
+        help = findViewById(R.id.helppop);
+        help.setOnClickListener(new helpListener());
 
-                findViewById(R.id.chart1);
-
-        help =
-
-                findViewById(R.id.helppop);
-        help.setOnClickListener(new
-
-                helpListener());
-
-        mBackground =
-
-                findViewById(R.id.backmain);
-
+        mBackground = findViewById(R.id.backmain);
         readData();
 
 
-        handler.post(new
-
-                             Runnable() {
-                                 @Override
-                                 public void run() {
-                                     updateData();
-                                     TextView txtView = findViewById(R.id.steps_taken);
-                                     TextView txtView2 = findViewById(R.id.todo1_step);
-                                     txtView.setText(" " + total + " / 7000  ");
-                                     txtView2.setText(" " + total + " / 7000  ");
-                                     String text = "<font color='#333743'> <b> " + total + "</b> / 7000 </font>";
-                                     txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-                                     handler.postDelayed(this, 5000); // set time here to refresh textView
-                                 }
-                             });
-
-
-        btnTest.setOnTouchListener(new View.OnTouchListener() {
+        handler.post(new Runnable() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        /*if (insideMall == true) {
-                            btnTest.setBackgroundResource(R.drawable.cart_in_on);
-                        } else {
-                            btnTest.setBackgroundResource(R.drawable.cart_out_on);
-                        }*/
-                        btnTest.setBackgroundResource(R.drawable.ssg_money_on);
-                        break;
-                    case MotionEvent.ACTION_UP:
-/*
-                        if (insideMall == true) {
-                            btnTest.setBackgroundResource(R.drawable.cart_in_off);
-                        } else {
-                            btnTest.setBackgroundResource(R.drawable.cart_out_off);
-                        }*/
-                        btnTest.setBackgroundResource(R.drawable.ssg_money_off);
-                        break;
-                }
-                return false;
+            public void run() {
+                updateData();
+                TextView txtView = findViewById(R.id.steps_taken);
+                TextView txtView2 = findViewById(R.id.todo1_step);
+                txtView.setText(" " + total + " / 7000  ");
+                txtView2.setText(" " + total + " / 7000  ");
+                String text = "<font color='#333743'> <b> " + total + "</b> / 7000 </font>";
+                txtView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+                handler.postDelayed(this, 5000); // set time here to refresh textView
             }
         });
     }
@@ -729,7 +687,6 @@ public class FitTab extends AppCompatActivity {
                     break;
             }
         }
-
     }
 
     public void getPastSteps(ArrayList<StepVO> arry) {
