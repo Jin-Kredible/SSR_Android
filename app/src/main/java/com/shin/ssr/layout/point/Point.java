@@ -6,11 +6,14 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -24,10 +27,9 @@ import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
 
 public class Point extends AppCompatActivity {
 
-    private ImageView imgCon, imgPro, imgGetPro;
+    private ImageView imgCon, imgPro, imgGetPro, imgHelp;
     private TextView txtTodayPoint, txtTotalPoint;
     private ImageView imgCart, imgAd;
-
 
     //광고 이미지 배열
     int[] imgs = {R.drawable.ad_1, R.drawable.ad_2, R.drawable.ad_3, R.drawable.ad_4, R.drawable.ad_5,
@@ -64,6 +66,7 @@ public class Point extends AppCompatActivity {
         imgGetPro = findViewById(R.id.imgGetProduct);
         imgCart = findViewById(R.id.imgCartF);
         imgAd = findViewById(R.id.imgAd);
+        imgHelp = findViewById(R.id.help);
         txtTodayPoint = findViewById(R.id.Point);
         txtTotalPoint = findViewById(R.id.txtTotalPoint);
 
@@ -88,6 +91,7 @@ public class Point extends AppCompatActivity {
         resetY = imgPro.getTranslationY();
         resetR = imgPro.getRotation();
 
+        imgHelp.setOnClickListener(new helpListener());
 
         final AnimationDrawable drawable = (AnimationDrawable) imgCon.getBackground();  //Conveyor belt animation
         //Touch event
@@ -244,6 +248,7 @@ public class Point extends AppCompatActivity {
         totalwalk = walk;
         if (walk <= 0) {
             imgPro.setVisibility(View.GONE);
+            txtTodayPoint.setText("00");
             none = true;
             txtTodayPoint.setText("00");
         } else {
@@ -256,5 +261,34 @@ public class Point extends AppCompatActivity {
         Log.d("pointy", "getTotalPoints: "+totalPoint);
         this.total  = Integer.parseInt(totalPoint);
         txtTotalPoint.setText(Integer.toString(total));
+    }
+
+    PopupWindow helpPopup;
+    View popupView;
+    class helpListener implements View.OnClickListener {
+        @Override
+        public void onClick(View helpicon) {
+            switch (helpicon.getId()) {
+                case R.id.help:
+                    popupView = getLayoutInflater().inflate(R.layout.help_popup_activity2, null);
+                    helpPopup = new PopupWindow(popupView,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    helpPopup.setAnimationStyle(-1);
+                    helpPopup.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+                    popupView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                popupView.setVisibility(View.GONE);
+                            }
+                            return false;
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

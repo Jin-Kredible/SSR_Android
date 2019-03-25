@@ -96,6 +96,16 @@
 
         </LinearLayout>
 -->
+
+        <ImageView
+            android:id="@+id/imgMoney"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/grow_money" />
+
         <LinearLayout
             android:id="@+id/chart_layout"
             android:layout_width="match_parent"
@@ -141,6 +151,7 @@
                 android:text="null"
                 android:textColor="@color/ssgpaydark"
                 android:textSize="20dp" />
+
         </LinearLayout>
 
         <FrameLayout
@@ -180,7 +191,6 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/ssg_money_off"
                 android:fontFamily="@font/bmhannapro"
-                android:onClick="eventSSGMONEY"
                 android:paddingRight="22dp"
                 android:shadowColor="#C2BCBD"
                 android:shadowDx="0"
