@@ -72,7 +72,7 @@
             android:background="@drawable/tap_bg_on"
             android:textColor="#d94d32"
             android:gravity="center"
-            android:text="Fit"
+            android:text="워킹"
             android:textSize="18dp" />
 
     </LinearLayout>
@@ -151,7 +151,18 @@
             android:background="@color/icons"
             android:orientation="vertical">
 
-
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/button_cart"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/cart_normal"
+                    android:elevation="5dp"
+                    android:layout_alignEnd="@+id/button3"
+                    android:paddingTop="10dp"
+                    android:paddingRight="13dp"/>
             <Button
                 android:id="@+id/button3"
                 android:layout_width="180dp"
@@ -159,7 +170,6 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/buttonshape"
-                android:drawableEnd="@drawable/cart_normal"
                 android:fontFamily="@font/bmhannapro"
                 android:onClick="sendToPoint"
                 android:shadowColor="#C2BCBD"
@@ -167,11 +177,14 @@
                 android:shadowDy="0"
                 android:shadowRadius="5"
                 android:paddingLeft="35dp"
-                android:paddingRight="20dp"
+                android:paddingRight="45dp"
                 android:text="@string/point_convert"
                 android:textColor="#FFFF"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                />
 
+
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/button"
