@@ -26,6 +26,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -67,6 +68,7 @@ import at.grabner.circleprogress.CircleProgressView;
 import static android.app.PendingIntent.getActivity;
 import static android.graphics.Color.rgb;
 import static com.google.android.gms.fit.samples.backgroundgps.RealService.insideMall;
+import static com.google.android.gms.fit.samples.stepcounter.MainActivity.user_id;
 
 
 public class FitTab extends AppCompatActivity {
@@ -90,34 +92,55 @@ public class FitTab extends AppCompatActivity {
     private static final int NOTIF_ID = 1234;
     private Context context;
 
+    private Button btnTest;
+    private Button cartimg;
+
+
 
     private FrameLayout mBackground;
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.fit_tab_activity);
-
-            /*ImageView img = findViewById(R.id.mission_day);
-            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(img);
-            Glide.with(this).load(R.drawable.cat).into(gifImage);*/
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fit_tab_activity);
 
 
-            /*Button cartimg = (Button) findViewById(R.id.button3);*/
-            ImageView cartView = (ImageView) findViewById(R.id.button_cart);
 
-            if (insideMall == true) {
-              /* GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(cartView);
-                Glide.with(this).load(R.drawable.location).asGif().into(cartView);*/
-               cartView.setImageResource(R.drawable.cart_2_times);
+        btnTest = findViewById(R.id.button);
+        cartimg = findViewById(R.id.button3);
 
-            } else {
+        if (insideMall == true) {
+            cartimg.setBackgroundResource(R.drawable.cart_in_off);
+            //cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_2_times, 0);
+            /* cartimg.setBackgroundResource(R.drawable.cart_y);*/
+        } else {
+            cartimg.setBackgroundResource(R.drawable.cart_out_off);
+            //cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);
+        }
 
-                cartView.setImageResource(R.drawable.cart_normal);
-                /*cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);*/
+        cartimg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (insideMall == true) {
+                            cartimg.setBackgroundResource(R.drawable.cart_in_on);
+                        } else {
+                            cartimg.setBackgroundResource(R.drawable.cart_out_on);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (insideMall == true) {
+                            cartimg.setBackgroundResource(R.drawable.cart_in_off);
+                        } else {
+                            cartimg.setBackgroundResource(R.drawable.cart_out_off);
+                        }
+                        break;
+                }
+                return false;
             }
-
-
+        });
         Log.d("fit", "after readdata" + Integer.toString(total));
 
         setTitle("LineChartActivityColored");
@@ -151,6 +174,7 @@ public class FitTab extends AppCompatActivity {
     }
 
     public FitTab() {
+
     }
 
     public void sendToFinance(View view) {
@@ -178,6 +202,13 @@ public class FitTab extends AppCompatActivity {
         Intent intent = new Intent(FitTab.this, Point.class);
         android.util.Log.d("CHECK", "sendToPoint: OK");
         startActivity(intent);
+    }
+
+
+    public void eventSSGMONEY(View view) {
+        LottieAnimationView animationView = findViewById(R.id.lottie_view);
+        animationView.setAnimation("money.json");
+        animationView.playAnimation();
     }
 
 
@@ -510,7 +541,7 @@ public class FitTab extends AppCompatActivity {
 
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + 1};
+                                String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + user_id};
 
                                 hu.execute(params);
                                 total =
