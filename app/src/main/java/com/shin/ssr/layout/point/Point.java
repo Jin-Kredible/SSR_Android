@@ -22,7 +22,8 @@ public class Point extends AppCompatActivity {
 
 
     //광고 이미지 배열
-    int[] imgs = {R.drawable.ad_1, R.drawable.ad_2, R.drawable.ad_3, R.drawable.ad_4, R.drawable.ad_5};
+    int[] imgs = {R.drawable.ad_1, R.drawable.ad_2, R.drawable.ad_3, R.drawable.ad_4, R.drawable.ad_5,
+                    R.drawable.ad_6, R.drawable.ad_7, R.drawable.ad_8, R.drawable.ad_9};
     int[] imgsCon = {R.drawable.belt6, R.drawable.belt5, R.drawable.belt4, R.drawable.belt3, R.drawable.belt2, R.drawable.belt1};
 
 

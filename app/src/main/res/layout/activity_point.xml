@@ -47,10 +47,9 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="247dp"
+            android:layout_width="186dp"
             android:layout_height="310dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="20dp"
             android:layout_marginBottom="55dp"
             app:srcCompat="@drawable/robot" />
 
@@ -59,7 +58,7 @@
             android:layout_width="80dp"
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="117dp"
+            android:layout_marginRight="65dp"
             android:layout_marginBottom="235dp"
             android:rotation="5"
             android:text="TOTAL"
@@ -71,7 +70,7 @@
             android:layout_width="80dp"
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="117dp"
+            android:layout_marginRight="65dp"
             android:layout_marginBottom="220dp"
             android:rotation="5"
             android:text="00"
@@ -83,7 +82,7 @@
             android:layout_width="80dp"
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="120dp"
+            android:layout_marginRight="68dp"
             android:layout_marginBottom="170dp"
             android:rotation="5"
             android:text="TODAY"
@@ -95,7 +94,7 @@
             android:layout_width="80dp"
             android:layout_height="41dp"
             android:layout_gravity="bottom|right"
-            android:layout_marginRight="120dp"
+            android:layout_marginRight="68dp"
             android:layout_marginBottom="155dp"
             android:rotation="5"
             android:text="00"
@@ -158,21 +157,21 @@
             app:srcCompat="@drawable/cover_front" />
 
         <ImageView
+            android:id="@+id/imgAd"
+            android:layout_width="324dp"
+            android:layout_height="171dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="73dp"
+            android:layout_marginRight="1dp"
+            android:background="@drawable/ad_1"
+            android:visibility="visible" />
+
+        <ImageView
             android:id="@+id/imageView"
             android:layout_width="358dp"
             android:layout_height="268dp"
             android:layout_gravity="center_horizontal|top"
             app:srcCompat="@drawable/ad_board" />
-
-        <ImageView
-            android:id="@+id/imgAd"
-            android:layout_width="320dp"
-            android:layout_height="170dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="74dp"
-            android:layout_marginRight="2dp"
-            android:background="@drawable/ad_1"
-            android:visibility="visible" />
 
     </FrameLayout>
 
