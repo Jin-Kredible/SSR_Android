@@ -109,10 +109,6 @@ class HttpUtil_Beacon extends AsyncTask<String, String, String> {
                 mallAry.add(new MallsVO(obj.optInt("user_id"), obj.optInt("mall_id"), obj.optString("uuid"), obj.optInt("major"), obj.optInt("minor")));
             }
 
-            for (int j = 0; j < 3; j++) {
-                Log.d("serverB", j + "번째 : " + mallAry.get(j).toString());
-            }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
