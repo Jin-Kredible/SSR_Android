@@ -77,7 +77,7 @@ public class RealService extends Service {
     private int mall_ID = 1000;
     private boolean isBeaconSerUpdate = false; //서버에 mall_id를 전송해 비콘 정보를 받아옴 체크
     Date date = new Date();
-    SimpleDateFormat get_Day = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    SimpleDateFormat get_Day = new SimpleDateFormat("yyyyMMddhhmmss");
     private String vi_Start;
     private String vi_End;
     ArrayList<MallsVO> bCon_List = new ArrayList<MallsVO>();
@@ -168,12 +168,13 @@ public class RealService extends Service {
                                     Log.d("gps2", "if문 진입 : " + location.getProvider());
                                     isGpsOn = false;
                                     vi_End = get_Day.format(date); //매장 방문 시간
-                                    /*HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
-                                    String[] params3 = {SERVER_URL+"visit.do", "mall_id:" + mall_ID, "user_id:" + 1, "vi_start:" + 1, "vi_end:" + 1} ;
-                                    becon_update.execute(params3);*/ // 지우면 안됨!! 매장퇴장시 유저 정보 넘겨주는 부분
+                                    HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
+                                    String[] params3 = {SERVER_URL+"visit.do", "mall_id:" + mall_ID, "user_id:" + 1, "vi_start:" + vi_Start, "vi_end:" + vi_End} ;
+                                    becon_update.execute(params3); // 지우면 안됨!! 매장퇴장시 유저 정보 넘겨주는 부분
                                     vi_WalkEnd = getWalkCheck(); // 끝났을때 걸음수 체크
                                     showToast(getApplication(), "감사합니다 다음에 또 방문해주세요!" + vi_WalkStart + "/" + vi_WalkEnd);
                                     Log.d("beacon1", "방문 끝 워크 체크 " + vi_WalkStart + " / " + vi_WalkEnd);
+                                    Log.d("beacon1", vi_Start + " / " + vi_End);
                                 } else {
                                     Log.d("gps2", "gps 이름" + location.getProvider());
                                     /*showToast(getApplication(), "네트워크 접속완료");*/
