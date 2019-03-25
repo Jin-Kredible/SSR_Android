@@ -130,6 +130,21 @@
             android:clickable="true" />
 
         <ImageView
+            android:id="@+id/coin_pop"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="100dp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="100dp"
+            android:id="@+id/empty"/>
+        <ImageView
             android:id="@+id/imgCartF"
             android:layout_width="131dp"
             android:layout_height="66dp"

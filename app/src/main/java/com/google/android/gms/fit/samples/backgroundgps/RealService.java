@@ -198,8 +198,8 @@ public class RealService extends Service {
                                             Log.d("geo", "inside distance for loop");
                                             mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
                                             StepVO vo = new StepVO();
-                                            vo.setAge(20);
-                                            vo.setGender(1);
+                                            vo.setAge(30);
+                                            vo.setGender(2);
                                             vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                                             generateBigPictureStyleNotification(vo);
                                             isBeaconOn = true; // 비콘 켜준다.

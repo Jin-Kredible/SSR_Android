@@ -129,7 +129,7 @@ public class BigPictureSocialMainActivity extends Activity implements Runnable {
     @Override
     public void run() {
         HttpUtil_Push hu = new HttpUtil_Push(BigPictureSocialMainActivity.this);
-        String[] params = {SERVER_URL + "/product.do", "dummy1:" + 1, "dummy2:" + 1};
+        String[] params = {SERVER_URL + "/product.do", "age:" + 30, "gender:" + 2};
 
 
         hu.execute(params);

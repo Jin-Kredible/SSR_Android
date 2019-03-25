@@ -27,9 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -113,6 +110,8 @@ public class FitTab extends AppCompatActivity {
         cartimg = findViewById(R.id.button3);
 
         if (insideMall == true) {
+
+
             cartimg.setBackgroundResource(R.drawable.cart_in_off);
             //cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_2_times, 0);
             /* cartimg.setBackgroundResource(R.drawable.cart_y);*/

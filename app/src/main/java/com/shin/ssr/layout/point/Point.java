@@ -1,14 +1,20 @@
 package com.shin.ssr.layout.point;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import com.google.android.gms.fit.samples.stepcounter.R;
 
@@ -104,10 +110,19 @@ public class Point extends AppCompatActivity {
                             motionEvent.getY()>=0 && motionEvent.getY()<= 250) {
                             if (!none) {
                                 if (hx < 700) {
-                                    move();
-                                } else if (hx >= 700 && hx < 880) {
+
+
+                                    move();{
+
+                                    }
+                                } else if (hx >=400 && hx < 600)  {
+
+                                }
+                                else if (hx >= 700 && hx < 880) {
+
                                     rotate();
                                 } else if (hx >= 880 && hx <= 940) {
+
                                     Get();
                                 }
                             } else {
@@ -153,6 +168,21 @@ public class Point extends AppCompatActivity {
 
 
     public void Get() {
+        ImageView cartView = (ImageView) findViewById(R.id.coin_pop);
+        ImageView emptyView = (ImageView) findViewById(R.id.empty);
+        GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(cartView);
+        /*Glide.with(this).load(R.drawable.coin_dot).into(gifImage);*/
+        cartView.setImageResource(R.drawable.empty_png);
+        Glide.clear(gifImage);
+        Glide.clear(cartView);
+
+        Glide.with(this).load(R.drawable.empty_png).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).thumbnail(Glide.with(this).load(R.drawable.coin_ill)).crossFade(1000).into(gifImage);
+
+
+
+        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.bounce);
+        cartView.startAnimation(hyperspaceJumpAnimation);
+
         Log.d("pointy", "Get: numPoint : " + numPoint + "/ walk : " + walk + "totlal walk : " + totalwalk);
         numPoint += 10;
         total += 10;
@@ -191,9 +221,10 @@ public class Point extends AppCompatActivity {
         }
 
         HttpUtil_P_UPDATE hu = new HttpUtil_P_UPDATE(Point.this);
-        String[] params = {SERVER_URL + "goodsToSavings.do", "numPoint:" + 10, "userid:" + user_id};
+        String[] params = {SERVER_URL + "goodsToSavings.do", "numPoint:" + 10, "user_id:" + user_id};
         Log.d("NUM", "toFit: NUMPOINT  " + numPoint);
         hu.execute(params);
+
 
     }
 
@@ -211,14 +242,15 @@ public class Point extends AppCompatActivity {
         Log.d("pointy", "inside get point" + point);
         this.walk = Integer.parseInt(point);
         totalwalk = walk;
-        if (walk == 0) {
+        if (walk <= 0) {
             imgPro.setVisibility(View.GONE);
             none = true;
+            txtTodayPoint.setText("00");
         } else {
             none = false;
+            txtTodayPoint.setText(Integer.toString(walk*10));
         }
         Log.d("pointy", "getPoints: " + none);
-        txtTodayPoint.setText(Integer.toString(walk*10));
     }
     public void getTotalPoints(String totalPoint){
         Log.d("pointy", "getTotalPoints: "+totalPoint);
