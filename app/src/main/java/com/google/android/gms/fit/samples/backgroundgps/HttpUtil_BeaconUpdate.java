@@ -46,11 +46,13 @@ public class HttpUtil_BeaconUpdate extends AsyncTask<String, String, String> {
         String param3Value = params[3].split(":")[1];
         String param4Key = params[4].split(":")[0];
         String param4Value = params[4].split(":")[1];
+        String param5Key = params[5].split(":")[0];
+        String param5Value = params[5].split(":")[1];
         System.out.println("************************************************* 서버 호출 url : (Beacon)" + url);
 
         //paramString = param1Key  + "=" + param1Value + "&" + param2Key  + "=" + param2Value ;
         paramString = param1Key  + "=" + param1Value + "&" + param2Key + "=" + param2Value + "&"
-                        + param3Key + "=" + param3Value + "&" + param4Key + "=" + param4Value + "&" ;
+                        + param3Key + "=" + param3Value + "&" + param4Key + "=" + param4Value + "&" + param5Key + "=" + param5Value + "&" ;
 
         try {
             URL obj = new URL(url + "?" + paramString);

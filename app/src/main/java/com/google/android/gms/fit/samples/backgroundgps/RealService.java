@@ -88,6 +88,7 @@ public class RealService extends Service {
     private int vi_WalkEnd; // 매장방문 걸음 종료 체크
     private int mWalk_check; // 걸음수 체크
     private String currentLoc; // 현재 점포 이름
+    private int resultWalk;
     //비콘 관련 변수
     //////////////////////////////////////////////////////////////////
 
@@ -95,12 +96,11 @@ public class RealService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         serviceIntent = intent;
         showToast(getApplication(), "Start Service");
-        mTemp.add(new MallsVO("이마트 청계천점", 37.571079, 127.029903));
-        mTemp.add(new MallsVO("이마트 성수점", 37.539673, 127.053375));
-        mTemp.add(new MallsVO("이마트 용산점", 37.529456, 126.965545));
-        mTemp.add(new MallsVO("이마트 아이앤씨점", 37.559805, 126.983122));
-        mTemp.add(new MallsVO("이마트 SD아카데미점", 37.502366, 127.023680));
-        mTemp.add(new MallsVO("이마트 JINS 집", 37.268570, 127.136574));
+        mTemp.add(new MallsVO(1, 1144, 37.542588, 126.953357)); //마포점
+        mTemp.add(new MallsVO(1, 1038, 37.539673, 127.053375)); //성수점
+        mTemp.add(new MallsVO(1, 1085, 37.529456, 126.965545)); //용산점
+        mTemp.add(new MallsVO(1, 1000, 37.559805, 126.983122)); //i&c점
+
 
         Log.d("real", "RealService start");
         Log.d("real", Integer.toString(result2));
@@ -167,15 +167,19 @@ public class RealService extends Service {
                                 readData(); // 걸음수 데이터 불러오기
                                 if (location.getProvider().equals("gps")) {
                                     Log.d("gps2", "if문 진입 : " + location.getProvider());
+                                    vi_WalkEnd = getWalkCheck(); // 끝났을때 걸음수 체크
                                     isGpsOn = false;
                                     vi_End = get_Day.format(date); //매장 방문 시간
                                     HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
-                                    String[] params3 = {SERVER_URL+"visit.do", "mall_id:" + mall_ID, "user_id:" + 1, "vi_start:" + vi_Start, "vi_end:" + vi_End} ;
-                                    becon_update.execute(params3); // 지우면 안됨!! 매장퇴장시 유저 정보 넘겨주는 부분
-                                    vi_WalkEnd = getWalkCheck(); // 끝났을때 걸음수 체크
-                                    showToast(getApplication(), "감사합니다 다음에 또 방문해주세요!" + vi_WalkStart + "/" + vi_WalkEnd);
-                                    Log.d("beacon1", "방문 끝 워크 체크 " + vi_WalkStart + " / " + vi_WalkEnd);
+                                    showToast(getApplication(), "감사합니다 다음에 또 방문해주세요!" + vi_WalkStart + "/" + vi_WalkEnd + " = " + resultWalk);
+                                    Log.d("beacon1", "방문 끝 워크 체크 " + vi_WalkStart + " / " + vi_WalkEnd + " / " + resultWalk);
                                     Log.d("beacon1", vi_Start + " / " + vi_End);
+                                    resultWalk =  (vi_WalkEnd-vi_WalkStart);
+
+
+                                    String[] params3 = {SERVER_URL+"visit.do", "mall_id:" + mall_ID, "user_id:" + user_id, "vi_start:" + vi_Start, "vi_end:" + vi_End, "vi_wk:" + resultWalk} ;
+                                    becon_update.execute(params3); // 지우면 안됨!! 매장퇴장시 유저 정보 넘겨주는 부분
+
                                 } else {
                                     Log.d("gps2", "gps 이름" + location.getProvider());
                                     /*showToast(getApplication(), "네트워크 접속완료");*/
@@ -188,15 +192,28 @@ public class RealService extends Service {
                                 for (int i = 0; i < mTemp.size(); i++) {
                                     locationPoint.setLatitude(mTemp.get(i).getMall_la());
                                     locationPoint.setLongitude(mTemp.get(i).getMall_long());
+                                    Log.d("beacon1","들어오니ㅣ..? " + mTemp.get(i).getMall_long());
                                     distance = locationPoint.distanceTo(location);
+                                    Log.d("beacon1","distance :  " + distance);
                                     Log.d("geo", Double.toString(distance));
 
-                                    if (Integer.parseInt(pushyn) == 1) {
+                                    if (Integer.parseInt(pushyn) >= 0) {
                                         // 지점과 지금 거리가 100m 이내일떄
                                         if (distance < 100) {
-                                            currentLoc = mTemp.get(i).getMall_nm();
+                                            mall_ID = mTemp.get(i).getMall_id();
+                                            Log.d("beacon1","100m 체크 방문 매장 번호 " + mall_ID);
+                                            if(mall_ID == 1000){
+                                                currentLoc = "이마트 [I&C점]";
+                                            }else if(mall_ID == 1085){
+                                                currentLoc = "이마트 [용산점]";
+                                            }else if(mall_ID == 1144){
+                                                currentLoc = "이마트 [마포점]";
+                                            }else if(mall_ID == 1038){
+                                                currentLoc = "이마트 [성수점]";
+                                            }else{
+                                                currentLoc = "NULL";
+                                            }
                                             showToast(getApplication(), "100미터 이내 입장!");
-                                            Log.d("geo", "inside distance for loop");
                                             mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
                                             StepVO vo = new StepVO();
                                             vo.setAge(20);
@@ -212,8 +229,8 @@ public class RealService extends Service {
                                             hu2.execute(params2);
                                             Log.d("beacon1", ">>>>>>>>>>> 100m 진입 비콘 검색을 실행합니다.");
                                         }
-
-                                        Log.d("mall", mTemp.get(i).getMall_nm());
+                                        Log.d("mall","받아온 mall의 수 : " +  mTemp.size());
+                                        Log.d("mall", "현재 매장위치 : " + mTemp.get(i).getMall_id());
                                         Log.d("mall", "현재 위도 " + location.getLatitude());
                                         Log.d("mall", "현재 경도 " + location.getLongitude());
                                         Log.d("mall", "성수점 위도 " + mTemp.get(i).getMall_la());
@@ -543,7 +560,7 @@ public class RealService extends Service {
                     Log.d("beacon1", "onAppearBeacons 입장!");
                     Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>onRangeBeacons for문 입장!");
                     Log.d("beacon1", "비콘 리스트 사이즈 : " + bCon_List.size());
-
+                    Log.d("beacon1","방문 매장 번호 " + mall_ID);
                     for (int i = 0; i < bCon_List.size(); i++) {
                         Log.d("beacon1", " ");
                         Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>> " + i + "번째 for문");
@@ -562,7 +579,17 @@ public class RealService extends Service {
                             if (deviceUUID != null && deviceMajor != null && deviceMinor != null && serverUUID != null && serverMajor != null && serverMinor != null &&
                                     deviceUUID.equals(serverUUID) && deviceMajor.equals(serverMajor) && deviceMinor.equals(serverMinor)) {
                                 Log.d("beacon1", "MINOR 통과");
-                                showToast(getApplication(), "매장방문을 환영합니다!");
+
+                                if(mall_ID == 1000){
+                                    showToast(getApplication(), "이마트 [I&C점] 방문을 환영합니다!");
+                                }else if(mall_ID == 1085){
+                                    showToast(getApplication(), "이마트 [용산점] 방문을 환영합니다!");
+                                }else if(mall_ID == 1144){
+                                    showToast(getApplication(), "이마트 [마포점] 방문을 환영합니다!");
+                                }else if(mall_ID == 1038){
+                                    showToast(getApplication(), "이마트 [성수점] 방문을 환영합니다!");
+                                }
+
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>Name : " + deviceUUID);
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>UUID : " + minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_UUID).getStringValue());
@@ -574,9 +601,6 @@ public class RealService extends Service {
                                 isBeaconOn = false; // 비콘 off
                                 i = bCon_List.size(); // for문 종료
                                 vi_Start = get_Day.format(date); //매장 방문 시간
-                               /* HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
-                                String[] params = {SERVER_URL + "visit.do", "mall_id:" + mall_ID, "user_id:" + 1, "vi_start:" + 1, "vi_end:" + 1};
-                                becon_update.execute(params);*/
                                 isGpsOn = true; //매장 방문시 Gps를 잡아 매장을 나간것을 체크해주기 위함
                                 vi_WalkStart = getWalkCheck(); //매장 방문했을때 걸음 수
 
