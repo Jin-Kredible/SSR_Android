@@ -98,7 +98,6 @@ public class FitTab extends AppCompatActivity {
     private Button btnMoney;
     private Button cartimg;
 
-
     private FrameLayout mBackground;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -164,14 +163,31 @@ public class FitTab extends AppCompatActivity {
         help = findViewById(R.id.helppop);
         help.setOnClickListener(new helpListener());
 
-        /*btnMoney.setOnClickListener(new View.OnClickListener() {
+        btnMoney.setOnClickListener(new View.OnClickListener(){
+            @Override
             public void onClick(View v) {
-
-                ImageView money = findViewById(R.id.imgMoney);
-                GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(money);
-                Glide.with(this).load(R.drawable.grow_money).into(gifImage);
+                final ImageView imgMoney = findViewById(R.id.imgMoney);
+                imgMoney.bringToFront();
+                GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(imgMoney);
+                Glide.with(imgMoney.getContext()).load(R.drawable.grow_money)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(gifImage);
+                imgMoney.setVisibility(View.VISIBLE);
+                HttpUtil_ssgMoney hu = new HttpUtil_ssgMoney(FitTab.this);
+                String[] params = {SERVER_URL + "changeMoney.do", "numPoint:" + 1, "userid:" + user_id};
+                hu.execute(params);
+                android.util.Log.d("pointy", "onClick: changedMoney");
+                imgMoney.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            imgMoney.setVisibility(View.GONE);
+                        }
+                        return false;
+                    }
+                });
             }
-        });*/
+        });
 
         mBackground = findViewById(R.id.backmain);
         readData();
@@ -190,11 +206,13 @@ public class FitTab extends AppCompatActivity {
                 handler.postDelayed(this, 5000); // set time here to refresh textView
             }
         });
-
-
     }
 
-
+    private void setViewInvalidate(View... views) {
+        for (View v : views) {
+            v.invalidate();
+        }
+    }
     public FitTab(Context context) {
         this.context = context;
     }
@@ -231,9 +249,11 @@ public class FitTab extends AppCompatActivity {
     }
 
     public void eventSSGMONEY(){
-        ImageView money = (ImageView)findViewById(R.id.imgMoney);
+        ImageView money = findViewById(R.id.imgMoney);
+        money.setVisibility(View.VISIBLE);
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(money);
         Glide.with(this).load(R.drawable.grow_money).into(gifImage);
+        money.setVisibility(View.GONE);
     }
 
 
@@ -675,6 +695,41 @@ public class FitTab extends AppCompatActivity {
                         public boolean onTouch(View v, MotionEvent event) {
                             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                                 popupView.setVisibility(View.GONE);
+                            }
+                            return false;
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    PopupWindow moneyPopup;
+    View popupView_m;
+    class moneyListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View moneyicon) {
+
+            //Toast.makeText(getApplicationContext(), "are you clicked?", Toast.LENGTH_LONG).show();
+
+            switch (moneyicon.getId()) {
+                case R.id.imgMoney:
+                    ImageView imgMoney = findViewById(R.id.imgMoney);
+                    popupView = getLayoutInflater().inflate(R.layout.popup_money, null);
+                    moneyPopup = new PopupWindow(popupView_m,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    moneyPopup.setAnimationStyle(-1);
+                    moneyPopup.showAtLocation(popupView_m, Gravity.CENTER, 0, 0);
+                    GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(imgMoney);
+                    Glide.with(imgMoney.getContext()).load(R.drawable.grow_money).into(gifImage);
+                    popupView_m.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                popupView_m.setVisibility(View.GONE);
                             }
                             return false;
                         }
