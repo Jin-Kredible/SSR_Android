@@ -26,7 +26,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
+//import com.airbnb.lottie.LottieAnimationView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
@@ -205,11 +205,11 @@ public class FitTab extends AppCompatActivity {
     }
 
 
-    public void eventSSGMONEY(View view) {
-        LottieAnimationView animationView = findViewById(R.id.lottie_view);
-        animationView.setAnimation("money.json");
-        animationView.playAnimation();
-    }
+//    public void eventSSGMONEY(View view) {
+//        LottieAnimationView animationView = findViewById(R.id.lottie_view);
+//        animationView.setAnimation("money.json");
+//        animationView.playAnimation();
+//    }
 
 
     CircleProgressView mCircleView;
