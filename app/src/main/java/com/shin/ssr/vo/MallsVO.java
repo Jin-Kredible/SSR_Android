@@ -11,10 +11,6 @@ public class MallsVO {
     int 	beacon_id, major, minor;
     String	uuid;
 
-    public MallsVO() {
-        super();
-    }
-
     public MallsVO(int mall_id, int mall_la, int mall_long, String mall_nm, int user_id, int vi_id, int vi_wk,
                    String vi_start, String vi_end, int beacon_id, int major, int minor, String uuid) {
         super();
@@ -33,10 +29,12 @@ public class MallsVO {
         this.uuid = uuid;
     }
 
-    public MallsVO( String mall_nm, double mall_la, double mall_long) {
+    public MallsVO( int user_id, int mall_id, double mall_la, double mall_long) {
+        super();
+        this.user_id = user_id;
+        this.mall_id = mall_id;
         this.mall_la = mall_la;
         this.mall_long = mall_long;
-        this.mall_nm = mall_nm;
     }
 
     public MallsVO( int user_id, int mall_id, String uuid, int major, int minor) {

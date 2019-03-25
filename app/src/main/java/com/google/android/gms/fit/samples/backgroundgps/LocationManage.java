@@ -133,10 +133,10 @@ public class LocationManage extends AppCompatActivity {
     public void InitMallLocation(){
         List<MallsVO> mLocation_data = new ArrayList<MallsVO>();
 
-        mTemp.add(new MallsVO("이마트 청계천점",37.571079,127.029903));
-        mTemp.add(new MallsVO("이마트 성수점", 37.539673, 127.053375));
-        mTemp.add(new MallsVO("이마트 용산점", 37.529456, 126.965545));
-        mTemp.add(new MallsVO("이마트 아이앤씨점", 37.559805, 126.983122));
+        mTemp.add(new MallsVO(1, 1144, 37.542588, 126.953357)); //마포점
+        mTemp.add(new MallsVO(1, 1038, 37.539673, 127.053375)); //성수점
+        mTemp.add(new MallsVO(1, 1085, 37.529456, 126.965545)); //용산점
+        mTemp.add(new MallsVO(1, 1000, 37.559805, 126.983122)); //i&c점
 
 
       //  mLocation_data.add((MallVO) mLocation_data);
