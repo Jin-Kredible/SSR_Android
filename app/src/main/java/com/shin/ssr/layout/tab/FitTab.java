@@ -26,6 +26,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
@@ -93,33 +94,55 @@ public class FitTab extends AppCompatActivity {
     private Context context;
 
     public static int user_id = 1;
+    private Button btnTest;
+    private Button cartimg;
+
+
+
     private FrameLayout mBackground;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fit_tab_activity);
 
-//            ImageView img = findViewById(R.id.mission_day);
-//            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(img);
-//            Glide.with(this).load(R.drawable.cart_stack).into(gifImage);
 
 
-            /*Button cartimg = (Button) findViewById(R.id.button3);*/
-            ImageView cartView = (ImageView) findViewById(R.id.button_cart);
+        btnTest = findViewById(R.id.button);
+        cartimg = findViewById(R.id.button3);
 
-            if (insideMall == true) {
-              /* GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(cartView);
-                Glide.with(this).load(R.drawable.location).asGif().into(cartView);*/
-               cartView.setImageResource(R.drawable.cart_2_times);
+        if (insideMall == true) {
+            cartimg.setBackgroundResource(R.drawable.cart_in_off);
+            //cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_2_times, 0);
+            /* cartimg.setBackgroundResource(R.drawable.cart_y);*/
+        } else {
+            cartimg.setBackgroundResource(R.drawable.cart_out_off);
+            //cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);
+        }
 
-            } else {
-
-                cartView.setImageResource(R.drawable.cart_normal);
-                /*cartimg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cart_normal, 0);*/
+        cartimg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (insideMall == true) {
+                            cartimg.setBackgroundResource(R.drawable.cart_in_on);
+                        } else {
+                            cartimg.setBackgroundResource(R.drawable.cart_out_on);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (insideMall == true) {
+                            cartimg.setBackgroundResource(R.drawable.cart_in_off);
+                        } else {
+                            cartimg.setBackgroundResource(R.drawable.cart_out_off);
+                        }
+                        break;
+                }
+                return false;
             }
-
-
+        });
         Log.d("fit", "after readdata" + Integer.toString(total));
 
         setTitle("LineChartActivityColored");
@@ -152,9 +175,6 @@ public class FitTab extends AppCompatActivity {
         this.context = context;
     }
 
-    public FitTab() {
-    }
-
     public void sendToFinance(View view) {
         Intent intent = new Intent(FitTab.this, MainActivity.class);
         intent.putExtra("buttonNum", 1);
@@ -180,6 +200,13 @@ public class FitTab extends AppCompatActivity {
         Intent intent = new Intent(FitTab.this, Point.class);
         android.util.Log.d("CHECK", "sendToPoint: OK");
         startActivity(intent);
+    }
+
+
+    public void eventSSGMONEY(View view) {
+        LottieAnimationView animationView = findViewById(R.id.lottie_view);
+        animationView.setAnimation("money.json");
+        animationView.playAnimation();
     }
 
 
