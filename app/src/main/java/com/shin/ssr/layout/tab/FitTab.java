@@ -120,9 +120,6 @@ public class FitTab extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fit_tab_activity);
 
-//            ImageView img = findViewById(R.id.mission_day);
-//            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(img);
-//            Glide.with(this).load(R.drawable.cart_stack).into(gifImage);
 
 
         btnTest = findViewById(R.id.button);
