@@ -28,7 +28,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
@@ -171,8 +171,8 @@ public class FitTab extends AppCompatActivity {
             public void onClick(View v) {
                 final ImageView imgMoney = findViewById(R.id.imgMoney);
                 imgMoney.bringToFront();
-                GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(imgMoney);
-                Glide.with(imgMoney.getContext()).load(R.drawable.grow_money)
+                GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(imgMoney,1);
+                Glide.with(imgMoney.getContext()).load(R.drawable.medal_pop)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(gifImage);
                 imgMoney.setVisibility(View.VISIBLE);

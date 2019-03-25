@@ -100,11 +100,12 @@
         <ImageView
             android:id="@+id/imgMoney"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:background="#fbfbf3"
             android:foregroundGravity="center"
             android:visibility="gone"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/grow_money" />
+            app:srcCompat="@drawable/medal_pop" />
 
         <LinearLayout
             android:id="@+id/chart_layout"
