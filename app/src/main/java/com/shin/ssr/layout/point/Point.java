@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.android.gms.fit.samples.stepcounter.R;
 
 import static com.shin.ssr.layout.tab.FitTab.SERVER_URL;
+import static com.shin.ssr.layout.tab.FitTab.user_id;
 
 public class Point extends AppCompatActivity {
 
@@ -61,7 +62,7 @@ public class Point extends AppCompatActivity {
 
 
         HttpUtil_P hu = new HttpUtil_P(Point.this);
-        String[] params = {SERVER_URL + "walkToGoods.do", "steps:" + 1, "userno:" + 1};
+        String[] params = {SERVER_URL + "walkToGoods.do", "steps:" + 1, "user_id:" + user_id};
         Log.d("pointy", Boolean.toString(Thread.currentThread().isInterrupted()));
         hu.execute(params);
         Log.d("pointy", "inside Try");
@@ -69,7 +70,7 @@ public class Point extends AppCompatActivity {
 
 
         HttpUtil_P_TOTAL hu_total = new HttpUtil_P_TOTAL(Point.this);
-        String[] params_total = {SERVER_URL + "totalSavings.do", "steps:" + 1, "userno:" + 1};
+        String[] params_total = {SERVER_URL + "totalSavings.do", "steps:" + 1, "user_id:" + user_id};
         Log.d("pointy", Boolean.toString(Thread.currentThread().isInterrupted()));
         hu_total.execute(params_total);
 
@@ -189,7 +190,7 @@ public class Point extends AppCompatActivity {
         }
 
         HttpUtil_P_UPDATE hu = new HttpUtil_P_UPDATE(Point.this);
-        String[] params = {SERVER_URL + "goodsToSavings.do", "numPoint:" + 10, "userid:" + 1};
+        String[] params = {SERVER_URL + "goodsToSavings.do", "numPoint:" + 10, "userid:" + user_id};
         Log.d("NUM", "toFit: NUMPOINT  " + numPoint);
         hu.execute(params);
 

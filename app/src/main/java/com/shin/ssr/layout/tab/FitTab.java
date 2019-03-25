@@ -85,14 +85,14 @@ public class FitTab extends AppCompatActivity {
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL = "http://192.168.43.43:8088/";
+    public static final String SERVER_URL = "http://13.125.183.32:8088/";
     public ImageView help;
     private int total;
     private Handler handler = new Handler();
     private static final int NOTIF_ID = 1234;
     private Context context;
 
-
+    public static int user_id = 1;
     private FrameLayout mBackground;
 
     @Override
@@ -512,7 +512,7 @@ public class FitTab extends AppCompatActivity {
 
                                 HttpUtil hu = new HttpUtil(FitTab.this);
 
-                                String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + 1};
+                                String[] params = {SERVER_URL + "step.do", "wk_am:" + total, "user_id:" + user_id};
 
                                 hu.execute(params);
                                 total =
