@@ -11,6 +11,11 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.BLUETOOTHADMIN" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW"
+        tools:ignore="ProtectedPermissions" />
 
     <uses-feature
         android:name="android.hardware.bluetoothle"
@@ -52,6 +57,7 @@
                 android:value=".MainActivity"
              />
         </activity>
+
 
         <activity android:name="com.shin.ssr.layout.point.Point"/>
 

@@ -3,25 +3,33 @@ package com.google.android.gms.fit.samples.backgroundgps;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Application;
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.RemoteInput;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fit.samples.stepcounter.R;
@@ -89,13 +97,14 @@ public class RealService extends Service {
     private int mWalk_check; // 걸음수 체크
     private String currentLoc; // 현재 점포 이름
     private int resultWalk;
+    private AlertDialog alert;
     //비콘 관련 변수
     //////////////////////////////////////////////////////////////////
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         serviceIntent = intent;
-        showToast(getApplication(), "Start Service");
+        /*showToast(getApplication(), "Start Service");*/
         mTemp.add(new MallsVO(1, 1144, 37.542588, 126.953357)); //마포점
         mTemp.add(new MallsVO(1, 1038, 37.539673, 127.053375)); //성수점
         mTemp.add(new MallsVO(1, 1085, 37.529456, 126.965545)); //용산점
@@ -168,6 +177,10 @@ public class RealService extends Service {
                                     isGpsOn = false;
                                     vi_End = get_Day.format(date); //매장 방문 시간
                                     HttpUtil_BeaconUpdate becon_update = new HttpUtil_BeaconUpdate(RealService.this);
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(RealService.this);
+
+
                                     showToast(getApplication(), "감사합니다 다음에 또 방문해주세요!" + vi_WalkStart + "/" + vi_WalkEnd + " = " + resultWalk);
                                     Log.d("beacon1", "방문 끝 워크 체크 " + vi_WalkStart + " / " + vi_WalkEnd + " / " + resultWalk);
                                     Log.d("beacon1", vi_Start + " / " + vi_End);
@@ -213,8 +226,8 @@ public class RealService extends Service {
                                             showToast(getApplication(), "100미터 이내 입장!");
                                             mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
                                             StepVO vo = new StepVO();
-                                            vo.setAge(50);
-                                            vo.setGender(1);
+                                            vo.setAge(30);
+                                            vo.setGender(2);
                                             vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                                             generateBigPictureStyleNotification(vo);
                                             isBeaconOn = true; // 비콘 켜준다.
@@ -575,13 +588,16 @@ public class RealService extends Service {
                                 Log.d("beacon1", "MINOR 통과");
 
                                 if(mall_ID == 1000){
-                                    showToast(getApplication(), "이마트 [I&C점] 방문을 환영합니다!");
+
+
+                                    showAlertDialog(getString(R.string.inc_emart));
+
                                 }else if(mall_ID == 1085){
-                                    showToast(getApplication(), "이마트 [용산점] 방문을 환영합니다!");
+                                    showAlertDialog(getString(R.string.yong_emart));
                                 }else if(mall_ID == 1144){
-                                    showToast(getApplication(), "이마트 [마포점] 방문을 환영합니다!");
+                                    showAlertDialog(getString(R.string.mapo_emart));
                                 }else if(mall_ID == 1038){
-                                    showToast(getApplication(), "이마트 [성수점] 방문을 환영합니다!");
+                                    showAlertDialog(getString(R.string.sung_emart));
                                 }
 
                                 com.google.android.gms.fit.samples.common.logger.Log.d("beacon1", ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
@@ -742,5 +758,70 @@ public class RealService extends Service {
         return mWalk_check;
     }
     /*public boolean getInsideMall() { return insideMall;}*/
+
+    private void showAlertDialog(final String emart) {
+
+        KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        KeyguardManager.KeyguardLock kl = km.newKeyguardLock("MyKeyguardLock");
+        kl.disableKeyguard();
+
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK| PowerManager.ACQUIRE_CAUSES_WAKEUP
+                | PowerManager.ON_AFTER_RELEASE, "MyWakeLock");
+        wakeLock.acquire();
+
+
+        final CharSequence[] emarts = { emart };
+        AlertDialog.Builder builder = new AlertDialog.Builder(RealService.this, R.style.MyDialogTheme);
+
+        builder.setTitle("");
+        builder.setMessage(emart);
+
+        builder.setItems(emarts, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+
+                    dialog.dismiss();
+
+            }
+        });
+
+        alert = builder.create();
+        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        alert.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+
+        alert.show();
+
+        TextView textView = (TextView) alert.findViewById(android.R.id.message);
+        TextView textView2 = (TextView) alert.findViewById(android.R.id.title);
+        Typeface face=Typeface.createFromAsset(getAssets(),"font/bmhannapro.ttf");
+        textView.setTypeface(face);
+
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+            @Override
+            public void onDismiss(DialogInterface arg0) {
+
+            }
+        });
+
+
+        alert.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+
+
+    }
 }
 
