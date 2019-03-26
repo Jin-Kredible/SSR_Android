@@ -216,8 +216,8 @@ public class RealService extends Service {
                                             showToast(getApplication(), "100미터 이내 입장!");
                                             mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
                                             StepVO vo = new StepVO();
-                                            vo.setAge(30);
-                                            vo.setGender(2);
+                                            vo.setAge(50);
+                                            vo.setGender(1);
                                             vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                                             generateBigPictureStyleNotification(vo);
                                             isBeaconOn = true; // 비콘 켜준다.
