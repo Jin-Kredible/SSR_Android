@@ -2,6 +2,7 @@ package com.shin.ssr.layout.tab;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -132,6 +133,9 @@ public class HttpUtil_ssgMoney extends AsyncTask<String, String, String>  {
         //} catch (UnsupportedEncodingException e) {
         //    e.printStackTrace();
        // }
+        Log.d("ssg",result);
+
+        ((FitTab)context).getConvertedPoint(result);
 
         }
 

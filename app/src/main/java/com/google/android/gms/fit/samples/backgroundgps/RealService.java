@@ -139,10 +139,7 @@ public class RealService extends Service {
                                 isBeaconSerUpdate = true;
                             }
                         }
-
-
                         try {
-
                             pushyn = hu.get();
 
                             Log.d("real", "pushyn : " + Integer.parseInt(pushyn) + "result2" + Integer.toString(result2));
@@ -238,10 +235,7 @@ public class RealService extends Service {
                                         Log.d("mall", "위치 : " + distance);
                                     }
                                 }
-
                             }
-
-
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {

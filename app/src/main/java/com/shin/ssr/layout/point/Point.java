@@ -248,7 +248,6 @@ public class Point extends AppCompatActivity {
         totalwalk = walk;
         if (walk <= 0) {
             imgPro.setVisibility(View.GONE);
-            txtTodayPoint.setText("00");
             none = true;
             txtTodayPoint.setText("00");
         } else {
