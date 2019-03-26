@@ -259,7 +259,11 @@ public class Point extends AppCompatActivity {
     public void getTotalPoints(String totalPoint){
         Log.d("pointy", "getTotalPoints: "+totalPoint);
         this.total  = Integer.parseInt(totalPoint);
-        txtTotalPoint.setText(Integer.toString(total));
+        if(total <= 0){
+            txtTotalPoint.setText("00");
+        }else{
+            txtTotalPoint.setText(Integer.toString(total));
+        }
     }
 
     PopupWindow helpPopup;
