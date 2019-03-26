@@ -33,6 +33,11 @@ limitations under the License.
         functionality.</string>
     <string name="settings">Settings</string>
     <string name="point_convert">포인트 변환</string>
+    <string name="inc_emart">"이마트 [I&amp;C] 방문을 환영합니다!"</string>
+    <string name="yong_emart">"이마트 [용산점] 방문을 환영합니다!"</string>
+    <string name="mapo_emart">"이마트 [마포점] 방문을 환영합니다!"</string>
+    <string name="sung_emart">"이마트 [성수점] 방문을 환영합니다!"</string>
+
 
 
 </resources>

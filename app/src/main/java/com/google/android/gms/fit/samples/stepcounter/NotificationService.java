@@ -119,7 +119,7 @@ public class NotificationService extends Service {
         Intent notificationIntent = new Intent(this, FitTab.class);
         PendingIntent pendingIntent = getActivity(this, 0, notificationIntent, 0);
 
-        builder.setSmallIcon(R.mipmap.ic_ssgpay_launch)
+        builder.setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setContent(remoteViews)
                 .setContentIntent(pendingIntent);
         Log.d("noti", "inside foreground + total " + Integer.toString(total));
