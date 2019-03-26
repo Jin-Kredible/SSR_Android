@@ -12,6 +12,45 @@
     tools:context="com.shin.ssr.layout.tab.FitTab"
     android:background="#ffffff">
 
+    <ImageView
+        android:id="@+id/imgMoney"
+        android:layout_width="match_parent"
+        android:layout_height="750dp"
+        android:layout_gravity="center"
+        android:background="#fbfbf3"
+        android:foregroundGravity="center"
+        android:visibility="gone"
+        app:srcCompat="@drawable/medal_pop"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:id="@+id/pointconverted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:layout_alignBottom="@id/converted"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:paddingBottom="20dp"
+        android:textSize="30sp"
+        />
+
+    <TextView
+        android:id="@+id/converted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:elevation="4dp"
+        android:text="전환된 SSG 포인트"
+        android:fontFamily="@font/bmhannapro"
+        android:textSize="30sp"
+        android:visibility="gone" />
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -79,6 +118,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/belowTab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tabs"
@@ -96,16 +136,6 @@
 
         </LinearLayout>
 -->
-
-        <ImageView
-            android:id="@+id/imgMoney"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_gravity="center"
-            android:background="#fbfbf3"
-            android:foregroundGravity="center"
-            android:visibility="gone"
-            app:srcCompat="@drawable/medal_pop" />
 
         <LinearLayout
             android:id="@+id/chart_layout"
@@ -207,9 +237,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/btn_layout"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:layout_below="@id/btn_layout">
+            android:orientation="horizontal">
 
 
             <GridLayout

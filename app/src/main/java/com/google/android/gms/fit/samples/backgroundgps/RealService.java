@@ -139,10 +139,7 @@ public class RealService extends Service {
                                 isBeaconSerUpdate = true;
                             }
                         }
-
-
                         try {
-
                             pushyn = hu.get();
 
                             Log.d("real", "pushyn : " + Integer.parseInt(pushyn) + "result2" + Integer.toString(result2));
@@ -216,8 +213,8 @@ public class RealService extends Service {
                                             showToast(getApplication(), "100미터 이내 입장!");
                                             mNotificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
                                             StepVO vo = new StepVO();
-                                            vo.setAge(30);
-                                            vo.setGender(2);
+                                            vo.setAge(50);
+                                            vo.setGender(1);
                                             vo.setTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                                             generateBigPictureStyleNotification(vo);
                                             isBeaconOn = true; // 비콘 켜준다.
@@ -238,10 +235,7 @@ public class RealService extends Service {
                                         Log.d("mall", "위치 : " + distance);
                                     }
                                 }
-
                             }
-
-
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {

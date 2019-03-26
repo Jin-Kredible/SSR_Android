@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -13,15 +14,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
@@ -89,7 +93,7 @@ public class FitTab extends AppCompatActivity {
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private final LineChart[] charts = new LineChart[1];
 
-    public static final String SERVER_URL = "http://13.125.183.32:8088/";
+    public static final String SERVER_URL = "http://10.149.179.162:8088/";
     public ImageView help;
     private int total;
     private Handler handler = new Handler();
@@ -98,6 +102,7 @@ public class FitTab extends AppCompatActivity {
 
     private Button btnMoney;
     private Button cartimg;
+    private String convertedPoint;
 
     private FrameLayout mBackground;
 
@@ -106,6 +111,10 @@ public class FitTab extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fit_tab_activity);
+
+
+
+
 
 
         btnMoney = findViewById(R.id.button);
@@ -169,26 +178,257 @@ public class FitTab extends AppCompatActivity {
         btnMoney.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                final ImageView imgMoney = findViewById(R.id.imgMoney);
+                /*DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(FitTab.this);
+
+                LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.yes_or_no_popup,null);
+
+                TextView txt = view.findViewById(R.id.password);
+                txt.setTypeface(Typeface.createFromAsset(getAssets(), "font/bmhannapro.ttf"));
+
+                AlertDialog dialog = builder.create();
+               /* builder.setView(view).setPositiveButton("예", dialogClickListener)
+                        .setNegativeButton("아니요", dialogClickListener).show();*/
+                dialog.setView(view);
+                dialog.setButton(AlertDialog.BUTTON_POSITIVE,"예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+
+                        final ImageView imgMoney = findViewById(R.id.imgMoney);
+                        final TextView converted = findViewById(R.id.converted);
+                        final TextView pointconverted = findViewById(R.id.pointconverted);
+
+
+                        HttpUtil_ssgMoney hu = new HttpUtil_ssgMoney(FitTab.this);
+                        String[] params = {SERVER_URL + "changeMoney.do", "numPoint:" + 1, "user_id:" + user_id};
+                        hu.execute(params);
+
+
+                        try {
+                            convertedPoint = hu.get();
+                            while(convertedPoint==null||convertedPoint.equals("")) {
+                                Log.d("ssg", "inside while loop");
+                                convertedPoint = hu.get();
+
+                            }
+                            Log.d("ssg", "SSGPOINT" + convertedPoint + "converted point" + convertedPoint);
+
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("ssg", "SSGPOINT" + convertedPoint + "after converted point" + convertedPoint);
+
+
+                        imgMoney.setVisibility(View.VISIBLE);
+                        converted.setVisibility(View.VISIBLE);
+                        pointconverted.setVisibility(View.VISIBLE);
+
+                        imgMoney.bringToFront();
+                        converted.bringToFront();
+                        pointconverted.bringToFront();
+
+
+                        GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(imgMoney,1);
+                        Glide.with(imgMoney.getContext()).load(R.drawable.medal_pop)
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .into(gifImage);
+
+
+
+                        RelativeLayout.LayoutParams tParams = new RelativeLayout.LayoutParams
+                                (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        tParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                        tParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+                        tParams.addRule(RelativeLayout.ALIGN_TOP, R.id.imgMoney);
+                        /*tParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.converted);*/
+                        tParams.setMargins(0,170,0,0);
+
+                        pointconverted.setText(convertedPoint);
+                        pointconverted.setLayoutParams(tParams);
+                        pointconverted.setTypeface(Typeface.createFromAsset(getAssets(), "font/bmhannapro.ttf"));
+
+                        final LinearLayout linear = findViewById(R.id.tabs);
+                        final RelativeLayout relative = findViewById(R.id.belowTab);
+
+                        linear.setVisibility(View.GONE);
+                        relative.setVisibility(View.GONE);
+                        linear.setTouchscreenBlocksFocus(true);
+                        linear.clearFocus();
+                        relative.setClickable(false);
+                        relative.clearFocus();
+                        relative.setTouchscreenBlocksFocus(true);
+                        imgMoney.setClickable(true);
+
+
+
+
+                        android.util.Log.d("pointy", "onClick: changedMoney");
+                        imgMoney.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                    imgMoney.setVisibility(View.GONE);
+                                    converted.setVisibility(View.GONE);
+                                    pointconverted.setVisibility(View.GONE);
+                                    linear.setVisibility(View.VISIBLE);
+                                    relative.setVisibility(View.VISIBLE);
+                                    linear.setClickable(true);
+                                    relative.setClickable(true);
+                                    linear.findFocus();
+                                    relative.findFocus();
+                                    linear.setTouchscreenBlocksFocus(false);
+                                    relative.setTouchscreenBlocksFocus(false);
+
+
+                                }
+                                return false;
+                            }
+
+                        });
+
+                    }
+
+                });
+
+                dialog.setButton(AlertDialog.BUTTON_NEGATIVE,"아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                            return;
+                    }
+
+                });
+                dialog.show();
+
+                Button yesButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                Button noButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+
+                layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+                yesButton.setGravity(Gravity.CENTER);
+                noButton.setGravity(Gravity.CENTER);
+
+                yesButton.setLayoutParams(layoutParams);
+                noButton.setLayoutParams(layoutParams);
+
+
+
+
+
+               /* final ImageView imgMoney = findViewById(R.id.imgMoney);
+                final TextView converted = findViewById(R.id.converted);
+                final TextView pointconverted = findViewById(R.id.pointconverted);
+
+
+                HttpUtil_ssgMoney hu = new HttpUtil_ssgMoney(FitTab.this);
+                String[] params = {SERVER_URL + "changeMoney.do", "numPoint:" + 1, "user_id:" + user_id};
+                hu.execute(params);
+
+
+                try {
+                    convertedPoint = hu.get();
+                    while(convertedPoint==null||convertedPoint.equals("")) {
+                        Log.d("ssg", "inside while loop");
+                        convertedPoint = hu.get();
+
+                    }
+                    Log.d("ssg", "SSGPOINT" + convertedPoint + "converted point" + convertedPoint);
+
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.d("ssg", "SSGPOINT" + convertedPoint + "after converted point" + convertedPoint);
+
+
+                imgMoney.setVisibility(View.VISIBLE);
+                converted.setVisibility(View.VISIBLE);
+                pointconverted.setVisibility(View.VISIBLE);
+
                 imgMoney.bringToFront();
+                converted.bringToFront();
+                pointconverted.bringToFront();
+
+
                 GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(imgMoney,1);
                 Glide.with(imgMoney.getContext()).load(R.drawable.medal_pop)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(gifImage);
-                imgMoney.setVisibility(View.VISIBLE);
-                HttpUtil_ssgMoney hu = new HttpUtil_ssgMoney(FitTab.this);
-                String[] params = {SERVER_URL + "changeMoney.do", "numPoint:" + 1, "userid:" + user_id};
-                hu.execute(params);
+
+
+
+                RelativeLayout.LayoutParams tParams = new RelativeLayout.LayoutParams
+                        (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                tParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                tParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+                tParams.addRule(RelativeLayout.ALIGN_TOP, R.id.imgMoney);
+                *//*tParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.converted);*//*
+                tParams.setMargins(0,170,0,0);
+
+                pointconverted.setText(convertedPoint);
+                pointconverted.setLayoutParams(tParams);
+                pointconverted.setTypeface(Typeface.createFromAsset(getAssets(), "font/bmhannapro.ttf"));
+
+
+
+
+
+
+                final LinearLayout linear = findViewById(R.id.tabs);
+                final RelativeLayout relative = findViewById(R.id.belowTab);
+
+                linear.setVisibility(View.GONE);
+                relative.setVisibility(View.GONE);
+                linear.setTouchscreenBlocksFocus(true);
+                linear.clearFocus();
+                relative.setClickable(false);
+                relative.clearFocus();
+                relative.setTouchscreenBlocksFocus(true);
+                imgMoney.setClickable(true);
+
+
+
+
                 android.util.Log.d("pointy", "onClick: changedMoney");
                 imgMoney.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             imgMoney.setVisibility(View.GONE);
+                            converted.setVisibility(View.GONE);
+                            pointconverted.setVisibility(View.GONE);
+                            linear.setVisibility(View.VISIBLE);
+                            relative.setVisibility(View.VISIBLE);
+                            linear.setClickable(true);
+                            relative.setClickable(true);
+                            linear.findFocus();
+                            relative.findFocus();
+                            linear.setTouchscreenBlocksFocus(false);
+                            relative.setTouchscreenBlocksFocus(false);
+
+
                         }
                         return false;
                     }
-                });
+                });*/
             }
         });
 
@@ -797,6 +1037,10 @@ public class FitTab extends AppCompatActivity {
                                 Log.w(TAG, "There was a problem getting the step count.", e);
                             }
                         });
+    }
+
+    public void getConvertedPoint(String result) {
+        this.convertedPoint = result;
     }
 
 }
