@@ -31,8 +31,6 @@ import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
@@ -60,19 +58,15 @@ import com.shin.ssr.layout.chart.MyMarkerView;
 import com.shin.ssr.layout.chart.MyXAxisValueFormatter;
 import com.shin.ssr.layout.point.Point;
 import com.shin.ssr.vo.StepVO;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.concurrent.ExecutionException;
-
 import at.grabner.circleprogress.CircleProgressView;
-
 import static android.app.PendingIntent.getActivity;
 import static android.graphics.Color.rgb;
 import static com.google.android.gms.fit.samples.backgroundgps.RealService.insideMall;
@@ -82,28 +76,22 @@ import static com.google.android.gms.fit.samples.stepcounter.MainActivity.user_i
 public class FitTab extends AppCompatActivity {
 
     private PopupWindow mPopupWindow;
-
-
     private static double step_percentage;
     private static double mall_percentage;
     private static double ssgpaycon_percentage;
     private static boolean lorddata = false;
-
     public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
     private final LineChart[] charts = new LineChart[1];
-
-    public static final String SERVER_URL = "http://10.149.179.162:8088/";
+    public static final String SERVER_URL = "http://13.125.183.32:8088/";
     public ImageView help;
     private int total;
     private Handler handler = new Handler();
     private static final int NOTIF_ID = 1234;
     private Context context;
-
     private Button btnMoney;
     private Button cartimg;
     private String convertedPoint;
-
     private FrameLayout mBackground;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -111,11 +99,6 @@ public class FitTab extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fit_tab_activity);
-
-
-
-
-
 
         btnMoney = findViewById(R.id.button);
         cartimg = findViewById(R.id.button3);
@@ -178,21 +161,7 @@ public class FitTab extends AppCompatActivity {
         btnMoney.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                /*DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
 
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
-                        }
-                    }
-                };*/
                 AlertDialog.Builder builder = new AlertDialog.Builder(FitTab.this);
 
                 LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
